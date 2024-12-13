@@ -10,10 +10,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDTO {
+public class PromoPostDTO {
     private int id;
     private LocalDate date;
     private int category;
     private double price;
     private ProductDTO productDto;
+    private boolean hasPromo;
+    private double discount;
 }
