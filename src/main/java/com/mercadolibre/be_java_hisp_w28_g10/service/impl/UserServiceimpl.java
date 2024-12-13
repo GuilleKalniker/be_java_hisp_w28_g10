@@ -18,6 +18,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,41 +89,48 @@ public class UserServiceimpl implements IUserService {
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
 
-        // TODO: Refactorizar este metodo para solo traer los id de los followers
-        List<FollowRelation> followRelations = userRepository.getFollowRelationsByFollowedId(userId);
-
-        List<ResponseUserDTO> followersDto = followRelations.stream()
-                .map(followRelation -> {
-                    User follower = userRepository.getUserById(followRelation.getIdFollower());
-                    return new ResponseUserDTO(follower.getId(), follower.getName());
-                })
-                .collect(Collectors.toList());
-
-        // Crear y retornar el DTO de usuario con la lista de seguidores
-        return new UserFollowersDTO(user.getId(), user.getName(), followersDto);
+        List<ResponseUserDTO> followers = getResponseUserDTOById(userId, false);
+        return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
+
 
     @Override
     public UserFollowersDTO getUserFollowed(Integer userId) {
-        ObjectMapper mapper = new ObjectMapper();
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
 
-
-        List<ResponseUserDTO> followers = userRepository
-                .findAllUsers()
-                .stream()
-                .filter(transitoryUser -> (userRepository
-                        .findAllFollowersRelationById(userId)
-                        .stream()
-                        .map(FollowRelation::getIdFollowed)
-                        .toList()).contains(user.getId()))
-                .map(transitoryUser -> {
-                    return new ResponseUserDTO(user.getId(), user.getName());
-                }).toList();
-
-
+        List<ResponseUserDTO> followers = getResponseUserDTOById(userId, true);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
+
+
+    private List<ResponseUserDTO> getResponseUserDTOById (int id, boolean isFollower) {
+
+        List<FollowRelation> followRelations = new ArrayList<>();
+        List<ResponseUserDTO> followersDto = new ArrayList<>();
+        if(isFollower){
+            followRelations = userRepository.getFollowRelationsByFollowerId(id);
+            followersDto = followRelations.stream()
+                    .map(followRelation -> {
+                        User follower = userRepository.getUserById(followRelation.getIdFollower());
+                        return new ResponseUserDTO(follower.getId(), follower.getName());
+                    })
+                    .toList();
+        } else {
+            followRelations = userRepository.getFollowRelationsByFollowedId(id);
+            followersDto = followRelations.stream()
+                    .map(followRelation -> {
+                        User follower = userRepository.getUserById(followRelation.getIdFollower());
+                        return new ResponseUserDTO(follower.getId(), follower.getName());
+                    })
+                    .toList();
+        }
+
+        List<FollowRelation> finalFollowRelations = followRelations;
+
+        return followersDto;
+    }
+
+
 }

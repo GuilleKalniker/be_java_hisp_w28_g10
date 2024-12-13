@@ -90,8 +90,8 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public List<FollowRelation> findAllFollowersRelationById(int id) {
+    public List<FollowRelation> getFollowRelationsByFollowerId(int id) {
         return followRelations.stream()
-                .filter(followRelation -> followRelation.getIdFollowed() == id).toList();
+                .filter(followRelation -> followRelation.getIdFollower() == id).toList();
     }
 }
