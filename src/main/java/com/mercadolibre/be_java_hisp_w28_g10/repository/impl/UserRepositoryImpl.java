@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class UserRepositoryImpl implements IUserRepository {
     @Autowired
     private Utilities utilities;
     private List<User> userList = List.of();
-    private List<FollowRelation> followRelations = List.of(
+    private List<FollowRelation> followRelations =  new ArrayList<>();
+    /* List.of(
 //            new FollowRelation(1, 2, LocalDate.of(2024, 10, 10)),
 //            new FollowRelation(1, 3, LocalDate.of(2024, 10, 10)),
 //            new FollowRelation(2, 1, LocalDate.of(2024, 10, 10)),
@@ -33,8 +35,9 @@ public class UserRepositoryImpl implements IUserRepository {
             new FollowRelation(1, 2, "2024/10/12"),
             new FollowRelation(1, 3, "2024/10/12"),
             new FollowRelation(2, 1, "2024/10/12"),
+
             new FollowRelation(2, 1, "2024/10/12")
-    );
+    ); */
 
 
     @PostConstruct
@@ -45,6 +48,11 @@ public class UserRepositoryImpl implements IUserRepository {
         ) {
             userList = utilities.readValue(inputStreamUsers, new TypeReference<>() {
             });
+            followRelations.add(new FollowRelation(1, 2, "2024/10/12"));
+            followRelations.add(new FollowRelation(1, 3, "2024/10/12"));
+            followRelations.add(new FollowRelation(2, 1, "2024/10/12"));
+            followRelations.add(new FollowRelation(2, 1, "2024/10/12"));
+
 //            followRelations = utilities.readValue(inputStreamFollowRelations, new TypeReference<>() {
 //            });
         } catch (IOException e) {
@@ -62,5 +70,10 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public List<FollowRelation> findAllFollowRelation() {
         return followRelations;
+    }
+
+    @Override
+    public void deleteFollowRelation(FollowRelation followRelation) {
+        followRelations.remove(followRelation);
     }
 }

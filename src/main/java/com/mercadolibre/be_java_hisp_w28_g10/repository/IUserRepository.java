@@ -9,4 +9,6 @@ public interface IUserRepository {
     public List<User> findAllUsers();
 
     public List<FollowRelation> findAllFollowRelation();
+
+    public void deleteFollowRelation(FollowRelation followRelation);
 }
