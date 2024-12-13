@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<FollowRelationDTO> addNewFollow(@PathVariable int userId, @PathVariable int userIdToFollow) {
         return new ResponseEntity<>(userService.follow(userId, userIdToFollow), HttpStatus.OK);
     }
-    @GetMapping("users/{userId}/followers/count")
+    @GetMapping("{userId}/followers/count")
     public ResponseEntity<FollowersDTO> getFollowersById(@PathVariable int userId){
         return new ResponseEntity<>(userService.getFollowersById(userId), HttpStatus.OK);
     }
