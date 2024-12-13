@@ -1,6 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDto;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping("getAll")
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 }
