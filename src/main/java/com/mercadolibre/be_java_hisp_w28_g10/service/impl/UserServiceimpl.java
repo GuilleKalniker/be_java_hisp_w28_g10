@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceimpl implements IUserService {
@@ -89,7 +88,7 @@ public class UserServiceimpl implements IUserService {
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
 
-        List<ResponseUserDTO> followers = getResponseUserDTOById(userId, false);
+        List<ResponseUserDTO> followers = getRelatedUsersById(userId, false);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
@@ -100,12 +99,12 @@ public class UserServiceimpl implements IUserService {
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
 
-        List<ResponseUserDTO> followers = getResponseUserDTOById(userId, true);
+        List<ResponseUserDTO> followers = getRelatedUsersById(userId, true);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
 
-    private List<ResponseUserDTO> getResponseUserDTOById (int id, boolean isFollower) {
+    private List<ResponseUserDTO> getRelatedUsersById(int id, boolean isFollower) {
 
         List<FollowRelation> followRelations = new ArrayList<>();
         List<ResponseUserDTO> followersDto = new ArrayList<>();
