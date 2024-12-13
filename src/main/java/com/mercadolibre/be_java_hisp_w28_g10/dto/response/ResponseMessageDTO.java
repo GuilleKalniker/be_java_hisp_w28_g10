@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UnfollowUserByIdDTO {
+public class ResponseMessageDTO {
     private String message;
 }

@@ -12,5 +12,5 @@ public interface IUserRepository {
     public boolean existsUser(int userId);
     public boolean existsFollow(int followerId, int followedId);
     public User findUserById (int id);
-    public void deleteFollowRelation(FollowRelation followRelation);
+    public boolean deleteFollowRelation(FollowRelation followRelation);
 }

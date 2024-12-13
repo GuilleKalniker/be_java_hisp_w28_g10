@@ -70,7 +70,8 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public void deleteFollowRelation(FollowRelation followRelation) {
-        followRelations.remove(followRelation);
+    public boolean deleteFollowRelation(FollowRelation followRelation) {
+
+        return followRelations.remove(followRelation);
     }
 }
