@@ -24,5 +24,7 @@ public class ProductController {
     }
 
     @PostMapping("products/promo-post")
-    public
+    public void addPromoPost(){
+
+    }
 }
