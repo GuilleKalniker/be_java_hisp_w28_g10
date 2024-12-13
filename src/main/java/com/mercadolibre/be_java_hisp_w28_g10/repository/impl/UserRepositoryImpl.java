@@ -20,7 +20,7 @@ public class UserRepositoryImpl implements IUserRepository {
     public void init() {
         ObjectMapper objectMapper = new ObjectMapper();
         try (InputStream inputStream = getClass().getResourceAsStream("/users.json")) {
-            userList = objectMapper.readValue(inputStream, new TypeReference<List<User>>() {
+            userList = objectMapper.readValue(inputStream, new TypeReference<>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
