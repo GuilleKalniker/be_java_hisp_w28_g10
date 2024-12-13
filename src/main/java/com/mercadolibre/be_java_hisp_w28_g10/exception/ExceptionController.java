@@ -19,4 +19,15 @@ public class ExceptionController {
         ExceptionDTO dto = new ExceptionDTO(e.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(LoadJSONDataException.class)
+    public ResponseEntity<?> loadJSONDataException(LoadJSONDataException e) {
+        ExceptionDTO dto = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<?> conflicttException(ConflictException e) {
+        ExceptionDTO dto = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
+    }
 }
