@@ -20,14 +20,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceimpl implements IUserService {
-
     @Autowired
     private IUserRepository userRepository;
     @Autowired
     private Utilities utilities;
+
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -75,11 +76,14 @@ public class UserServiceimpl implements IUserService {
     @Override
     public FollowersDTO getFollowersById(int id) {
         User user = userRepository.findUserById(id);
+        List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
         if (user == null) {
             throw new NotFoundException("User not found");
         }
-        FollowersDTO followersDTO = new FollowersDTO(user.getId(), user.getName(), getAllFollowRelation().size());
-        return followersDTO;
+        List<FollowRelation> followedFilter = followRelation.stream()
+                .filter(f -> f.getIdFollowed() == user.getId())
+                .toList();
+        return new FollowersDTO(user.getId(), user.getName(), followedFilter.size());
     }
 
     @Override
@@ -108,7 +112,7 @@ public class UserServiceimpl implements IUserService {
 
         List<FollowRelation> followRelations = new ArrayList<>();
         List<ResponseUserDTO> followersDto = new ArrayList<>();
-        if(isFollower){
+        if (isFollower) {
             followRelations = userRepository.getFollowRelationsByFollowerId(id);
             followersDto = followRelations.stream()
                     .map(followRelation -> {
@@ -130,6 +134,4 @@ public class UserServiceimpl implements IUserService {
 
         return followersDto;
     }
-
-
 }
