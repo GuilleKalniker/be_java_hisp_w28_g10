@@ -1,5 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseUserDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowersDTO;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceimpl implements IUserService {
@@ -80,5 +83,25 @@ public class UserServiceimpl implements IUserService {
                 .filter(f-> f.getIdFollowed() == user.getId())
                 .toList();
         return new FollowersDTO(user.getId(), user.getName(), followedFilter.size());
+    }
+
+    @Override
+    public UserFollowersDTO getUserFollowers(int userId) {
+
+        // Valido si existe user con ese userId;
+        User user = userRepository.getUserById(userId);
+
+        // TODO: Refactorizar este metodo para solo traer los id de los followers
+        List<FollowRelation> followRelations = userRepository.getFollowRelationsByFollowedId(userId);
+
+        List<ResponseUserDTO> followersDto = followRelations.stream()
+                .map(followRelation -> {
+                    User follower = userRepository.getUserById(followRelation.getIdFollower());
+                    return new ResponseUserDTO(follower.getId(), follower.getName());
+                })
+                .collect(Collectors.toList());
+
+        // Crear y retornar el DTO de usuario con la lista de seguidores
+        return new UserFollowersDTO(user.getId(), user.getName(), followersDto);
     }
 }

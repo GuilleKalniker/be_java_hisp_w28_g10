@@ -1,5 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10.repository.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
@@ -73,5 +74,18 @@ public class UserRepositoryImpl implements IUserRepository {
     public boolean deleteFollowRelation(FollowRelation followRelation) {
 
         return followRelations.remove(followRelation);
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userList.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
+    }
+
+    @Override
+    public List<FollowRelation> getFollowRelationsByFollowedId(int id) {
+        return followRelations.stream().filter(followRelation -> followRelation.getIdFollowed() == id).toList();
     }
 }
