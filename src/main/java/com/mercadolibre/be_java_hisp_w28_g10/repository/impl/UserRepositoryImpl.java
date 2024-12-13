@@ -70,4 +70,9 @@ public class UserRepositoryImpl implements IUserRepository {
     public boolean existsFollow(int followerId, int followedId) {
         return followRelations.stream().anyMatch(f -> f.getIdFollower() == followerId && f.getIdFollowed() == followedId);
     }
+
+    @Override
+    public User findUserById(int id) {
+        return this.userList.stream().filter(u-> u.getId() == id).findFirst().orElse(null);
+    }
 }

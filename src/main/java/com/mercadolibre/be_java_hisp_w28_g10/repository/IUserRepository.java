@@ -11,4 +11,5 @@ public interface IUserRepository {
     public FollowRelation saveFollow(int followerId, int followedId);
     public boolean existsUser(int userId);
     public boolean existsFollow(int followerId, int followedId);
+    public User findUserById (int id);
 }
