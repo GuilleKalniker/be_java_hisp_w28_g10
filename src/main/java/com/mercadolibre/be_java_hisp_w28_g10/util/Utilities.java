@@ -13,7 +13,6 @@ public class Utilities {
     @Autowired
     private ObjectMapper mapper;
 
-
     public <T, U> T convertValue(U origin, Class<T> targetClass) {
         return mapper.convertValue(origin, targetClass);
     }

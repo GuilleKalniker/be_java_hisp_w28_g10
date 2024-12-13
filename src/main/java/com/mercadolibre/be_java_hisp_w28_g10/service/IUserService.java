@@ -8,4 +8,6 @@ import java.util.List;
 public interface IUserService {
     public List<UserDto> getAllUsers();
     public List<FollowRelationDto> getAllFollowRelation();
+    List<UserDto> getAllFollowedById(Integer userId);
+    public List<UserDto> getAllUsersById(int userId);
 }
