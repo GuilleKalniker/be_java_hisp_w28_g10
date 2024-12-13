@@ -53,4 +53,21 @@ public class UserRepositoryImpl implements IUserRepository {
     public List<FollowRelation> findAllFollowRelation() {
         return followRelations;
     }
+
+    @Override
+    public FollowRelation saveFollow(int followerId, int followedId) {
+        FollowRelation newFollow = new FollowRelation(followerId, followedId);
+        followRelations.add(newFollow);
+        return newFollow;
+    }
+
+    @Override
+    public boolean existsUser(int userId) {
+        return userList.stream().anyMatch(u -> u.getId() == userId );
+    }
+
+    @Override
+    public boolean existsFollow(int followerId, int followedId) {
+        return followRelations.stream().anyMatch(f -> f.getIdFollower() == followerId && f.getIdFollowed() == followedId);
+    }
 }
