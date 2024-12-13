@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("{userId}/followers/list")
-    public ResponseEntity<List<UserFollowersDTO>> getUserFollowers(@PathVariable int userId) {
+    public ResponseEntity<UserFollowersDTO> getUserFollowers(@PathVariable int userId) {
         return new ResponseEntity<>(userService.getUserFollowers(userId), HttpStatus.OK);
     }
 

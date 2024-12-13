@@ -9,4 +9,6 @@ public interface IUserRepository {
     public List<User> findAllUsers();
 
     public List<FollowRelation> findAllFollowRelation();
+    public User getUserById(int id);
+    public List<FollowRelation> getFollowRelationsByFollowedId(int id);
 }

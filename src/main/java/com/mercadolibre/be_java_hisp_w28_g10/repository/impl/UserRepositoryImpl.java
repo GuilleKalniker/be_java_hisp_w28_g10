@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
@@ -62,5 +63,18 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public List<FollowRelation> findAllFollowRelation() {
         return followRelations;
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userList.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
+    }
+
+    @Override
+    public List<FollowRelation> getFollowRelationsByFollowedId(int id) {
+        return followRelations.stream().filter(followRelation -> followRelation.getIdFollowed() == id).toList();
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
 public interface IUserService {
     public List<UserDto> getAllUsers();
     public List<FollowRelationDto> getAllFollowRelation();
-    List<UserFollowersDTO> getUserFollowers(int userId);
+    public UserFollowersDTO getUserFollowers(int userId);
 }
