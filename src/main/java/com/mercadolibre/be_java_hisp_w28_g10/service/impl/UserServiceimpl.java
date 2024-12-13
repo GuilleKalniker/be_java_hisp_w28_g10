@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDto;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDto;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.ConflictException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
+import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,9 @@ import java.util.List;
 @Service
 public class UserServiceimpl implements IUserService {
     @Autowired
-    IUserRepository userRepository;
+    private IUserRepository userRepository;
+    @Autowired
+    private Utilities utilities;
 
 
     @Override
@@ -41,10 +45,9 @@ public class UserServiceimpl implements IUserService {
             throw new NotFoundException("Invalid userIdToFollow");
         }
         if(userRepository.existsFollow(followerId, followedId)){
-            throw new BadRequestException("The follow already exists");
+            throw new ConflictException("The follow already exists");
         }
         FollowRelation newFollow = userRepository.saveFollow(followerId, followedId);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(newFollow, FollowRelationDto.class);
+        return utilities.convertValue(newFollow, FollowRelationDto.class);
     }
 }
