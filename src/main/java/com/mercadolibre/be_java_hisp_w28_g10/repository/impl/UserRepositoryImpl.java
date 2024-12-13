@@ -40,7 +40,7 @@ public class UserRepositoryImpl implements IUserRepository {
             followRelations = utilities.readValue(inputStreamFollowRelations, new TypeReference<>() {
             });
         } catch (IOException e) {
-            throw new LoadJSONDataException("No fue posible cargar los datos del JSON de usuarios.");
+            throw new LoadJSONDataException("It wasn't possible to load JSON data for Users.");
         }
     }
 
