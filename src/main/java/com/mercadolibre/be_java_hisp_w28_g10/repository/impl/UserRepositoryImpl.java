@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
@@ -30,27 +31,24 @@ public class UserRepositoryImpl implements IUserRepository {
 //            new FollowRelation(1, 3, LocalDate.of(2024, 10, 10)),
 //            new FollowRelation(2, 1, LocalDate.of(2024, 10, 10)),
 //            new FollowRelation(2, 1, LocalDate.of(2024, 10, 10))
-            new FollowRelation(1, 2, "2024/10/12"),
-            new FollowRelation(1, 3, "2024/10/12"),
-            new FollowRelation(2, 1, "2024/10/12"),
-            new FollowRelation(2, 1, "2024/10/12")
+//            new FollowRelation(1, 2, "2024/10/12"),
+//            new FollowRelation(1, 3, "2024/10/12"),
+//            new FollowRelation(2, 1, "2024/10/12"),
+//            new FollowRelation(2, 1, "2024/10/12")
     );
 
 
     @PostConstruct
     public void init() {
-
         try (InputStream inputStreamUsers = getClass().getResourceAsStream("/users.json");
-             //InputStream inputStreamFollowRelations = getClass().getResourceAsStream("/follow_relation.json");
+             InputStream inputStreamFollowRelations = getClass().getResourceAsStream("/follow_relation.json");
         ) {
             userList = utilities.readValue(inputStreamUsers, new TypeReference<>() {
             });
-//            followRelations = utilities.readValue(inputStreamFollowRelations, new TypeReference<>() {
-//            });
+            followRelations = utilities.readValue(inputStreamFollowRelations, new TypeReference<>() {
+            });
         } catch (IOException e) {
-            e.printStackTrace();
-            userList = List.of();
-            followRelations = List.of();
+            throw new LoadJSONDataException("No fue posible cargar los datos del JSON de usuarios.");
         }
     }
 
