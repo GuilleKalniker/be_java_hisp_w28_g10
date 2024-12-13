@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 public class ProductRepositoryImpl implements IProductRepository {
     @Autowired
     private Utilities utilities;
-    private List<Product> productList = List.of();
+    private List<Product> productList = new ArrayList<>();
 
     @PostConstruct
     public void init() {
