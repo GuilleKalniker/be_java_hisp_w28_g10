@@ -1,11 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10.repository.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
@@ -17,9 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -74,5 +67,11 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public User findUserById(int id) {
         return this.userList.stream().filter(u-> u.getId() == id).findFirst().orElse(null);
+    }
+
+    @Override
+    public boolean deleteFollowRelation(FollowRelation followRelation) {
+
+        return followRelations.remove(followRelation);
     }
 }
