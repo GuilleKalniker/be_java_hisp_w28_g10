@@ -1,7 +1,26 @@
 [
   {
     "idFollower": 1,
-    "idFollowed": 2,
-    "date": "2023-10-01"
+    "idFollowed": 2
+  },
+  {
+    "idFollower": 1,
+    "idFollowed": 3
+  },
+  {
+    "idFollower": 1,
+    "idFollowed": 4
+  },
+  {
+    "idFollower": 2,
+    "idFollowed": 5
+  },
+  {
+    "idFollower": 2,
+    "idFollowed": 6
+  },
+  {
+    "idFollower": 2,
+    "idFollowed": 7
   }
 ]
