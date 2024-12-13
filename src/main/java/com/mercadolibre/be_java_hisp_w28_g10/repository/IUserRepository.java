@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface IUserRepository {
     public List<User> findAllUsers();
-
     public List<FollowRelation> findAllFollowRelation();
+    public FollowRelation saveFollow(int followerId, int followedId);
+    public boolean existsUser(int userId);
+    public boolean existsFollow(int followerId, int followedId);
+    public User findUserById (int id);
+    public boolean deleteFollowRelation(FollowRelation followRelation);
 
     List<FollowRelation> findAllFollowersRelationById(int id);
 }
