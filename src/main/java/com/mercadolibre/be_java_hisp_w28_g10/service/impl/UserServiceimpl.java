@@ -75,11 +75,14 @@ public class UserServiceimpl implements IUserService {
     @Override
     public FollowersDTO getFollowersById(int id) {
         User user = userRepository.findUserById(id);
+        List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
         if (user == null){
             throw new NotFoundException("User not found");
         }
-        FollowersDTO followersDTO = new FollowersDTO(user.getId(), user.getName(), getAllFollowRelation().size());
-        return followersDTO;
+        List<FollowRelation> followedFilter = followRelation.stream()
+                .filter(f-> f.getIdFollowed() == user.getId())
+                .toList();
+        return new FollowersDTO(user.getId(), user.getName(), followedFilter.size());
     }
 
     @Override
