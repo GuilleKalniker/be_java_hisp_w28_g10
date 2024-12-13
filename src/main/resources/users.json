@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "postList": []
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "postList": []
+  },
+  {
+    "id": 3,
+    "name": "Charlie",
+    "postList": []
+  },
+  {
+    "id": 4,
+    "name": "Diana",
+    "postList": []
+  },
+  {
+    "id": 5,
+    "name": "Eve",
+    "postList": []
+  },
+  {
+    "id": 6,
+    "name": "Frank",
+    "postList": []
+  },
+  {
+    "id": 7,
+    "name": "Grace",
+    "postList": []
+  },
+  {
+    "id": 8,
+    "name": "Hannah",
+    "postList": []
+  },
+  {
+    "id": 9,
+    "name": "Isaac",
+    "postList": []
+  },
+  {
+    "id": 10,
+    "name": "Jack",
+    "postList": []
+  }
+]
