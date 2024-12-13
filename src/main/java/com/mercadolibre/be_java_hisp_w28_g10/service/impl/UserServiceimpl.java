@@ -74,7 +74,7 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public FollowersDTO getFollowersById(int id) {
+    public FollowersDTO getFollowersAmountById(int id) {
         User user = userRepository.findUserById(id);
         List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
         if (user == null) {
@@ -107,7 +107,6 @@ public class UserServiceimpl implements IUserService {
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
-
     private List<ResponseUserDTO> getRelatedUsersById(int id, boolean isFollower) {
 
         List<FollowRelation> followRelations = new ArrayList<>();
@@ -116,7 +115,7 @@ public class UserServiceimpl implements IUserService {
             followRelations = userRepository.getFollowRelationsByFollowerId(id);
             followersDto = followRelations.stream()
                     .map(followRelation -> {
-                        User follower = userRepository.getUserById(followRelation.getIdFollower());
+                        User follower = userRepository.getUserById(followRelation.getIdFollowed());
                         return new ResponseUserDTO(follower.getId(), follower.getName());
                     })
                     .toList();
@@ -129,9 +128,7 @@ public class UserServiceimpl implements IUserService {
                     })
                     .toList();
         }
-
         List<FollowRelation> finalFollowRelations = followRelations;
-
         return followersDto;
     }
 }

@@ -10,7 +10,7 @@ public interface IUserService {
     public List<FollowRelationDTO> getAllFollowRelation();
     public ResponseMessageDTO unfollowUserById(int userId, int userIdToUnfollow);
     public FollowRelationDTO follow(int followerId, int followedId);
-    public FollowersDTO getFollowersById(int id);
+    public FollowersDTO getFollowersAmountById(int id);
     public UserFollowersDTO getUserFollowers(int userId);
     public UserFollowersDTO getUserFollowed(Integer userId);
 }
