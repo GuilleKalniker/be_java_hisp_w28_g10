@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceimpl implements IUserService {
+
     @Autowired
     private IUserRepository userRepository;
     @Autowired
@@ -30,12 +31,6 @@ public class UserServiceimpl implements IUserService {
 
     @Override
     public List<UserDTO> getAllUsers() {
-        ObjectMapper mapper = new ObjectMapper();
-        return userRepository.findAllUsers().stream().map(u -> mapper.convertValue(u, UserDTO.class)).toList();
-    }
-
-    @Override
-    public List<UserDTO> getAllUsersById(int userId) {
         ObjectMapper mapper = new ObjectMapper();
         return userRepository.findAllUsers().stream().map(u -> mapper.convertValue(u, UserDTO.class)).toList();
     }
@@ -55,7 +50,7 @@ public class UserServiceimpl implements IUserService {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("No follower relationship found for the given ids"));
 
-        if(!userRepository.deleteFollowRelation(followRelation)) {
+        if (!userRepository.deleteFollowRelation(followRelation)) {
             throw new BadRequestException("Couldn´t delete the follow relation");
         }
 
@@ -64,13 +59,13 @@ public class UserServiceimpl implements IUserService {
 
     @Override
     public FollowRelationDTO follow(int followerId, int followedId) {
-        if(!userRepository.existsUser(followerId)){
+        if (!userRepository.existsUser(followerId)) {
             throw new NotFoundException("Invalid UserId ");
         }
-        if(!userRepository.existsUser(followedId)){
+        if (!userRepository.existsUser(followedId)) {
             throw new NotFoundException("Invalid userIdToFollow");
         }
-        if(userRepository.existsFollow(followerId, followedId)){
+        if (userRepository.existsFollow(followerId, followedId)) {
             throw new ConflictException("The follow already exists");
         }
         FollowRelation newFollow = userRepository.saveFollow(followerId, followedId);
@@ -80,7 +75,7 @@ public class UserServiceimpl implements IUserService {
     @Override
     public FollowersDTO getFollowersById(int id) {
         User user = userRepository.findUserById(id);
-        if (user == null){
+        if (user == null) {
             throw new NotFoundException("User not found");
         }
         FollowersDTO followersDTO = new FollowersDTO(user.getId(), user.getName(), getAllFollowRelation().size());
@@ -108,16 +103,26 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public List<UserDTO> getAllFollowedById(Integer userId) {
+    public UserFollowersDTO getUserFollowed(Integer userId) {
         ObjectMapper mapper = new ObjectMapper();
-        List<FollowRelation> relations = userRepository.findAllFollowersRelationById(userId);
-        List<Integer> ids = relations.stream()
-                .map(FollowRelation::getIdFollowed)
-                .toList();
-        List<UserDTO> users = userRepository.findAllUsers()
+
+        // Valido si existe user con ese userId;
+        User user = userRepository.getUserById(userId);
+
+
+        List<ResponseUserDTO> followers = userRepository
+                .findAllUsers()
                 .stream()
-                .filter(user -> ids.contains(user.getId()))
-                .map(user -> mapper.convertValue(user, UserDTO.class)).toList();
-        return List.of();
+                .filter(transitoryUser -> (userRepository
+                        .findAllFollowersRelationById(userId)
+                        .stream()
+                        .map(FollowRelation::getIdFollowed)
+                        .toList()).contains(user.getId()))
+                .map(transitoryUser -> {
+                    return new ResponseUserDTO(user.getId(), user.getName());
+                }).toList();
+
+
+        return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 }
