@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +15,6 @@ public class PostDTO {
     private int category;
     private double price;
     private ProductDTO productDto;
+    private boolean hasPromo;
+    private double discount;
 }
