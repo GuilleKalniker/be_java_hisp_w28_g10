@@ -11,8 +11,6 @@ import java.time.LocalDate;
 public class FollowRelation {
     private int idFollower; // ID del seguidor
     private int idFollowed; // ID de la persona seguida
-    //private String date;
-    private String date;
 }
 
 
