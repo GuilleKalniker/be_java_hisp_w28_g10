@@ -2,12 +2,14 @@ package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDto;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDto;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,11 @@ public class UserController {
     @GetMapping("followRelation/getAll")
     public ResponseEntity<List<FollowRelationDto>> getAllFollowRelations() {
         return new ResponseEntity<>(userService.getAllFollowRelation(), HttpStatus.OK);
+    }
+
+    @GetMapping("{userId}/followers/list")
+    public ResponseEntity<List<UserFollowersDTO>> getUserFollowers(@PathVariable int userId) {
+        return new ResponseEntity<>(userService.getUserFollowers(userId), HttpStatus.OK);
     }
 
 

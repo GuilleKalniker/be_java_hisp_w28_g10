@@ -3,6 +3,7 @@ package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDto;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDto;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class UserServiceimpl implements IUserService {
     public List<FollowRelationDto> getAllFollowRelation() {
         ObjectMapper mapper = new ObjectMapper();
         return userRepository.findAllFollowRelation().stream().map(fr -> mapper.convertValue(fr, FollowRelationDto.class)).toList();
+    }
+
+    @Override
+    public List<UserFollowersDTO> getUserFollowers(int userId) {
+        return List.of();
     }
 }
