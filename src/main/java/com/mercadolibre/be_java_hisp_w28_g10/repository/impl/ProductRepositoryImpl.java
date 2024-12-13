@@ -29,7 +29,7 @@ public class ProductRepositoryImpl implements IProductRepository {
             productList = utilities.readValue(inputStream, new TypeReference<>() {
             });
         } catch (IOException e) {
-            throw new LoadJSONDataException("No fue posible cargar los datos del JSON de productos.");
+            throw new LoadJSONDataException("It wasn't possible to load JSON data for Products.");
         }
     }
 
