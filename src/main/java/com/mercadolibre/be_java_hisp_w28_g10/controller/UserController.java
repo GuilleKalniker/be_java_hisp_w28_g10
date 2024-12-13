@@ -4,6 +4,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,10 @@ public class UserController {
         return new ResponseEntity<>(userService.unfollowUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
 
-
+    @GetMapping("{userId}/followers/list")
+    public ResponseEntity<UserFollowersDTO> getUserFollowers(@PathVariable int userId) {
+        return new ResponseEntity<>(userService.getUserFollowers(userId), HttpStatus.OK);
+    }
 
 
 }
