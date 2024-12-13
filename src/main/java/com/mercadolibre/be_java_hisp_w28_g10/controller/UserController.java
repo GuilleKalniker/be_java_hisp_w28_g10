@@ -1,5 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDto;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDto;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
@@ -20,7 +21,12 @@ public class UserController {
 
     @GetMapping("getAll")
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        return new ResponseEntity<List<UserDto>>(userService.getAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping("followRelation/getAll")
+    public ResponseEntity<List<FollowRelationDto>> getAllFollowRelations() {
+        return new ResponseEntity<>(userService.getAllFollowRelation(), HttpStatus.OK);
     }
 
 
