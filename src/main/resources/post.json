@@ -1,0 +1,674 @@
+[
+  {
+    "user_id": 1,
+    "date": "03-01-2024",
+    "product": {
+      "product_id": 101,
+      "product_name": "Silla Gamer",
+      "type": "Gamer",
+      "brand": "Racer",
+      "color": "Red & Black",
+      "notes": " edición especial"
+    },
+    "category": 100,
+    "price": 1500.50,
+    "has_promo": true,
+    "discount": 0.25
+  },
+  {
+    "user_id": 2,
+    "date": "15-01-2024",
+    "product": {
+      "product_id": 102,
+      "product_name": "Teclado Mecánico RGB",
+      "type": "Gaming",
+      "brand": "Cooler Master",
+      "color": "Black",
+      "notes": "Con retroiluminación RGB"
+    },
+    "category": 101,
+    "price": 120.75,
+    "has_promo": false,
+    "discount": 0.10
+  },
+  {
+    "user_id": 3,
+    "date": "28-01-2024",
+    "product": {
+      "product_id": 103,
+      "product_name": "Auriculares Inalámbricos",
+      "type": "Audio",
+      "brand": "Sony",
+      "color": "Blue",
+      "notes": "Con cancelación de ruido"
+    },
+    "category": 102,
+    "price": 220.00,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 4,
+    "date": "02-02-2024",
+    "product": {
+      "product_id": 104,
+      "product_name": "Monitor 144Hz",
+      "type": "Gaming",
+      "brand": "Acer",
+      "color": "Black",
+      "notes": "Con panel IPS"
+    },
+    "category": 103,
+    "price": 350.00,
+    "has_promo": false,
+    "discount": 0.05
+  },
+  {
+    "user_id": 5,
+    "date": "14-02-2024",
+    "product": {
+      "product_id": 105,
+      "product_name": "Mouse Gamer",
+      "type": "Accessories",
+      "brand": "Logitech",
+      "color": "Black",
+      "notes": "Alto rendimiento con 12 botones programables"
+    },
+    "category": 104,
+    "price": 75.99,
+    "has_promo": true,
+    "discount": 0.20
+  },
+  {
+    "user_id": 6,
+    "date": "28-02-2024",
+    "product": {
+      "product_id": 106,
+      "product_name": "Microfono USB",
+      "type": "Audio",
+      "brand": "Blue",
+      "color": "Silver",
+      "notes": "Ideal para streamers"
+    },
+    "category": 105,
+    "price": 99.99,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 7,
+    "date": "10-03-2024",
+    "product": {
+      "product_id": 107,
+      "product_name": "Laptop Gaming",
+      "type": "Computers",
+      "brand": "Dell",
+      "color": "Black",
+      "notes": "Con GPU de alta gama"
+    },
+    "category": 106,
+    "price": 1200.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 8,
+    "date": "29-03-2024",
+    "product": {
+      "product_id": 108,
+      "product_name": "Pingüino de Refrigeración",
+      "type": "Cooler",
+      "brand": "Thermaltake",
+      "color": "Black",
+      "notes": "Refrigerador eficiente para CPU"
+    },
+    "category": 107,
+    "price": 70.00,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 9,
+    "date": "15-04-2024",
+    "product": {
+      "product_id": 109,
+      "product_name": "Gafas de Realidad Virtual",
+      "type": "Gaming",
+      "brand": "Oculus",
+      "color": "Black",
+      "notes": "Inmersión total en juegos"
+    },
+    "category": 108,
+    "price": 300.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 10,
+    "date": "02-05-2024",
+    "product": {
+      "product_id": 110,
+      "product_name": "Silla Ergonómica",
+      "type": "Furniture",
+      "brand": "Herman Miller",
+      "color": "Grey",
+      "notes": "Ideal para largas horas de trabajo"
+    },
+    "category": 109,
+    "price": 600.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 1,
+    "date": "08-05-2024",
+    "product": {
+      "product_id": 111,
+      "product_name": "Hub USB-C",
+      "type": "Accessories",
+      "brand": "Anker",
+      "color": "White",
+      "notes": "Con 3 puertos USB 3.0"
+    },
+    "category": 100,
+    "price": 25.99,
+    "has_promo": false,
+    "discount": 0.05
+  },
+  {
+    "user_id": 2,
+    "date": "20-05-2024",
+    "product": {
+      "product_id": 112,
+      "product_name": "Bolsa Térmica",
+      "type": "Accessories",
+      "brand": "Igloo",
+      "color": "Blue",
+      "notes": "Mantiene tus bebidas frías por horas."
+    },
+    "category": 101,
+    "price": 45.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 3,
+    "date": "25-05-2024",
+    "product": {
+      "product_id": 113,
+      "product_name": "Cámara de Seguridad",
+      "type": "Cameras",
+      "brand": "Ring",
+      "color": "White",
+      "notes": "Con visión nocturna y alertas."
+    },
+    "category": 102,
+    "price": 120.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 4,
+    "date": "30-05-2024",
+    "product": {
+      "product_id": 114,
+      "product_name": "Bicicleta de Montaña",
+      "type": "Bikes",
+      "brand": "Trek",
+      "color": "Green",
+      "notes": "Aventura en cada montaña."
+    },
+    "category": 103,
+    "price": 500.00,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 5,
+    "date": "03-06-2024",
+    "product": {
+      "product_id": 115,
+      "product_name": "Cargador Inalámbrico",
+      "type": "Accessories",
+      "brand": "Belkin",
+      "color": "Black",
+      "notes": "Compatible con todos los smartphones."
+    },
+    "category": 104,
+    "price": 25.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 6,
+    "date": "10-06-2024",
+    "product": {
+      "product_id": 116,
+      "product_name": "Parlante Inteligente",
+      "type": "Audio",
+      "brand": "Amazon Echo",
+      "color": "Black",
+      "notes": "Asistente de voz para el hogar."
+    },
+    "category": 105,
+    "price": 99.99,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 7,
+    "date": "12-06-2024",
+    "product": {
+      "product_id": 117,
+      "product_name": "Cámara Instantánea",
+      "type": "Cameras",
+      "brand": "Fujifilm",
+      "color": "Pink",
+      "notes": "Imprime tus recuerdos al instante."
+    },
+    "category": 106,
+    "price": 70.00,
+    "has_promo": false,
+    "discount": 0.05
+  },
+  {
+    "user_id": 8,
+    "date": "18-06-2024",
+    "product": {
+      "product_id": 118,
+      "product_name": "Juego de Mesa",
+      "type": "Games",
+      "brand": "Mattel",
+      "color": "Multicolor",
+      "notes": "Diversión para toda la familia."
+    },
+    "category": 107,
+    "price": 30.00,
+    "has_promo": true,
+    "discount": 0.20
+  },
+  {
+    "user_id": 9,
+    "date": "22-06-2024",
+    "product": {
+      "product_id": 119,
+      "product_name": "Reloj de Pulsera",
+      "type": "Wearables",
+      "brand": "Casio",
+      "color": "Black",
+      "notes": "Resistente al agua y a prueba de golpes."
+    },
+    "category": 108,
+    "price": 150.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 10,
+    "date": "30-06-2024",
+    "product": {
+      "product_id": 120,
+      "product_name": "Estación Meteorológica",
+      "type": "Home",
+      "brand": "AcuRite",
+      "color": "White",
+      "notes": "Temperatura, humedad y pronóstico del tiempo."
+    },
+    "category": 109,
+    "price": 120.00,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 1,
+    "date": "10-07-2024",
+    "product": {
+      "product_id": 121,
+      "product_name": "Camara DSLR",
+      "type": "Cameras",
+      "brand": "Nikon",
+      "color": "Black",
+      "notes": "Cámara con alta calidad de imagen."
+    },
+    "category": 100,
+    "price": 800.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 2,
+    "date": "15-07-2024",
+    "product": {
+      "product_id": 122,
+      "product_name": "Sofá Elegante",
+      "type": "Muebles",
+      "brand": "IKEA",
+      "color": "Gray",
+      "notes": "Sofá de 3 plazas."
+    },
+    "category": 101,
+    "price": 600.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 3,
+    "date": "20-07-2024",
+    "product": {
+      "product_id": 123,
+      "product_name": "Juego de Cuchillos",
+      "type": "Kitchen",
+      "brand": "Cuisinart",
+      "color": "Silver",
+      "notes": "Juego de cuchillos de acero inoxidable."
+    },
+    "category": 102,
+    "price": 80.00,
+    "has_promo": true,
+    "discount": 0.05
+  },
+  {
+    "user_id": 4,
+    "date": "25-07-2024",
+    "product": {
+      "product_id": 124,
+      "product_name": "Lámpara LED Regulatble",
+      "type": "Lighting",
+      "brand": "Philips",
+      "color": "White",
+      "notes": "Regulable y de bajo consumo."
+    },
+    "category": 103,
+    "price": 45.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 5,
+    "date": "30-07-2024",
+    "product": {
+      "product_id": 125,
+      "product_name": "Máquina de Café",
+      "type": "Kitchen",
+      "brand": "Nespresso",
+      "color": "Black",
+      "notes": "Con cápsulas para café."
+    },
+    "category": 104,
+    "price": 200.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 6,
+    "date": "01-08-2024",
+    "product": {
+      "product_id": 126,
+      "product_name": "Altavoz Portátil",
+      "type": "Audio",
+      "brand": "Bose",
+      "color": "Black",
+      "notes": "Resistencia al agua, duración de 12 horas."
+    },
+    "category": 105,
+    "price": 150.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 7,
+    "date": "05-08-2024",
+    "product": {
+      "product_id": 127,
+      "product_name": "Cámara de Acción",
+      "type": "Cameras",
+      "brand": "GoPro",
+      "color": "Black",
+      "notes": "Resistente al agua y a prueba de golpes."
+    },
+    "category": 106,
+    "price": 350.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 8,
+    "date": "10-08-2024",
+    "product": {
+      "product_id": 128,
+      "product_name": "Smartwatch",
+      "type": "Wearables",
+      "brand": "Apple",
+      "color": "Gold",
+      "notes": "Rastrea la actividad física."
+    },
+    "category": 107,
+    "price": 399.00,
+    "has_promo": true,
+    "discount": 0.20
+  },
+  {
+    "user_id": 9,
+    "date": "15-08-2024",
+    "product": {
+      "product_id": 129,
+      "product_name": "Kettle Eléctrico",
+      "type": "Kitchen",
+      "brand": "Breville",
+      "color": "Silver",
+      "notes": "Con control de temperatura."
+    },
+    "category": 108,
+    "price": 90.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 10,
+    "date": "20-08-2024",
+    "product": {
+      "product_id": 130,
+      "product_name": "Tocadiscos",
+      "type": "Audio",
+      "brand": "Crosley",
+      "color": "Red",
+      "notes": "Reproduce tus discos de vinilo."
+    },
+    "category": 109,
+    "price": 199.99,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 1,
+    "date": "25-08-2024",
+    "product": {
+      "product_id": 131,
+      "product_name": "Proyector de Video",
+      "type": "Electronics",
+      "brand": "Epson",
+      "color": "White",
+      "notes": "Proyector portátil con alta resolución."
+    },
+    "category": 100,
+    "price": 500.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 2,
+    "date": "30-08-2024",
+    "product": {
+      "product_id": 132,
+      "product_name": "Mesa de Centro",
+      "type": "Furniture",
+      "brand": "IKEA",
+      "color": "Brown",
+      "notes": "Mesa de centro de madera."
+    },
+    "category": 101,
+    "price": 150.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 3,
+    "date": "04-09-2024",
+    "product": {
+      "product_id": 133,
+      "product_name": "Juego de Sartenes",
+      "type": "Kitchen",
+      "brand": "Tefal",
+      "color": "Black",
+      "notes": "Juego antiadherente de 3 piezas."
+    },
+    "category": 102,
+    "price": 60.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 4,
+    "date": "10-09-2024",
+    "product": {
+      "product_id": 134,
+      "product_name": "Cafetera Automática",
+      "type": "Kitchen",
+      "brand": "Nespresso",
+      "color": "Black",
+      "notes": "Cafetera con cápsulas."
+    },
+    "category": 103,
+    "price": 200.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 5,
+    "date": "15-09-2024",
+    "product": {
+      "product_id": 135,
+      "product_name": "Bolsa de Deporte",
+      "type": "Fitness",
+      "brand": "Adidas",
+      "color": "Blue",
+      "notes": "Bolsa de deporte resistente al agua."
+    },
+    "category": 104,
+    "price": 50.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 6,
+    "date": "20-09-2024",
+    "product": {
+      "product_id": 136,
+      "product_name": "Rastreador GPS",
+      "type": "Accessories",
+      "brand": "Garmin",
+      "color": "Black",
+      "notes": "Ideal para correr y actividades al aire libre."
+    },
+    "category": 105,
+    "price": 300.00,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 7,
+    "date": "25-09-2024",
+    "product": {
+      "product_id": 137,
+      "product_name": "Calcetines de Compresión",
+      "type": "Clothing",
+      "brand": "Nike",
+      "color": "Black",
+      "notes": "Mejoran la circulación sanguínea."
+    },
+    "category": 106,
+    "price": 30.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 8,
+    "date": "30-09-2024",
+    "product": {
+      "product_id": 138,
+      "product_name": "Cámara Web",
+      "type": "Electronics",
+      "brand": "Logitech",
+      "color": "Black",
+      "notes": "Cámara con calidad HD."
+    },
+    "category": 107,
+    "price": 100.00,
+    "has_promo": true,
+    "discount": 0.05
+  },
+  {
+    "user_id": 9,
+    "date": "01-10-2024",
+    "product": {
+      "product_id": 139,
+      "product_name": "Mochila de Senderismo",
+      "type": "Gear",
+      "brand": "The North Face",
+      "color": "Green",
+      "notes": "Mochila con capacidad de 30 litros."
+    },
+    "category": 108,
+    "price": 120.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 10,
+    "date": "05-10-2024",
+    "product": {
+      "product_id": 140,
+      "product_name": "Saco de Dormir",
+      "type": "Gear",
+      "brand": "REI",
+      "color": "Blue",
+      "notes": "Saco de dormir ligero y compacto."
+    },
+    "category": 109,
+    "price": 80.00,
+    "has_promo": true,
+    "discount": 0.10
+  },
+  {
+    "user_id": 1,
+    "date": "10-10-2024",
+    "product": {
+      "product_id": 141,
+      "product_name": "Camara de Seguridad",
+      "type": "Cameras",
+      "brand": "Arlo",
+      "color": "Black",
+      "notes": "Cámara con visión nocturna."
+    },
+    "category": 100,
+    "price": 150.00,
+    "has_promo": false,
+    "discount": 0.00
+  },
+  {
+    "user_id": 2,
+    "date": "12-10-2024",
+    "product": {
+      "product_id": 142,
+      "product_name": "Luz LED",
+      "type": "Lighting",
+      "brand": "Philips",
+      "color": "White",
+      "notes": "Luz LED regulable."
+    },
+    "category": 101,
+    "price": 40.00,
+    "has_promo": true,
+    "discount": 0.15
+  }
+]

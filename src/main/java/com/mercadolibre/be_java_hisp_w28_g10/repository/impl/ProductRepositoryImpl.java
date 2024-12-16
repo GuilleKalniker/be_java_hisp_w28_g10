@@ -19,15 +19,22 @@ import java.util.List;
 public class ProductRepositoryImpl implements IProductRepository {
     @Autowired
     private Utilities utilities;
+
     private List<Product> productList = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
+
 
     @PostConstruct
     public void init() {
-        try (InputStream inputStream = getClass().getResourceAsStream("/products.json")) {
+        try (
+                InputStream inputStream = getClass().getResourceAsStream("/products.json");
+                InputStream inputStreamPost = getClass().getResourceAsStream("/post.json");) {
             productList = utilities.readValue(inputStream, new TypeReference<>() {
             });
+            postList = utilities.readValue(inputStreamPost, new TypeReference<>() {
+            });
         } catch (IOException e) {
-            throw new LoadJSONDataException("It wasn't possible to load JSON data for Products.");
+            throw new LoadJSONDataException("It wasn't possible to load JSON data for Products or Post.");
         }
     }
 
@@ -35,8 +42,6 @@ public class ProductRepositoryImpl implements IProductRepository {
     public List<Product> findAll() {
         return productList;
     }
-
-    private List<Post> postList = new ArrayList<>();
 
     @Override
     public boolean savePromoPost(Post post) {

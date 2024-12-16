@@ -29,7 +29,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.addPost(post), HttpStatus.OK);
     }
 
-    @PostMapping("products/promo-post")
+    @PostMapping("promo-post")
     public ResponseEntity<ResponseMessageDTO> addPromoPost(@RequestBody PostDTO promoPost) {
         return new ResponseEntity<>(new ResponseMessageDTO(productService.addPromoPost(promoPost)), HttpStatus.OK);
     }
