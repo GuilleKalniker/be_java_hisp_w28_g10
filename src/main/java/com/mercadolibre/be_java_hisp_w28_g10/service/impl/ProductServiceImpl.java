@@ -37,6 +37,13 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public String addPromoPost(PostDTO post) {
+        validatePostDto(post);
+        validateProductDto(post.getProduct());
+        Product product = utilities.convertValue(post.getProduct(), Product.class);
+
+        if (!productRepository.existsProduct(post.getProduct().getId())) {
+            productRepository.addProduct(product);
+        }
         boolean isSaved = productRepository.savePromoPost(utilities.convertValue(post, Post.class));
         if (!isSaved) throw new SaveOperationException("Couldn't make the save operation.");
         return "Post was saved successfully.";
@@ -51,7 +58,6 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ResponsePostNoPromoDTO addPost(PostDTO newPost) {
 
-        // Valido que los atributos del postDTO y ProductDTO sean validos.
         validatePostDto(newPost);
         validateProductDto(newPost.getProduct());
 
@@ -61,16 +67,16 @@ public class ProductServiceImpl implements IProductService {
             productRepository.addProduct(product);
         }
 
-        LocalDate postDate = PostDTO.parseStringToLocalDate(newPost.getDate());
-
-        Post post = new Post(newPost.getId(),
+        Post post = utilities.convertValue(newPost, Post.class);
+        /* LocalDate postDate = PostDTO.parseStringToLocalDate(newPost.getDate());
+           Post post = new Post(newPost.getId(),
                 postDate,
                 newPost.getCategory(),
                 newPost.getPrice(),
                 product,
                 false,
                 0);
-
+*/
         productRepository.addPost(post);
 
         ProductDTO productDto = utilities.convertValue(post.getProduct(), ProductDTO.class);
