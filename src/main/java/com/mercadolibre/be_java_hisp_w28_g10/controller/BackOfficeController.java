@@ -19,10 +19,6 @@ public class BackOfficeController {
 
     @Autowired
     IBackOfficeService backOfficeService;
-    @Autowired
-    private IProductRepository productRepository;
-    @Autowired
-    private IUserRepository userRepository;
 
     @GetMapping("getReport/{reportName}")
     public ResponseEntity<String> getReport(@PathVariable String reportName,
