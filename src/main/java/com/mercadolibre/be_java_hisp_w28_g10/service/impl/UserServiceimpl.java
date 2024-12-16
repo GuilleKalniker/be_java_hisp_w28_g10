@@ -18,9 +18,8 @@ import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceimpl implements IUserService {
@@ -87,48 +86,56 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowers(int userId) {
+    public UserFollowersDTO getUserFollowersById(int userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
+        List<FollowRelation> followRelationsByFollowedId = userRepository.getFollowRelationsByFollowedId(userId);
 
-        List<ResponseUserDTO> followers = getRelatedUsersById(userId, false);
+        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowedId, false, order);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
-
 
     @Override
-    public UserFollowersDTO getUserFollowed(Integer userId) {
+    public UserFollowersDTO getUserFollowedById(Integer userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
+        List<FollowRelation> followRelationsByFollowerId = userRepository.getFollowRelationsByFollowerId(userId);
 
-        List<ResponseUserDTO> followers = getRelatedUsersById(userId, true);
+        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowerId, true, order);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
-    private List<ResponseUserDTO> getRelatedUsersById(int id, boolean isFollower) {
+    private List<ResponseUserDTO> getRelatedUsersById(List<FollowRelation> followRelations, boolean isFollower, String order) {
 
-        List<FollowRelation> followRelations = new ArrayList<>();
-        List<ResponseUserDTO> followersDto = new ArrayList<>();
-        if (isFollower) {
-            followRelations = userRepository.getFollowRelationsByFollowerId(id);
-            followersDto = followRelations.stream()
+        List<ResponseUserDTO> responseUserDtos = followRelations.stream()
                     .map(followRelation -> {
-                        User follower = userRepository.getUserById(followRelation.getIdFollowed());
-                        return new ResponseUserDTO(follower.getId(), follower.getName());
+                        User user;
+                        if(isFollower) {
+                            user = userRepository.getUserById(followRelation.getIdFollowed());
+                        } else {
+                            user = userRepository.getUserById(followRelation.getIdFollower());
+                        }
+                        return new ResponseUserDTO(user.getId(), user.getName());
                     })
                     .toList();
-        } else {
-            followRelations = userRepository.getFollowRelationsByFollowedId(id);
-            followersDto = followRelations.stream()
-                    .map(followRelation -> {
-                        User follower = userRepository.getUserById(followRelation.getIdFollower());
-                        return new ResponseUserDTO(follower.getId(), follower.getName());
-                    })
+
+        if(order == null || (!order.equalsIgnoreCase("name_asc") && !order.equalsIgnoreCase("name_desc"))) {
+            throw new BadRequestException("Invalid order, please set a valid order param");
+        }
+
+        return orderFollowersByName(responseUserDtos, order);
+    }
+
+    private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
+        if(order.equalsIgnoreCase("name_asc")) {
+            return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
                     .toList();
         }
-        List<FollowRelation> finalFollowRelations = followRelations;
-        return followersDto;
+        return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
+                    .toList().reversed();
     }
 }

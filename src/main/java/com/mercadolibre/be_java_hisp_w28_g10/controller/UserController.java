@@ -45,13 +45,13 @@ public class UserController {
     }
 
     @GetMapping("{userId}/followers/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowers(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.getUserFollowers(userId), HttpStatus.OK);
+    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam String order) {
+        return new ResponseEntity<>(userService.getUserFollowersById(userId, order), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowed(@PathVariable Integer userId) {
-        return new ResponseEntity<>(userService.getUserFollowed(userId), HttpStatus.OK);
+    public ResponseEntity<UserFollowersDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam String order) {
+        return new ResponseEntity<>(userService.getUserFollowedById(userId,order), HttpStatus.OK);
     }
 
 }
