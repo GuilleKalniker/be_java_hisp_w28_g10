@@ -2,6 +2,7 @@ package com.mercadolibre.be_java_hisp_w28_g10.service;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 
 import java.util.List;
 

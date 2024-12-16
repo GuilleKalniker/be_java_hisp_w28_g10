@@ -1,25 +1,24 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseUserDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowersDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.ConflictException;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceimpl implements IUserService {
