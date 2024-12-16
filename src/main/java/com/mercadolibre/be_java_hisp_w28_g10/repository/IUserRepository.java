@@ -20,6 +20,4 @@ public interface IUserRepository {
     public boolean deleteFollowRelation(FollowRelation followRelation);
     public User getUserById(int id);
     public List<FollowRelation> getFollowRelationsByFollowedId(int id);
-    public boolean existsPost(int userId, int productId);
-    public boolean addPost(Post post);
 }

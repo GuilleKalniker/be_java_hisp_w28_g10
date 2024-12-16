@@ -2,6 +2,7 @@ package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
@@ -17,8 +18,6 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private IProductService productService;
-    @Autowired
-    private UserServiceimpl userServiceimpl;
 
     @GetMapping("getAll")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
@@ -27,11 +26,16 @@ public class ProductController {
 
     @PostMapping("post")
     public ResponseEntity<ResponsePostNoPromoDTO> addPost(@RequestBody PostDTO post) {
-        return new ResponseEntity<>(userServiceimpl.addPost(post), HttpStatus.OK);
+        return new ResponseEntity<>(productService.addPost(post), HttpStatus.OK);
     }
 
     @PostMapping("products/promo-post")
-    public void addPromoPost(){
+    public ResponseEntity<ResponseMessageDTO> addPromoPost(@RequestBody PostDTO promoPost) {
+        return new ResponseEntity<>(new ResponseMessageDTO(productService.addPromoPost(promoPost)), HttpStatus.OK);
+    }
 
+    @GetMapping("post/getAll")
+    public ResponseEntity<List<PostDTO>> getAllPost() {
+        return new ResponseEntity<>(productService.getAllPost(), HttpStatus.OK);
     }
 }

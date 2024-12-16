@@ -13,5 +13,4 @@ public interface IUserService {
     public FollowRelationDTO follow(int followerId, int followedId);
     public FollowersDTO getFollowersById(int id);
     public UserFollowersDTO getUserFollowers(int userId);
-    public ResponsePostNoPromoDTO addPost(PostDTO post);
 }

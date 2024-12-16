@@ -1,11 +1,9 @@
 package com.mercadolibre.be_java_hisp_w28_g10.repository.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
-import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import jakarta.annotation.PostConstruct;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -37,5 +34,32 @@ public class ProductRepositoryImpl implements IProductRepository {
     @Override
     public List<Product> findAll() {
         return productList;
+    }
+
+    private List<Post> postList = new ArrayList<>();
+
+    @Override
+    public boolean savePromoPost(Post post) {
+        return postList.add(post);
+    }
+
+    @Override
+    public List<Post> findAllPost() {
+        return postList;
+    }
+
+    @Override
+    public boolean existsProduct(int productId) {
+        return productList.stream().anyMatch(product -> product.getId() == productId);
+    }
+
+    @Override
+    public boolean addProduct(Product product) {
+        return productList.add(product);
+    }
+
+    @Override
+    public boolean addPost(Post post) {
+        return postList.add(post);
     }
 }

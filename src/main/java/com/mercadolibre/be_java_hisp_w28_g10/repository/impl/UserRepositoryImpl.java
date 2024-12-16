@@ -90,14 +90,4 @@ public class UserRepositoryImpl implements IUserRepository {
     public List<FollowRelation> getFollowRelationsByFollowedId(int id) {
         return followRelations.stream().filter(followRelation -> followRelation.getIdFollowed() == id).toList();
     }
-
-    @Override
-    public boolean existsPost(int userId, int productId) {
-        return postList.stream().anyMatch(post -> post.getId() == userId && post.getProduct().getId() == productId);
-    }
-
-    @Override
-    public boolean addPost(Post post) {
-        return postList.add(post);
-    }
 }

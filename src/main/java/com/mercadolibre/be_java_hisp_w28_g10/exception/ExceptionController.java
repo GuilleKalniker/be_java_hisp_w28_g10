@@ -40,4 +40,9 @@ public class ExceptionController {
     }
 
 
+    @ExceptionHandler(SaveOperationException.class)
+    public ResponseEntity<?> conflicttException(SaveOperationException e) {
+        ExceptionDTO dto = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
 }

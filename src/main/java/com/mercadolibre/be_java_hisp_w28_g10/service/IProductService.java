@@ -7,5 +7,11 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO
 import java.util.List;
 
 public interface IProductService {
-    public List<ProductDTO> getAllProducts();
+    List<ProductDTO> getAllProducts();
+
+    String addPromoPost(PostDTO promoPost);
+
+    List<PostDTO> getAllPost();
+
+    ResponsePostNoPromoDTO addPost(PostDTO post);
 }

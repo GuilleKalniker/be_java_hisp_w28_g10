@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,70 +104,5 @@ public class UserServiceimpl implements IUserService {
 
         // Crear y retornar el DTO de usuario con la lista de seguidores
         return new UserFollowersDTO(user.getId(), user.getName(), followersDto);
-    }
-
-    @Override
-    public ResponsePostNoPromoDTO addPost(PostDTO newPost) {
-
-        if(userRepository.existsPost(newPost.getId(), newPost.getProductDto().getId())) {
-            throw new ConflictException("The post already exists");
-        }
-
-        // Valido que los atributos del postDTO y ProductDTO sean validos.
-        validatePostDto(newPost);
-        validateProductDto(newPost.getProductDto());
-
-
-        // No va a ser necesario cuando haga el pr con Will
-        LocalDate postDate = PostDTO.parseStringToLocalDate(newPost.getDate());
-
-        Product product = utilities.convertValue(newPost.getProductDto(), Product.class);
-        Post post = new Post(newPost.getId(),
-                            postDate,
-                            newPost.getCategory(),
-                            newPost.getPrice(),
-                            product,
-                   false,
-                    1); // o nulo
-
-        userRepository.addPost(post);
-
-        ProductDTO productDto = utilities.convertValue(post.getProduct(), ProductDTO.class);
-
-        return new ResponsePostNoPromoDTO(post.getId(), post.getDate().toString(), post.getCategory(), post.getPrice(),
-                productDto);
-    }
-
-    private void validatePostDto(PostDTO post) {
-        if (post.getId() <= 0) {
-            throw new IllegalArgumentException("The ID must be a positive number.");
-        }
-        if (post.getDate() == null || post.getDate().isEmpty()) {
-            throw new IllegalArgumentException("Date is required.");
-        }
-        if (post.getCategory() <= 0) {
-            throw new IllegalArgumentException("Category must be a positive value.");
-        }
-        if (post.getPrice() <= 0) {
-            throw new IllegalArgumentException("The price must be a positive number.");
-        }
-    }
-
-    private void validateProductDto(ProductDTO productDto) {
-        if (productDto.getId() <= 0) {
-            throw new IllegalArgumentException("The product ID must be a positive number.");
-        }
-        if (productDto.getName() == null || productDto.getName().isEmpty()) {
-            throw new IllegalArgumentException("The product name is required.");
-        }
-        if (productDto.getType() == null || productDto.getType().isEmpty()) {
-            throw new IllegalArgumentException("The product type is required.");
-        }
-        if (productDto.getBrand() == null || productDto.getBrand().isEmpty()) {
-            throw new IllegalArgumentException("The product brand is required.");
-        }
-        if (productDto.getColor() == null || productDto.getColor().isEmpty()) {
-            throw new IllegalArgumentException("The product color is required.");
-        }
     }
 }
