@@ -18,6 +18,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,7 +87,7 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowers(int userId) {
+    public UserFollowersDTO getUserFollowers(int userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
@@ -101,7 +102,22 @@ public class UserServiceimpl implements IUserService {
                 })
                 .collect(Collectors.toList());
 
+        if(order != null && (order.equals("name_desc") || order.equals("name_asc"))) {
+            followersDto = this.orderFollowersByName(followersDto, order);
+        }
+
         // Crear y retornar el DTO de usuario con la lista de seguidores
         return new UserFollowersDTO(user.getId(), user.getName(), followersDto);
+    }
+
+    private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
+        if(order.equals("name_asc")) {
+            return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
+                    .toList();
+        }
+        return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
+                    .toList().reversed();
     }
 }
