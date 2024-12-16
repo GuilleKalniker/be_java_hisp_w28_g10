@@ -2,10 +2,8 @@ package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
-import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +28,8 @@ public class ProductController {
     }
 
     @PostMapping("promo-post")
-    public ResponseEntity<ResponseMessageDTO> addPromoPost(@RequestBody PostDTO promoPost) {
-        return new ResponseEntity<>(new ResponseMessageDTO(productService.addPromoPost(promoPost)), HttpStatus.OK);
+    public ResponseEntity<PostDTO> addPromoPost(@RequestBody PostDTO promoPost) {
+        return new ResponseEntity<>(productService.addPromoPost(promoPost), HttpStatus.OK);
     }
 
     @GetMapping("post/getAll")

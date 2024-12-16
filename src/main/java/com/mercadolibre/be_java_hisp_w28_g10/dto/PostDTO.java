@@ -23,11 +23,4 @@ public class PostDTO {
     private boolean hasPromo;
     private double discount;
 
-    public static LocalDate parseStringToLocalDate(String date) {
-        try {
-            return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("The date format is invalid, expected: dd-MM-yyyy: " + date);
-        }
-    }
 }

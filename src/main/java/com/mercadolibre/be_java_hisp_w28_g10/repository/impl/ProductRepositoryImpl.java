@@ -44,11 +44,6 @@ public class ProductRepositoryImpl implements IProductRepository {
     }
 
     @Override
-    public boolean savePromoPost(Post post) {
-        return postList.add(post);
-    }
-
-    @Override
     public List<Post> findAllPost() {
         return postList;
     }

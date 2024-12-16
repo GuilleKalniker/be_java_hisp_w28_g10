@@ -8,8 +8,6 @@ import java.util.List;
 public interface IProductRepository {
     List<Product> findAll();
 
-    boolean savePromoPost(Post post);
-
     List<Post> findAllPost();
 
     boolean existsProduct(int productId);

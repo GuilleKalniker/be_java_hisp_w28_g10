@@ -1,12 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.ConflictException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.SaveOperationException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
@@ -17,7 +12,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -31,22 +25,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductDTO> getAllProducts() {
-        ObjectMapper mapper = new ObjectMapper();
-        return productRepository.findAll().stream().map(p -> mapper.convertValue(p, ProductDTO.class)).toList();
-    }
-
-    @Override
-    public String addPromoPost(PostDTO post) {
-        validatePostDto(post);
-        validateProductDto(post.getProduct());
-        Product product = utilities.convertValue(post.getProduct(), Product.class);
-
-        if (!productRepository.existsProduct(post.getProduct().getId())) {
-            productRepository.addProduct(product);
-        }
-        boolean isSaved = productRepository.savePromoPost(utilities.convertValue(post, Post.class));
-        if (!isSaved) throw new SaveOperationException("Couldn't make the save operation.");
-        return "Post was saved successfully.";
+        return productRepository.findAll().stream().map(p -> utilities.convertValue(p, ProductDTO.class)).toList();
     }
 
     @Override
@@ -54,35 +33,30 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findAllPost().stream().map(p -> utilities.convertValue(p, PostDTO.class)).toList();
     }
 
+    @Override
+    public PostDTO addPromoPost(PostDTO post) {
+        if (!savePostLogic(post)) throw new SaveOperationException("Couldn't make the save operation.");
+        return post;
+    }
 
     @Override
     public ResponsePostNoPromoDTO addPost(PostDTO newPost) {
-
-        validatePostDto(newPost);
-        validateProductDto(newPost.getProduct());
-
-        Product product = utilities.convertValue(newPost.getProduct(), Product.class);
-
-        if (!productRepository.existsProduct(newPost.getProduct().getId())) {
-            productRepository.addProduct(product);
-        }
-
+        if (!savePostLogic(newPost)) throw new SaveOperationException("Couldn't make the save operation.");
         Post post = utilities.convertValue(newPost, Post.class);
-        /* LocalDate postDate = PostDTO.parseStringToLocalDate(newPost.getDate());
-           Post post = new Post(newPost.getId(),
-                postDate,
-                newPost.getCategory(),
-                newPost.getPrice(),
-                product,
-                false,
-                0);
-*/
-        productRepository.addPost(post);
-
         ProductDTO productDto = utilities.convertValue(post.getProduct(), ProductDTO.class);
 
         return new ResponsePostNoPromoDTO(post.getId(), post.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), post.getCategory(), post.getPrice(),
                 productDto);
+    }
+
+    private boolean savePostLogic(PostDTO post) {
+        validatePostDto(post);
+        validateProductDto(post.getProduct());
+        Product product = utilities.convertValue(post.getProduct(), Product.class);
+        if (!productRepository.existsProduct(post.getProduct().getId())) {
+            productRepository.addProduct(product);
+        }
+        return productRepository.addPost(utilities.convertValue(post, Post.class));
     }
 
     private void validatePostDto(PostDTO post) {

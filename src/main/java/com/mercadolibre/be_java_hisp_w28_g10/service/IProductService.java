@@ -9,7 +9,7 @@ import java.util.List;
 public interface IProductService {
     List<ProductDTO> getAllProducts();
 
-    String addPromoPost(PostDTO promoPost);
+    PostDTO addPromoPost(PostDTO promoPost);
 
     List<PostDTO> getAllPost();
 
