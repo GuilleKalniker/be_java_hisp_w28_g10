@@ -86,7 +86,7 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowers(int userId, String order) {
+    public UserFollowersDTO getUserFollowersById(int userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
@@ -97,7 +97,7 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowed(Integer userId, String order) {
+    public UserFollowersDTO getUserFollowedById(Integer userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
@@ -111,22 +111,25 @@ public class UserServiceimpl implements IUserService {
 
         List<ResponseUserDTO> responseUserDtos = followRelations.stream()
                     .map(followRelation -> {
-                        User follower;
+                        User user;
                         if(isFollower) {
-                            follower = userRepository.getUserById(followRelation.getIdFollowed());
+                            user = userRepository.getUserById(followRelation.getIdFollowed());
                         } else {
-                            follower = userRepository.getUserById(followRelation.getIdFollower());
+                            user = userRepository.getUserById(followRelation.getIdFollower());
                         }
-                        return new ResponseUserDTO(follower.getId(), follower.getName());
+                        return new ResponseUserDTO(user.getId(), user.getName());
                     })
                     .toList();
 
-        return order != null && (order.equals("name_asc") || order.equals("name_desc"))
-                ? orderFollowersByName(responseUserDtos, order) : responseUserDtos;
+        if(order == null || (!order.equalsIgnoreCase("name_asc") && !order.equalsIgnoreCase("name_desc"))) {
+            throw new BadRequestException("Invalid order, please set a valid order param");
+        }
+
+        return orderFollowersByName(responseUserDtos, order);
     }
 
     private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
-        if(order.equals("name_asc")) {
+        if(order.equalsIgnoreCase("name_asc")) {
             return responseUsers.stream()
                     .sorted(Comparator.comparing(ResponseUserDTO::getName))
                     .toList();
