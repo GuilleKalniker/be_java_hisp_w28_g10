@@ -16,4 +16,6 @@ public interface IUserRepository {
     public boolean deleteFollowRelation(FollowRelation followRelation);
     public User getUserById(int id);
     public List<FollowRelation> getFollowRelationsByFollowedId(int id);
+
+    List<FollowRelation> getFollowRelationsByFollowerId(int id);
 }
