@@ -18,7 +18,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,11 +73,6 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowers(int userId, String order) {
-        return null;
-    }
-
-    @Override
     public FollowersDTO getFollowersAmountById(int id) {
         User user = userRepository.findUserById(id);
         List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
@@ -92,49 +86,43 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowers(int userId) {
+    public UserFollowersDTO getUserFollowers(int userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
+        List<FollowRelation> followRelationsByFollowedId = userRepository.getFollowRelationsByFollowedId(userId);
 
-        List<ResponseUserDTO> followers = getRelatedUsersById(userId, false);
+        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowedId, false, order);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
-
 
     @Override
-    public UserFollowersDTO getUserFollowed(Integer userId) {
+    public UserFollowersDTO getUserFollowed(Integer userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
+        List<FollowRelation> followRelationsByFollowerId = userRepository.getFollowRelationsByFollowerId(userId);
 
-        List<ResponseUserDTO> followers = getRelatedUsersById(userId, true);
+        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowerId, true, order);
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
-    private List<ResponseUserDTO> getRelatedUsersById(int id, boolean isFollower) {
+    private List<ResponseUserDTO> getRelatedUsersById(List<FollowRelation> followRelations, boolean isFollower, String order) {
 
-        List<FollowRelation> followRelations = new ArrayList<>();
-        List<ResponseUserDTO> followersDto = new ArrayList<>();
-        if (isFollower) {
-            followRelations = userRepository.getFollowRelationsByFollowerId(id);
-            followersDto = followRelations.stream()
+        List<ResponseUserDTO> responseUserDtos = followRelations.stream()
                     .map(followRelation -> {
-                        User follower = userRepository.getUserById(followRelation.getIdFollowed());
+                        User follower;
+                        if(isFollower) {
+                            follower = userRepository.getUserById(followRelation.getIdFollowed());
+                        } else {
+                            follower = userRepository.getUserById(followRelation.getIdFollower());
+                        }
                         return new ResponseUserDTO(follower.getId(), follower.getName());
                     })
                     .toList();
-        } else {
-            followRelations = userRepository.getFollowRelationsByFollowedId(id);
-            followersDto = followRelations.stream()
-                    .map(followRelation -> {
-                        User follower = userRepository.getUserById(followRelation.getIdFollower());
-                        return new ResponseUserDTO(follower.getId(), follower.getName());
-                    })
-                    .toList();
-        }
-        List<FollowRelation> finalFollowRelations = followRelations;
-        return followersDto;
+
+        return order != null && (order.equals("name_asc") || order.equals("name_desc"))
+                ? orderFollowersByName(responseUserDtos, order) : responseUserDtos;
     }
 
     private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
