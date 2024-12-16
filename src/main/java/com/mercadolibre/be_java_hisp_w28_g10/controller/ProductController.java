@@ -1,7 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseFollowedProductsDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("followed/{userId}/list")
-    public ResponseEntity<ResponseFollowedProductsDTO> getAllProducts(@PathVariable int userId) {
-        return new ResponseEntity<>(productService.getLastFollowedProducts(userId), HttpStatus.OK);
+    public ResponseEntity<ResponseFollowedPostsDTO> getAllProducts(@PathVariable int userId) {
+        return new ResponseEntity<>(productService.getLastFollowedPosts(userId), HttpStatus.OK);
     }
 }

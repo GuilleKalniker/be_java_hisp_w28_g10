@@ -4,12 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
-import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +32,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ResponseFollowedProductsDTO getLastFollowedProducts(Integer userId) {
+    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId) {
 
         List<PostDTO> postDTOList = getFollowedProductsByUserId(userId);
 
@@ -50,9 +48,8 @@ public class ProductServiceImpl implements IProductService {
 
         if (postDTOSfromTwoWeeksAgo.isEmpty()){throw new BadRequestException("There are no posts from two weeks ago");};
 
-        return new ResponseFollowedProductsDTO(userId, postDTOSfromTwoWeeksAgo);
+        return new ResponseFollowedPostsDTO(userId, postDTOSfromTwoWeeksAgo);
     }
-
 
     private List<PostDTO> getFollowedProductsByUserId(Integer userId) {
         //Obtengo la lista de ID de usuarios relacionados
