@@ -13,4 +13,5 @@ public interface IUserService {
     public FollowersDTO getFollowersAmountById(int id);
     public UserFollowersDTO getUserFollowers(int userId);
     public UserFollowersDTO getUserFollowed(Integer userId);
+
 }
