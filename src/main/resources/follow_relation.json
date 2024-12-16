@@ -22,5 +22,17 @@
   {
     "idFollower": 2,
     "idFollowed": 7
+  },
+  {
+    "idFollower": 2,
+    "idFollowed": 4
+  },
+  {
+    "idFollower": 3,
+    "idFollowed": 4
+  },
+  {
+    "idFollower": 5,
+    "idFollowed": 4
   }
 ]

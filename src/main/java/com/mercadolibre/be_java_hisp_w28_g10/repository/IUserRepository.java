@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface IUserRepository {
     public List<User> findAllUsers();
-
     public List<FollowRelation> findAllFollowRelation();
     public FollowRelation saveFollow(int followerId, int followedId);
     public boolean existsUser(int userId);
@@ -20,4 +19,5 @@ public interface IUserRepository {
     public boolean deleteFollowRelation(FollowRelation followRelation);
     public User getUserById(int id);
     public List<FollowRelation> getFollowRelationsByFollowedId(int id);
+    public List<FollowRelation> getFollowRelationsByFollowerId(int id);
 }
