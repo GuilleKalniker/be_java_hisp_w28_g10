@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ResponsePostNoPromoDTO {
     private int id;
-    private String date;
+    private LocalDate date;
     private int category;
     private double price;
     private ProductDTO productDto;
