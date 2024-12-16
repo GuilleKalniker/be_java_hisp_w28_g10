@@ -4,6 +4,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
@@ -22,6 +23,7 @@ public class UserRepositoryImpl implements IUserRepository {
     private Utilities utilities;
     private List<User> userList = new ArrayList<>();
     private List<FollowRelation> followRelations = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
 
 
     @PostConstruct
@@ -87,5 +89,15 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public List<FollowRelation> getFollowRelationsByFollowedId(int id) {
         return followRelations.stream().filter(followRelation -> followRelation.getIdFollowed() == id).toList();
+    }
+
+    @Override
+    public boolean existsPost(int userId, int productId) {
+        return postList.stream().anyMatch(post -> post.getId() == userId && post.getProduct().getId() == productId);
+    }
+
+    @Override
+    public boolean addPost(Post post) {
+        return postList.add(post);
     }
 }

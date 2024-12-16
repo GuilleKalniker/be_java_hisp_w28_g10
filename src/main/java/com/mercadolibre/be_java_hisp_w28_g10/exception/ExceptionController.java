@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.format.DateTimeParseException;
+
 @ControllerAdvice
 public class ExceptionController {
     @ExceptionHandler(NotFoundException.class)
@@ -30,4 +32,12 @@ public class ExceptionController {
         ExceptionDTO dto = new ExceptionDTO(e.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgumentException(IllegalArgumentException e) {
+        ExceptionDTO dto = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+
 }
