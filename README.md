@@ -163,16 +163,34 @@ The Beta version will be known as SocialMeli. Here the buyers will be able to fo
 | `date_desc`          | `String` | **Required**. Descending price for report POSTS_BY_DATE                                          |
 | `top`                | `int`    | **Required**. Number of results expected                                                         |
 
-# General rules
-## Branch name: feature/{nro}
-### Eg: feature/SCRUM-15
-## Commits
-### Types
-#### US | FIX | FORMAT | DOCS
-### Format [tk|type|description]
-#### Eg: SCRUM-3 US-0001 make a follow
-## Language: English
-## Naming
-### General -> camelCase
-### DTO Mapping -> snake_case
+## Naming rules
+#### Branch name:
+- feature/{nro}
+  **Example** feature/SCRUM-15
+#### Commits
+- Format [ tk | type | description ]
+- Types : [ US | FIX | FORMAT | DOCS]
+  **Example** SCRUM-3 US-0001 make a follow
+#### Language
+-  English
+#### Naming
+- General -> camelCase
+- DTO Mapping -> snake_case
+
+## Documentation
+
+[Flow chart](https://drive.google.com/file/d/1sEvryaNadPFzJY8JUjBJOYcA089dzhMN/view?usp=drive_link)
+
+[Class diagram](https://drive.google.com/file/d/1yN03FCV8rI6Qs8tF8E_OJ0FYFJ-F5u03/view?usp=drive_link)
+
+## Authors
+
+- [Guillermo Kalniker](https://www.github.com/GuilleKalniker)
+- [Astrid Malamud](https://www.github.com/astrid21)
+- [Fermin Gonzalez](https://www.github.com/Siomermin)
+- [William Nicolas Buitrago Camacho](https://www.github.com/wnicolas)
+- [Eliseo David Pets Aliberto](https://www.github.com/david-aliberto)
+- [David Santiago Parrado Sanchez](https://www.github.com/santiagoparrado)
+
+
 
