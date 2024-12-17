@@ -42,11 +42,11 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
             switch (reportType) {
                 case USERS_BY_FOLLOWERS:
                     genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWERS, order, top);
-                    headers = new String[]{"ID", "Name", "Count"};
+                    headers = new String[]{"ID", "Name", "Followers Count"};
                     break;
                 case USERS_BY_FOLLOWS:
                     genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWS, order, top);
-                    headers = new String[]{"ID", "Name", "Count"};
+                    headers = new String[]{"ID", "Name", "Follows Count"};
                     break;
                 case USERS_BY_POSTS:
 
