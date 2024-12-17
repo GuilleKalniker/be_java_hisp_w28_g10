@@ -120,8 +120,6 @@ public class ProductServiceImpl implements IProductService {
         //Obtengo la lista completa de Posts
         List<Post> postList = productRepository.findAllPost();
 
-        System.out.println(postList);
-
         //Los filtro por usuarios seguidos
         List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
 
