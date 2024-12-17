@@ -4,6 +4,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products/")
@@ -36,5 +38,10 @@ public class ProductController {
     @GetMapping("promo-post/count")
     public  ResponseEntity<ProductsWithPromoDTO> getPromoProductCountByUserId(@RequestParam int user_id){
         return new ResponseEntity<>(productService.productsWithPromoDTO(user_id), HttpStatus.OK);
+    }
+
+    @GetMapping("followed/{userId}/list")
+    public ResponseEntity<ResponseFollowedPostsDTO> getLastFollowedPosts(@PathVariable int userId, @RequestParam(required = false) Optional<String> order) {
+        return new ResponseEntity<>(productService.getLastFollowedPosts(userId, order), HttpStatus.OK);
     }
 }
