@@ -191,6 +191,3 @@ The Beta version will be known as SocialMeli. Here the buyers will be able to fo
 - [William Nicolas Buitrago Camacho](https://www.github.com/wnicolas)
 - [Eliseo David Pets Aliberto](https://www.github.com/david-aliberto)
 - [David Santiago Parrado Sanchez](https://www.github.com/santiagoparrado)
-
-
-
