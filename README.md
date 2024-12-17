@@ -3,15 +3,46 @@
 
 This is a project corresponding to the Sprint 1 of the JAVA bootcamp for Mercado Libre, wave 28.
 
-Mercado Libre continues to grow and for the new year has the objective of beggining with the implementation of a series of tools that allow the buyers and sellers to have an innovative experience, making their relatinship grow.
+Mercado Libre continues to grow and for the new year has the objective of beginning with the implementation of a series of tools that allow the buyers and sellers to have an innovative experience, making their relationship grow.
 The Beta version will be known as SocialMeli. Here the buyers will be able to follow their favourite sellers and find out first about all the news related to them.
 
 
 ## Tech Stack
 
-**Backend:** JAVA 21 - Spring Boot 21 - Maven
+**Backend:** JAVA 21 - JDK 21 - Spring Boot 21 - Maven 
 
 
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/GuilleKalniker/be_java_hisp_w28_g10
+```
+
+Go to the project directory
+
+```bash
+  cd be_java_hisp_w28_g10
+```
+
+Install maven
+
+```bash
+  Install mvn https://maven.apache.org/install.html
+```
+
+or
+
+```bash
+  brew install maven
+```
+
+Run in console
+
+```bash
+  mvn spring-boot:run
+```
 
 ## API Reference
 
@@ -32,9 +63,9 @@ The Beta version will be known as SocialMeli. Here the buyers will be able to fo
   GET /users/{userId}/followers/count
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `userId`      | `int` | **Required**. Number that identifies the each user |
+| Parameter | Type  | Description                                        |
+|:----------|:------|:---------------------------------------------------|
+| `userId`  | `int` | **Required**. Number that identifies the each user |
 
 #### Get list of followers for user
 
@@ -142,26 +173,45 @@ The Beta version will be known as SocialMeli. Here the buyers will be able to fo
 #### Get the amount of posts with promotion from an user
 
 ```http
-  GET /reports/getReport/{reportName}
+  GET /reports/getReport/{report_name}?order={order}&top={int}
+  
+  /reports/getReport/USERS_BY_FOLLOWERS?order=count_asc&top={int}
+  /reports/getReport/USERS_BY_FOLLOWERS?order=count_desc&top={int}
+  
+  /reports/getReport/USERS_BY_FOLLOWS?order=count_asc&top={int}
+  /reports/getReport/USERS_BY_FOLLOWS?order=count_desc&top={int}
+  
+  /reports/getReport/USERS_BY_POSTS?order=count_asc&top={int}
+  /reports/getReport/USERS_BY_POSTS?order=count_desc&top={int}
+  
+  /reports/getReport/POSTS_BY_PRICE?order=price_asc&top={int}
+  /reports/getReport/POSTS_BY_PRICE?order=price_desc&top={int}
+  
+  /reports/getReport/POSTS_BY_DISCOUNT?order=discount_asc&top={int}
+  /reports/getReport/POSTS_BY_DISCOUNT?order=discount_desc&top={int}
+  
+  /reports/getReport/POSTS_BY_DATE?order=date_asc&top={int}
+  /reports/getReport/POSTS_BY_DATE?order=date_desc&top={int}
 ```
 
-| Parameter            | Type     | Description                                                                                      |
-|:---------------------|:---------|:-------------------------------------------------------------------------------------------------|
-| `USERS_BY_FOLLOWERS` | `String` | **Required**. Report name: users by how many followers the have                                  |
-| `USERS_BY_FOLLOWS`   | `String` | **Required**. Report name: users by how many they follow                                         |
-| `USERS_BY_POSTS`     | `String` | **Required**. Report name: users by how many posts they have                                     |
-| `POSTS_BY_PRICE`     | `String` | **Required**. Report name: post by their price                                                   |
-| `POSTS_BY_DISCOUNT`  | `String` | **Required**. Report name: posts by their discount                                               |
-| `POSTS_BY_DATE`      | `String` | **Required**. Report name: posts by their date                                                   |
-| `count_asc`          | `String` | **Required**. Ascending amount for reports USERS_BY_FOLLOWERS, USERS_BY_FOLLOWS, USERS_BY_POSTS  |
-| `count_desc`         | `String` | **Required**. Descending amount for reports USERS_BY_FOLLOWERS, USERS_BY_FOLLOWS, USERS_BY_POSTS |
-| `price_asc"`         | `String` | **Required**. Ascending price for report POSTS_BY_PRICE                                          |
-| `price_desc"`        | `String` | **Required**. Descending price for report POSTS_BY_PRICE                                         |
-| `discount_asc`       | `String` | **Required**. Ascending price for report POSTS_BY_DISCOUNT                                       |
-| `discount_desc`      | `String` | **Required**. Descending price for report POSTS_BY_DISCOUNT                                      |
-| `date_asc`           | `String` | **Required**. Ascending price for report POSTS_BY_DATE                                           |
-| `date_desc`          | `String` | **Required**. Descending price for report POSTS_BY_DATE                                          |
-| `top`                | `int`    | **Required**. Number of results expected                                                         |
+| Parameter            | Type     | Description                                                                                                                         |
+|:---------------------|:---------|:------------------------------------------------------------------------------------------------------------------------------------|
+| `report_name`        | `String` | **Required**. Report name: [USERS_BY_FOLLOWERS, USERS_BY_FOLLOWS, USERS_BY_POSTS, POSTS_BY_PRICE, POSTS_BY_DISCOUNT, POSTS_BY_DATE] |
+| `USERS_BY_FOLLOWERS` | `String` | Report name: users by how many followers the have                                                                                   |
+| `USERS_BY_FOLLOWS`   | `String` | Report name: users by how many they follow                                                                                          |
+| `USERS_BY_POSTS`     | `String` | Report name: users by how many posts they have                                                                                      |
+| `POSTS_BY_PRICE`     | `String` | Report name: post by their price                                                                                                    |
+| `POSTS_BY_DISCOUNT`  | `String` | Report name: posts by their discount                                                                                                |
+| `POSTS_BY_DATE`      | `String` | Report name: posts by their date                                                                                                    |
+| `count_asc`          | `String` | **Option**. Ascending amount for reports USERS_BY_FOLLOWERS, USERS_BY_FOLLOWS, USERS_BY_POSTS                                       |
+| `count_desc`         | `String` | **Option**. Descending amount for reports USERS_BY_FOLLOWERS, USERS_BY_FOLLOWS, USERS_BY_POSTS                                      |
+| `price_asc`          | `String` | **Option**. Ascending price for report POSTS_BY_PRICE                                                                               |
+| `price_desc`         | `String` | **Option**. Descending price for report POSTS_BY_PRICE                                                                              |
+| `discount_asc`       | `String` | **Option**. Ascending price for report POSTS_BY_DISCOUNT                                                                            |
+| `discount_desc`      | `String` | **Option**. Descending price for report POSTS_BY_DISCOUNT                                                                           |
+| `date_asc`           | `String` | **Option**. Ascending price for report POSTS_BY_DATE                                                                                |
+| `date_desc`          | `String` | **Option**. Descending price for report POSTS_BY_DATE                                                                               |
+| `top`                | `int`    | **Required**. Number of results expected                                                                                            |
 
 ## Naming rules
 #### Branch name:
@@ -182,6 +232,8 @@ The Beta version will be known as SocialMeli. Here the buyers will be able to fo
 [Flow chart](https://drive.google.com/file/d/1sEvryaNadPFzJY8JUjBJOYcA089dzhMN/view?usp=drive_link)
 
 [Class diagram](https://drive.google.com/file/d/1yN03FCV8rI6Qs8tF8E_OJ0FYFJ-F5u03/view?usp=drive_link)
+
+[Postman Library](/src/main/resources/users.json)
 
 ## Authors
 

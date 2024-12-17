@@ -17,16 +17,13 @@ import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -73,7 +70,6 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.addPost(utilities.convertValue(post, Post.class));
     }
 
-
     private void validatePostDto(PostDTO post) {
         try {
             LocalDate ld = utilities.convertValue(post.getDate(), LocalDate.class);
@@ -112,7 +108,6 @@ public class ProductServiceImpl implements IProductService {
             throw new IllegalArgumentException("The product color is required.");
         }
     }
-
     @Override
     public ProductsWithPromoDTO productsWithPromoDTO(int id) {
         User user = userRepository.findUserById(id);
@@ -129,35 +124,36 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order) {
 
-        //Preservar esta estructura para poder reimplementarla en un filtro mas adelante
-        //Filtro de tiempo. Dos semanas
+        //Time filter. Two Weeks
         LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
 
-        //Obtengo la lista de ID de usuarios relacionados
+        //Get the ID list of related users
         List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
                 .stream()
                 .map(FollowRelation::getIdFollowed)
                 .toList();
 
-        if (followedIds.isEmpty()) throw new BadRequestException("You are following no one");
+        //Exception. Following no one
+        if(followedIds.isEmpty())throw new BadRequestException("You are following no one");
 
-        //Obtengo la lista completa de Posts
+        //Get the list of every post
         List<Post> postList = productRepository.findAllPost();
 
-        //Los filtro por usuarios seguidos
+        //Filter by gollowed users
         List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
 
-        //Filtro para obtener los posteos de el periodo de tiempo especificado
+        //Filter to get the posts in the specified time
         List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
                 .stream()
                 .filter(post -> post.getDate()
-                        .isAfter(twoWeeksAgo))
+                .isAfter(twoWeeksAgo))
                 .toList();
 
-        if (followedPostsfromTwoWeeksAgo.isEmpty())
-            throw new NotFoundException("There are no posts from two weeks ago");
+        //Exception. No posts from the last two weeks
+        if(followedPostsfromTwoWeeksAgo.isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
 
-        if (order.isEmpty() || order.get().equals("date_des")) {
+        //Sort by date. Ascending or Descending
+        if(order.isEmpty() || order.get().equals("date_desc")){
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
         } else if (order.get().equals("date_asc")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
