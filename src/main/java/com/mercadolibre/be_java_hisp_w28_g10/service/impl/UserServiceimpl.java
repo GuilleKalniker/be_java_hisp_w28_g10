@@ -14,8 +14,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class UserServiceimpl implements IUserService {
@@ -63,6 +62,9 @@ public class UserServiceimpl implements IUserService {
         }
         if (userRepository.existsFollow(followerId, followedId)) {
             throw new ConflictException("The follow already exists");
+        }
+        if (followedId == followerId) {
+            throw new ConflictException("The user cannot follow itself");
         }
         FollowRelation newFollow = userRepository.saveFollow(followerId, followedId);
         return utilities.convertValue(newFollow, FollowRelationDTO.class);
@@ -131,7 +133,6 @@ public class UserServiceimpl implements IUserService {
                     .toList();
         }
         return responseUsers.stream()
-                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
-                    .toList().reversed();
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName).reversed()).toList();
     }
 }
