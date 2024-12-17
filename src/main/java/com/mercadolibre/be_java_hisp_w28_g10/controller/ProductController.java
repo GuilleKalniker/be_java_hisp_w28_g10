@@ -34,7 +34,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.getAllPost(), HttpStatus.OK);
     }
     @GetMapping("promo-post/count")
-    public  ResponseEntity<ProductsWithPromoDTO> getPromoCount(@RequestParam int user_id){
+    public  ResponseEntity<ProductsWithPromoDTO> getPromoProductCountByUserId(@RequestParam int user_id){
         return new ResponseEntity<>(productService.productsWithPromoDTO(user_id), HttpStatus.OK);
     }
 }

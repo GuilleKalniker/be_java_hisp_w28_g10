@@ -13,6 +13,6 @@ public class ProductsWithPromoDTO {
     private int id;
     @JsonProperty("user_name")
     private String name;
-    @JsonProperty("prmo_products_count")
+    @JsonProperty("promo_products_count")
     private int promoCount;
 }
