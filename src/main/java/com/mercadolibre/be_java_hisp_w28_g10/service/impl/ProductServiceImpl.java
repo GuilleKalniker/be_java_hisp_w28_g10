@@ -17,10 +17,12 @@ import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +73,14 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.addPost(utilities.convertValue(post, Post.class));
     }
 
+
     private void validatePostDto(PostDTO post) {
+        try {
+            LocalDate ld = utilities.convertValue(post.getDate(), LocalDate.class);
+        } catch (Exception e) {
+            throw new BadRequestException("The date field must be in the dd/MM/yyyy format.");
+        }
+
         if (post.getId() <= 0) {
             throw new IllegalArgumentException("The ID must be a positive number.");
         }
@@ -103,15 +112,16 @@ public class ProductServiceImpl implements IProductService {
             throw new IllegalArgumentException("The product color is required.");
         }
     }
+
     @Override
-    public ProductsWithPromoDTO productsWithPromoDTO(int id){
+    public ProductsWithPromoDTO productsWithPromoDTO(int id) {
         User user = userRepository.findUserById(id);
         List<Post> product = productRepository.findAllPost();
         if (user == null || product.isEmpty()) {
             throw new NotFoundException("User not found");
         }
         List<Post> productFilter = product.stream()
-                .filter(p -> p.getId() == user.getId()).filter(p ->p.isHasPromo() == true)
+                .filter(p -> p.getId() == user.getId()).filter(p -> p.isHasPromo() == true)
                 .toList();
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
@@ -129,7 +139,7 @@ public class ProductServiceImpl implements IProductService {
                 .map(FollowRelation::getIdFollowed)
                 .toList();
 
-        if(followedIds.isEmpty())throw new BadRequestException("You are following no one");
+        if (followedIds.isEmpty()) throw new BadRequestException("You are following no one");
 
         //Obtengo la lista completa de Posts
         List<Post> postList = productRepository.findAllPost();
@@ -141,12 +151,13 @@ public class ProductServiceImpl implements IProductService {
         List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
                 .stream()
                 .filter(post -> post.getDate()
-                .isAfter(twoWeeksAgo))
+                        .isAfter(twoWeeksAgo))
                 .toList();
 
-        if(followedPostsfromTwoWeeksAgo.isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
+        if (followedPostsfromTwoWeeksAgo.isEmpty())
+            throw new NotFoundException("There are no posts from two weeks ago");
 
-        if(order.isEmpty() || order.get().equals("date_des")){
+        if (order.isEmpty() || order.get().equals("date_des")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
         } else if (order.get().equals("date_asc")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
