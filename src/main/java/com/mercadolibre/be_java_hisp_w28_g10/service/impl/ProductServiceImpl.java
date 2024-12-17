@@ -107,7 +107,7 @@ public class ProductServiceImpl implements IProductService {
 
         //Preservar esta estructura para poder reimplementarla en un filtro mas adelante
         //Filtro de tiempo. Dos semanas
-        LocalDate twoWeeksAgo = LocalDate.now().minusYears(2);
+        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
 
         //Obtengo la lista de ID de usuarios relacionados
         List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
