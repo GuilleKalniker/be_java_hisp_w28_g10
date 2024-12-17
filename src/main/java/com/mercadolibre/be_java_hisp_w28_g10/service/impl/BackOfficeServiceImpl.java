@@ -1,9 +1,11 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseCsvPostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.UserWithCountDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.enums.ReportTypeEnum;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
@@ -47,13 +49,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
                     break;
                 case POSTS_BY_PRICE:
-
+                    genericList = getPostsByPrice(order, top);
                     break;
                 case POSTS_BY_DISCOUNT:
 
                     break;
                 case POSTS_BY_DATE:
-
+                    genericList = getPostsByDate(order, top);
                     break;
             }
         } catch (IllegalArgumentException e) {
@@ -118,5 +120,51 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
         return userWithCountDTOList;
     }
+
+    private List<ResponseCsvPostDTO> getPostsByPrice(String order, int top) {
+        List<Post> posts = productRepository.findAllPost();
+
+        Comparator<Post> comparator = order.equalsIgnoreCase("price_asc") ?
+                Comparator.comparing(Post::getPrice) :
+                Comparator.comparing(Post::getPrice).reversed();
+
+        List<Post> sortedPosts = posts.stream()
+                .sorted(comparator)
+                .limit(top)
+                .toList();
+
+        return mapPostsToResponseCsvPostDTO(sortedPosts);
+    }
+
+    private List<ResponseCsvPostDTO> getPostsByDate(String order, int top) {
+        List<Post> posts = productRepository.findAllPost();
+
+        Comparator<Post> comparator = order.equalsIgnoreCase("date_asc") ?
+                Comparator.comparing(Post::getDate) :
+                Comparator.comparing(Post::getDate).reversed();
+
+        List<Post> sortedPosts = posts.stream()
+                .sorted(comparator)
+                .limit(top)
+                .toList();
+
+        return mapPostsToResponseCsvPostDTO(sortedPosts);
+    }
+
+    private List<ResponseCsvPostDTO> mapPostsToResponseCsvPostDTO(List<Post> posts) {
+        return posts.stream().map(post ->
+                new ResponseCsvPostDTO(
+                        post.getId(),
+                        post.getDate().toString(),
+                        post.getCategory(),
+                        post.getPrice(),
+                        post.getProduct().getName(),
+                        post.getProduct().getType(),
+                        post.getProduct().getBrand(),
+                        post.isHasPromo(),
+                        post.getDiscount()
+                )).toList();
+    }
+
 
 }
