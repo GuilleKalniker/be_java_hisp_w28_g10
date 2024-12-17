@@ -6,13 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 public class Utilities {
@@ -53,5 +58,23 @@ public class Utilities {
             throw new IllegalArgumentException("InputStream must not be null");
         }
         return mapper.readValue(src, valueTypeRef);
+    }
+
+    public <T> String generateCsv(List<T> data) {
+
+        try {
+        StringWriter writer = new StringWriter();
+
+        StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .build();
+
+        beanToCsv.write(data);
+
+        return writer.toString();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating CSV");
+        }
     }
 }
