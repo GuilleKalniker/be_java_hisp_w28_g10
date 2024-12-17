@@ -1,23 +1,22 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseUserDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowersDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.ConflictException;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +49,7 @@ public class UserServiceimpl implements IUserService {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("No follower relationship found for the given ids"));
 
-        if(!userRepository.deleteFollowRelation(followRelation)) {
+        if (!userRepository.deleteFollowRelation(followRelation)) {
             throw new BadRequestException("Couldn´t delete the follow relation");
         }
 
@@ -59,13 +58,13 @@ public class UserServiceimpl implements IUserService {
 
     @Override
     public FollowRelationDTO follow(int followerId, int followedId) {
-        if(!userRepository.existsUser(followerId)){
+        if (!userRepository.existsUser(followerId)) {
             throw new NotFoundException("Invalid UserId ");
         }
-        if(!userRepository.existsUser(followedId)){
+        if (!userRepository.existsUser(followedId)) {
             throw new NotFoundException("Invalid userIdToFollow");
         }
-        if(userRepository.existsFollow(followerId, followedId)){
+        if (userRepository.existsFollow(followerId, followedId)) {
             throw new ConflictException("The follow already exists");
         }
         FollowRelation newFollow = userRepository.saveFollow(followerId, followedId);
@@ -73,14 +72,14 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public FollowersDTO getFollowersById(int id) {
+    public FollowersDTO getFollowersAmountById(int id) {
         User user = userRepository.findUserById(id);
         List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
-        if (user == null){
+        if (user == null) {
             throw new NotFoundException("User not found");
         }
         List<FollowRelation> followedFilter = followRelation.stream()
-                .filter(f-> f.getIdFollowed() == user.getId())
+                .filter(f -> f.getIdFollowed() == user.getId())
                 .toList();
         return new FollowersDTO(user.getId(), user.getName(), followedFilter.size());
     }
@@ -101,6 +100,18 @@ public class UserServiceimpl implements IUserService {
                 })
                 .collect(Collectors.toList());
 
+        return orderFollowersByName(responseUserDtos, order);
+    }
+
+    private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
+        if(order.equalsIgnoreCase("name_asc")) {
+            return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
+                    .toList();
+        }
+        return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName).reversed())
+                    .toList();
         // Crear y retornar el DTO de usuario con la lista de seguidores
         return new UserFollowersDTO(user.getId(), user.getName(), followersDto);
     }
