@@ -67,6 +67,9 @@ public class UserServiceimpl implements IUserService {
         if (userRepository.existsFollow(followerId, followedId)) {
             throw new ConflictException("The follow already exists");
         }
+        if (followedId == followerId) {
+            throw new ConflictException("The user cannot follow itself");
+        }
         FollowRelation newFollow = userRepository.saveFollow(followerId, followedId);
         return utilities.convertValue(newFollow, FollowRelationDTO.class);
     }
