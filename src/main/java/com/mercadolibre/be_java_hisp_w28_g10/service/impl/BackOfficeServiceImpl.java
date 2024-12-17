@@ -31,6 +31,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
     public String getReport(String reportName, String order, int top) {
 
         List genericList = new ArrayList<>();
+        String[] headers = new String[]{};
 
         try {
             ReportTypeEnum reportType = ReportTypeEnum.valueOf(reportName);
@@ -41,9 +42,11 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
             switch (reportType) {
                 case USERS_BY_FOLLOWERS:
                     genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWERS, order, top);
+                    headers = new String[]{"ID", "Name", "Followers Count"};
                     break;
                 case USERS_BY_FOLLOWS:
                     genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWS, order, top);
+                    headers = new String[]{"ID", "Name", "Follows Count"};
                     break;
                 case USERS_BY_POSTS:
 
@@ -62,7 +65,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
             throw new BadRequestException("Invalid report name");
         }
 
-        return utilities.generateCsv(genericList);
+        return utilities.generateCsv(genericList, headers);
     }
 
     private boolean validateOrderByReportType(ReportTypeEnum reportType, String order) {
