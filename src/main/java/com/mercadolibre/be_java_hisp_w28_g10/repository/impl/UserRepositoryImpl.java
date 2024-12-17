@@ -4,6 +4,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
@@ -22,12 +23,13 @@ public class UserRepositoryImpl implements IUserRepository {
     private Utilities utilities;
     private List<User> userList = new ArrayList<>();
     private List<FollowRelation> followRelations = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
 
 
     @PostConstruct
     public void init() {
         try (InputStream inputStreamUsers = getClass().getResourceAsStream("/users.json");
-             InputStream inputStreamFollowRelations = getClass().getResourceAsStream("/follow_relation.json");
+             InputStream inputStreamFollowRelations = getClass().getResourceAsStream("/follow_relation.json")
         ) {
             userList = utilities.readValue(inputStreamUsers, new TypeReference<>() {
             });
