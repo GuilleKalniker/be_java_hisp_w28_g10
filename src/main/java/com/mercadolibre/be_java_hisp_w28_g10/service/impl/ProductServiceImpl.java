@@ -107,7 +107,7 @@ public class ProductServiceImpl implements IProductService {
 
         //Preservar esta estructura para poder reimplementarla en un filtro mas adelante
         //Filtro de tiempo. Dos semanas
-        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
+        LocalDate twoWeeksAgo = LocalDate.now().minusYears(2);
 
         //Obtengo la lista de ID de usuarios relacionados
         List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
@@ -124,17 +124,20 @@ public class ProductServiceImpl implements IProductService {
         List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
 
         //Filtro para obtener los posteos de el periodo de tiempo especificado
-        Stream<Post> followedPostsfromTwoWeeksAgo = postListByUserId
+        List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
                 .stream()
                 .filter(post -> post.getDate()
-                .isAfter(twoWeeksAgo));
+                .isAfter(twoWeeksAgo))
+                .toList();
 
-        if(followedPostsfromTwoWeeksAgo.toList().isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
+        if(followedPostsfromTwoWeeksAgo.isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
 
-        if(order.isPresent() && order.get().equals("date_asc")){
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+        if(order.isEmpty() || order.get().equals("date_des")){
+            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+        } else if (order.get().equals("date_asc")) {
+            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
         } else {
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+            throw new BadRequestException("Thats not an ordenation criteria");
         }
     }
 }
