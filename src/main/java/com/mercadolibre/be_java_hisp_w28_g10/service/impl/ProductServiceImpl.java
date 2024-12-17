@@ -1,8 +1,11 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
+import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.SaveOperationException;
@@ -98,8 +101,18 @@ public class ProductServiceImpl implements IProductService {
     }
     @Override
     public ProductsWithPromoDTO productsWithPromoDTO(int id){
-        User user = userRepository.getUserById(id);
+       /* User user = userRepository.getUserById(id);
+        List<Product> products = productRepository.getProductById(id);
         int productPromo = Math.toIntExact(user.getPostList().stream().filter(Post::isHasPromo).count());
-        return new ProductsWithPromoDTO(id, user.getName(),productPromo);
+        return new ProductsWithPromoDTO(id, user.getName(),productPromo);*/
+        User user = userRepository.findUserById(id);
+        List<Post> product = productRepository.findAllPost();
+        if (user == null || product.isEmpty()) {
+            throw new NotFoundException("User not found");
+        }
+        List<Post> productFilter = product.stream()
+                .filter(p -> p.getId() == user.getId()).filter(p ->p.isHasPromo() == true)
+                .toList();
+        return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
 }

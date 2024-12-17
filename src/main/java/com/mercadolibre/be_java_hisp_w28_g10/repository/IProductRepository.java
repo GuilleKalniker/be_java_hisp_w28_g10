@@ -15,4 +15,5 @@ public interface IProductRepository {
     boolean addProduct(Product product);
 
     boolean addPost(Post post);
+    Product getProductById(int id);
 }
