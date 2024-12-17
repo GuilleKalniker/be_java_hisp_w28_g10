@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products/")
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping("followed/{userId}/list")
-    public ResponseEntity<ResponseFollowedPostsDTO> getAllProducts(@PathVariable int userId) {
-        return new ResponseEntity<>(productService.getLastFollowedPosts(userId), HttpStatus.OK);
+    public ResponseEntity<ResponseFollowedPostsDTO> getLastFollowedPosts(@PathVariable int userId, @RequestParam(required = false) Optional<String> order) {
+        return new ResponseEntity<>(productService.getLastFollowedPosts(userId, order), HttpStatus.OK);
     }
 }
