@@ -2,24 +2,35 @@ package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.SaveOperationException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
+import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
+import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
+import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements IProductService {
     @Autowired
     private IProductRepository productRepository;
-
+    @Autowired
+    private IUserRepository userRepository;
     @Autowired
     private Utilities utilities;
 
@@ -89,6 +100,57 @@ public class ProductServiceImpl implements IProductService {
         }
         if (productDto.getColor() == null || productDto.getColor().isEmpty()) {
             throw new IllegalArgumentException("The product color is required.");
+        }
+    }
+    @Override
+    public ProductsWithPromoDTO productsWithPromoDTO(int id){
+        User user = userRepository.findUserById(id);
+        List<Post> product = productRepository.findAllPost();
+        if (user == null || product.isEmpty()) {
+            throw new NotFoundException("User not found");
+        }
+        List<Post> productFilter = product.stream()
+                .filter(p -> p.getId() == user.getId()).filter(p ->p.isHasPromo() == true)
+                .toList();
+        return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
+    }
+
+    @Override
+    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order) {
+
+        //Preservar esta estructura para poder reimplementarla en un filtro mas adelante
+        //Filtro de tiempo. Dos semanas
+        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
+
+        //Obtengo la lista de ID de usuarios relacionados
+        List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
+                .stream()
+                .map(FollowRelation::getIdFollowed)
+                .toList();
+
+        if(followedIds.isEmpty())throw new BadRequestException("You are following no one");
+
+        //Obtengo la lista completa de Posts
+        List<Post> postList = productRepository.findAllPost();
+
+        //Los filtro por usuarios seguidos
+        List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
+
+        //Filtro para obtener los posteos de el periodo de tiempo especificado
+        List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
+                .stream()
+                .filter(post -> post.getDate()
+                .isAfter(twoWeeksAgo))
+                .toList();
+
+        if(followedPostsfromTwoWeeksAgo.isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
+
+        if(order.isEmpty() || order.get().equals("date_des")){
+            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+        } else if (order.get().equals("date_asc")) {
+            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+        } else {
+            throw new BadRequestException("Thats not an ordenation criteria");
         }
     }
 }
