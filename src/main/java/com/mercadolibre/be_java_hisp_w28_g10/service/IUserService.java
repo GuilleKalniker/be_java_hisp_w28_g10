@@ -2,6 +2,7 @@ package com.mercadolibre.be_java_hisp_w28_g10.service;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 
 import java.util.List;
 
@@ -13,7 +14,5 @@ public interface IUserService {
     public FollowersDTO getFollowersAmountById(int id);
     public UserFollowersDTO getUserFollowersById(int userId, String order);
     public UserFollowersDTO getUserFollowedById(Integer userId, String order);
-    public UserFollowersDTO getUserFollowers(int userId);
-    public UserFollowersDTO getUserFollowed(Integer userId);
 
 }
