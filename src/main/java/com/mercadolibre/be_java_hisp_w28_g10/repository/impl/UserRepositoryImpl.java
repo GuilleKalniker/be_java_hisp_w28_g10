@@ -29,7 +29,7 @@ public class UserRepositoryImpl implements IUserRepository {
     @PostConstruct
     public void init() {
         try (InputStream inputStreamUsers = getClass().getResourceAsStream("/users.json");
-             InputStream inputStreamFollowRelations = getClass().getResourceAsStream("/follow_relation.json");
+             InputStream inputStreamFollowRelations = getClass().getResourceAsStream("/follow_relation.json")
         ) {
             userList = utilities.readValue(inputStreamUsers, new TypeReference<>() {
             });
@@ -83,7 +83,7 @@ public class UserRepositoryImpl implements IUserRepository {
         return userList.stream()
                 .filter(user -> user.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
     }
 
     @Override

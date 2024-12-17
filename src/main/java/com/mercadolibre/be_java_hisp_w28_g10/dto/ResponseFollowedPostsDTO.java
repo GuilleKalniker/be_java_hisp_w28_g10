@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-    private int id;
-    private String name;
+public class ResponseFollowedPostsDTO {
+    private Integer userId;
+    private List<PostDTO> postDTOList;
 }
