@@ -9,7 +9,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -60,10 +59,13 @@ public class Utilities {
         return mapper.readValue(src, valueTypeRef);
     }
 
-    public <T> String generateCsv(List<T> data) {
+    public <T> String generateCsv(List<T> data, String[] headers) {
 
         try {
         StringWriter writer = new StringWriter();
+
+        CSVWriter csvWriter = new CSVWriter(writer);
+        csvWriter.writeNext(headers);
 
         StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
