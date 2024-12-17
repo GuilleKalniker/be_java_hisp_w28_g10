@@ -4,14 +4,15 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.UserWithCountDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.enums.ReportTypeEnum;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IBackOfficeService;
+import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,13 +22,15 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
     private IProductRepository productRepository;
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private Utilities utilities;
 
     @Override
     public String getReport(String reportName, String order, int top) {
 
-        String csvResult = "";
+        List genericList = new ArrayList<>();
+
         try {
-            // General Validations
             ReportTypeEnum reportType = ReportTypeEnum.valueOf(reportName);
             if (!validateOrderByReportType(reportType, order) || top < 1) {
                 throw new BadRequestException("Invalid report order or top");
@@ -35,10 +38,10 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
             switch (reportType) {
                 case USERS_BY_FOLLOWERS:
-                    csvResult = getUsersByFollowers(order, top);
-                    return csvResult;
+                    genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWERS, order, top);
+                    break;
                 case USERS_BY_FOLLOWS:
-
+                    genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWS, order, top);
                     break;
                 case USERS_BY_POSTS:
 
@@ -50,85 +53,14 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
                     break;
                 case POSTS_BY_DATE:
-                    csvResult = getPostByDate(order, top);
-                    return csvResult;
+
+                    break;
             }
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Invalid report name");
         }
 
-        return csvResult;
-    }
-
-    private String getPostByDate(String order, int top) {
-        StringBuilder response = new StringBuilder();
-        response.append("POST_ID").append(",")
-                .append("POST_DATE").append(",")
-                .append("POST_PRICE").append(",")
-                .append("POST_DISCOUNT").append(",")
-                .append("PRODUCT_NAME").append(",")
-                .append("PRODUCT_BRAND").append(",")
-                .append("PRODUCT_TYPE")
-                .append("\n");
-        List<Post> postList = null;
-        if (order.equalsIgnoreCase("date_asc")) {
-            postList = productRepository.findAllPost().stream().sorted(Comparator.comparing(Post::getDate)).limit(top).toList();
-        } else if (order.equalsIgnoreCase("date_desc")) {
-            postList = productRepository.findAllPost().stream().sorted(Comparator.comparing(Post::getDate).reversed()).limit(top).toList();
-        } else {
-            throw new BadRequestException("The only possible values for the order param are: date_asc  o date_desc");
-        }
-        postList.forEach(
-                p -> response
-                        .append(p.getId()).append(",")
-                        .append(p.getDate()).append(",")
-                        .append(p.getPrice()).append(",")
-                        .append(p.getDiscount()).append(",")
-                        .append(p.getProduct().getName()).append(",")
-                        .append(p.getProduct().getBrand()).append(",")
-                        .append(p.getProduct().getType())
-                        .append("\n")
-        );
-        return response.toString();
-    }
-
-    private String getUsersByFollowers(String order, int top) {
-        List<User> users = userRepository.findAllUsers();
-
-        // Getting usersByFollowers data
-        List<UserWithCountDTO> usersByFollowers = users.stream().map(
-                        user -> {
-                            List<FollowRelation> userRelations = userRepository.getFollowRelationsByFollowedId(user.getId());
-                            return new UserWithCountDTO(user.getId(), user.getName(), userRelations.size());
-                        })
-                .toList();
-
-        // Sorting
-        if (order.equalsIgnoreCase("count_asc")) {
-            usersByFollowers = usersByFollowers.stream()
-                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
-                    .toList();
-        } else {
-            usersByFollowers = usersByFollowers.stream()
-                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
-                    .toList().reversed();
-        }
-
-        // Filter top 'X' items
-        usersByFollowers = usersByFollowers.stream().limit(top).toList();
-
-        // Generate CSV
-        StringBuilder csvContent = new StringBuilder();
-        // Headers
-        csvContent.append("ID,Name,FollowersAmount\n");
-        // Data
-        usersByFollowers.forEach(f -> {
-            csvContent.append(f.getId()).append(',')
-                    .append(f.getName()).append(',')
-                    .append(f.getCount()).append("\n");
-        });
-
-        return csvContent.toString();
+        return utilities.generateCsv(genericList);
     }
 
     private boolean validateOrderByReportType(ReportTypeEnum reportType, String order) {
@@ -156,4 +88,35 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
         return false;
     }
+
+    private List<UserWithCountDTO> getUsersReports(ReportTypeEnum reportType, String order, int top) {
+        List<User> users = userRepository.findAllUsers();
+
+        // Getting usersByFollowers data
+        List<UserWithCountDTO> userWithCountDTOList = users.stream().map(
+                        user -> {
+                            List<FollowRelation> userRelations;
+                            if (reportType == ReportTypeEnum.USERS_BY_FOLLOWERS) {
+                                userRelations = userRepository.getFollowRelationsByFollowedId(user.getId());
+                            } else {
+                                userRelations = userRepository.getFollowRelationsByFollowerId(user.getId());
+                            }
+                            return new UserWithCountDTO(user.getId(), user.getName(), userRelations.size());
+                        })
+                .toList();
+
+        // Sorting
+        if (order.equalsIgnoreCase("count_asc")) {
+            userWithCountDTOList = userWithCountDTOList.stream()
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
+                    .limit(top).toList();
+        } else {
+            userWithCountDTOList = userWithCountDTOList.stream()
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
+                    .toList().reversed().stream().limit(top).toList();
+        }
+
+        return userWithCountDTOList;
+    }
+
 }
