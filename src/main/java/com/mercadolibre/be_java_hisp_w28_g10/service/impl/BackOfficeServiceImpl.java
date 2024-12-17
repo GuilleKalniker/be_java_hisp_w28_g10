@@ -99,18 +99,18 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
     private List<UserWithCountDTO> getUsersByPostsReport(String order, int top){
 
-        //Obtengo la lista de Posts y la de Users
+        //I get the list of Posts and the list of Users
         List<User> users = userRepository.findAllUsers();
         List<Post> posts = productRepository.findAllPost();
 
-        //Armo un map de los ids de usuario y los productos que posee
+        //Build a map using the UserIds and the amount of posts that it owns
         Map<Integer, Long> postCountByOwner = posts.stream().collect(Collectors.groupingBy(Post::getId, Collectors.counting()));
 
-        //Creo la lista de elementos considerando que existen elementos que no poseen posts
+        //Build a list of elements considering that there are certain elements that dont own any posts
         List<UserWithCountDTO> userIdsWithPostCount = users.stream()
                 .map(user -> new UserWithCountDTO(user.getId(), user.getName(), postCountByOwner.getOrDefault(user.getId(), 0L).intValue()))
                 .toList();
-        //Ordeno
+        //Sort
         if(order.equalsIgnoreCase("count_asc")){
             userIdsWithPostCount = userIdsWithPostCount
                     .stream()
