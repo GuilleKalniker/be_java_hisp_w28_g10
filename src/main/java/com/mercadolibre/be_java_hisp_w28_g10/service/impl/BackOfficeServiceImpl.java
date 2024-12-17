@@ -114,8 +114,8 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                     .limit(top).toList();
         } else {
             userWithCountDTOList = userWithCountDTOList.stream()
-                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
-                    .toList().reversed().stream().limit(top).toList();
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount).reversed())
+                    .toList().stream().limit(top).toList();
         }
 
         return userWithCountDTOList;
