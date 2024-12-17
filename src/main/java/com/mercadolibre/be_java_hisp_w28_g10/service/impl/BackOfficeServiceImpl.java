@@ -52,7 +52,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                     genericList = getPostsByPrice(order, top);
                     break;
                 case POSTS_BY_DISCOUNT:
-
+                    genericList = getPostsByDiscount(order, top);
                     break;
                 case POSTS_BY_DATE:
                     genericList = getPostsByDate(order, top);
@@ -144,6 +144,19 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                 Comparator.comparing(Post::getDate).reversed();
 
         List<Post> sortedPosts = posts.stream()
+                .sorted(comparator)
+                .limit(top)
+                .toList();
+
+        return mapPostsToResponseCsvPostDTO(sortedPosts);
+    }
+    private List<ResponseCsvPostDTO> getPostsByDiscount(String order, int top) {
+
+        Comparator<Post> comparator = order.equalsIgnoreCase("discount_asc") ?
+                Comparator.comparing(Post::getDiscount) :
+                Comparator.comparing(Post::getDiscount).reversed();
+
+        List<Post> sortedPosts = productRepository.findAllPost().stream()
                 .sorted(comparator)
                 .limit(top)
                 .toList();
