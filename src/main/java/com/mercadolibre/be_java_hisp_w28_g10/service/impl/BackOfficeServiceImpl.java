@@ -23,10 +23,8 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
     @Override
     public String getReport(String reportName, String order, int top) {
-
         String csvResult = "";
         try{
-            // General Validations
             ReportTypeEnum reportType = ReportTypeEnum.valueOf(reportName);
             if(!validateOrderByReportType(reportType, order) || top < 1){
                 throw new BadRequestException("Invalid report order or top");
@@ -34,10 +32,10 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
             switch (reportType){
                 case USERS_BY_FOLLOWERS:
-                    csvResult = getUsersByFollowers(order, top);
+                    csvResult = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWERS ,  order,  top);
                     return csvResult;
                 case USERS_BY_FOLLOWS:
-
+                    csvResult = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWS ,  order,  top);
                     break;
                 case USERS_BY_POSTS:
 
@@ -59,44 +57,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return csvResult;
     }
 
-    private String getUsersByFollowers(String order, int top) {
-        List<User> users = userRepository.findAllUsers();
 
-        // Getting usersByFollowers data
-        List<UserWithCountDTO> usersByFollowers = users.stream().map(
-                user -> {
-                    List<FollowRelation> userRelations = userRepository.getFollowRelationsByFollowedId(user.getId());
-                    return new UserWithCountDTO(user.getId(), user.getName(), userRelations.size());
-                })
-                .toList();
-
-        // Sorting
-        if(order.equalsIgnoreCase("count_asc")) {
-            usersByFollowers = usersByFollowers.stream()
-                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
-                    .toList();
-        } else {
-            usersByFollowers = usersByFollowers.stream()
-                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
-                    .toList().reversed();
-        }
-
-        // Filter top 'X' items
-        usersByFollowers = usersByFollowers.stream().limit(top).toList();
-
-        // Generate CSV
-        StringBuilder csvContent = new StringBuilder();
-        // Headers
-        csvContent.append("ID,Name,FollowersAmount\n");
-        // Data
-        usersByFollowers.forEach(f -> {
-            csvContent.append(f.getId()).append(',')
-                      .append(f.getName()).append(',')
-                      .append(f.getCount()).append("\n");
-        });
-
-        return csvContent.toString();
-    }
 
     private boolean validateOrderByReportType(ReportTypeEnum reportType, String order){
         if(reportType == ReportTypeEnum.USERS_BY_FOLLOWERS || reportType == ReportTypeEnum.USERS_BY_FOLLOWS
@@ -123,4 +84,46 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
         return false;
     }
+
+    private String getUsersReports(ReportTypeEnum reportType, String order, int top){
+        List<User> users = userRepository.findAllUsers();
+        List<FollowRelation> relations = userRepository.findAllFollowRelation();
+        // Getting usersByFollowers data
+        List<UserWithCountDTO> userWithCountDTOList = users.stream().map(
+                        user -> {
+                            List<FollowRelation> userRelations;
+                            if(reportType == ReportTypeEnum.USERS_BY_FOLLOWERS){
+                                userRelations = userRepository.getFollowRelationsByFollowedId(user.getId());
+                            }else{
+                                userRelations = userRepository.getFollowRelationsByFollowerId(user.getId());
+                            }
+                            return new UserWithCountDTO(user.getId(), user.getName(), userRelations.size());
+                        })
+                .toList();
+        // Sorting
+        if(order.equalsIgnoreCase("count_asc")) {
+            userWithCountDTOList = userWithCountDTOList.stream()
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
+                    .limit(top).toList();
+        } else {
+            userWithCountDTOList = userWithCountDTOList.stream()
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
+                    .toList().reversed().stream().limit(top).toList();
+        }
+
+
+        // Generate CSV
+        StringBuilder csvContent = new StringBuilder();
+        // Headers
+        csvContent.append("ID,Name,FollowsAmount\n");
+        // Data
+        userWithCountDTOList.forEach(f -> {
+            csvContent.append(f.getId()).append(',')
+                    .append(f.getName()).append(',')
+                    .append(f.getCount()).append("\n");
+        });
+
+        return csvContent.toString();
+    }
+
 }
