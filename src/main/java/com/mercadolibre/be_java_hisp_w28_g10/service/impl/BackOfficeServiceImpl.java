@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BackOfficeServiceImpl implements IBackOfficeService {
@@ -49,7 +51,8 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                     headers = new String[]{"ID", "Name", "Follows Count"};
                     break;
                 case USERS_BY_POSTS:
-
+                    genericList = getUsersByPostsReport(order, top);
+                    headers = new String[]{"ID", "Name", "Posts Count"};
                     break;
                 case POSTS_BY_PRICE:
                     genericList = getPostsByPrice(order, top);
@@ -92,6 +95,36 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         }
 
         return false;
+    }
+
+    private List<UserWithCountDTO> getUsersByPostsReport(String order, int top){
+
+        //Obtengo la lista de Posts y la de Users
+        List<User> users = userRepository.findAllUsers();
+        List<Post> posts = productRepository.findAllPost();
+
+        //Armo un map de los ids de usuario y los productos que posee
+        Map<Integer, Long> postCountByOwner = posts.stream().collect(Collectors.groupingBy(Post::getId, Collectors.counting()));
+
+        //Creo la lista de elementos considerando que existen elementos que no poseen posts
+        List<UserWithCountDTO> userIdsWithPostCount = users.stream()
+                .map(user -> new UserWithCountDTO(user.getId(), user.getName(), postCountByOwner.getOrDefault(user.getId(), 0L).intValue()))
+                .toList();
+        //Ordeno
+        if(order.equalsIgnoreCase("count_asc")){
+            userIdsWithPostCount = userIdsWithPostCount
+                    .stream()
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount))
+                    .limit(top)
+                    .toList();
+        }else{
+            userIdsWithPostCount = userIdsWithPostCount
+                    .stream()
+                    .sorted(Comparator.comparing(UserWithCountDTO::getCount).reversed())
+                    .limit(top)
+                    .toList();
+        }
+        return userIdsWithPostCount;
     }
 
     private List<UserWithCountDTO> getUsersReports(ReportTypeEnum reportType, String order, int top) {
