@@ -44,13 +44,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
                     break;
                 case POSTS_BY_PRICE:
-
-                    break;
+                    csvResult = getPostsByPrice(order, top);
+                    return csvResult;
                 case POSTS_BY_DISCOUNT:
 
                     break;
                 case POSTS_BY_DATE:
-                    csvResult = getPostByDate(order, top);
+                    csvResult = getPostsByDate(order, top);
                     return csvResult;
             }
         } catch (IllegalArgumentException e) {
@@ -60,35 +60,45 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return csvResult;
     }
 
-    private String getPostByDate(String order, int top) {
-        StringBuilder response = new StringBuilder();
-        response.append("POST_ID").append(",")
-                .append("POST_DATE").append(",")
-                .append("POST_PRICE").append(",")
-                .append("POST_DISCOUNT").append(",")
-                .append("PRODUCT_NAME").append(",")
-                .append("PRODUCT_BRAND").append(",")
-                .append("PRODUCT_TYPE")
-                .append("\n");
-        List<Post> postList = null;
-        if (order.equalsIgnoreCase("date_asc")) {
-            postList = productRepository.findAllPost().stream().sorted(Comparator.comparing(Post::getDate)).limit(top).toList();
-        } else if (order.equalsIgnoreCase("date_desc")) {
-            postList = productRepository.findAllPost().stream().sorted(Comparator.comparing(Post::getDate).reversed()).limit(top).toList();
-        } else {
-            throw new BadRequestException("Los posibles valores para el paràmetro 'order' son: date_asc  o date_desc");
-        }
-        postList.forEach(
-                p -> response
-                        .append(p.getId()).append(",")
-                        .append(p.getDate()).append(",")
-                        .append(p.getPrice()).append(",")
-                        .append(p.getDiscount()).append(",")
-                        .append(p.getProduct().getName()).append(",")
-                        .append(p.getProduct().getBrand()).append(",")
-                        .append(p.getProduct().getType())
-                        .append("\n")
-        );
+    private String getPostsByPrice(String order, int top) {
+        List<Post> posts = productRepository.findAllPost();
+        Comparator<Post> comparator = order.equalsIgnoreCase("price_asc") ?
+                Comparator.comparing(Post::getPrice) :
+                Comparator.comparing(Post::getPrice).reversed();
+
+        List<Post> sortedPosts = posts.stream()
+                .sorted(comparator)
+                .limit(top)
+                .toList();
+
+        return generateCSVForPosts(sortedPosts);
+    }
+
+    private String getPostsByDate(String order, int top) {
+        List<Post> posts = productRepository.findAllPost();
+        Comparator<Post> comparator = order.equalsIgnoreCase("date_asc") ?
+                Comparator.comparing(Post::getDate) :
+                Comparator.comparing(Post::getDate).reversed();
+
+        List<Post> sortedPosts = posts.stream()
+                .sorted(comparator)
+                .limit(top)
+                .toList();
+
+        return generateCSVForPosts(sortedPosts);
+    }
+
+    private String generateCSVForPosts(List<Post> posts) {
+        StringBuilder response = new StringBuilder("POST_ID,POST_DATE,POST_PRICE,POST_DISCOUNT,PRODUCT_NAME,PRODUCT_BRAND,PRODUCT_TYPE\n");
+
+        posts.forEach(post -> response.append(post.getId()).append(',')
+                .append(post.getDate()).append(',')
+                .append(post.getPrice()).append(',')
+                .append(post.getDiscount()).append(',')
+                .append(post.getProduct().getName()).append(',')
+                .append(post.getProduct().getBrand()).append(',')
+                .append(post.getProduct().getType()).append("\n"));
+
         return response.toString();
     }
 
