@@ -27,19 +27,17 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
-
     @GetMapping("followRelation/getAll")
     public ResponseEntity<List<FollowRelationDTO>> getAllFollowRelations() {
         return new ResponseEntity<>(userService.getAllFollowRelation(), HttpStatus.OK);
     }
-
     @PostMapping("{userId}/follow/{userIdToFollow}")
     public ResponseEntity<FollowRelationDTO> addNewFollow(@PathVariable int userId, @PathVariable int userIdToFollow) {
         return new ResponseEntity<>(userService.follow(userId, userIdToFollow), HttpStatus.OK);
     }
     @GetMapping("{userId}/followers/count")
     public ResponseEntity<FollowersDTO> getFollowersById(@PathVariable int userId){
-        return new ResponseEntity<>(userService.getFollowersById(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getFollowersAmountById(userId), HttpStatus.OK);
     }
     @PostMapping("{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<ResponseMessageDTO> unfollowUserById(@PathVariable int userId, @PathVariable int userIdToUnfollow) {
@@ -47,9 +45,13 @@ public class UserController {
     }
 
     @GetMapping("{userId}/followers/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowers(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.getUserFollowers(userId), HttpStatus.OK);
+    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam String order) {
+        return new ResponseEntity<>(userService.getUserFollowersById(userId, order), HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}/followed/list")
+    public ResponseEntity<UserFollowersDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam String order) {
+        return new ResponseEntity<>(userService.getUserFollowedById(userId,order), HttpStatus.OK);
+    }
 
 }

@@ -12,5 +12,4 @@ import java.util.List;
 public class UserDTO {
     private int id;
     private String name;
-    private List<PostDTO> postList;
 }

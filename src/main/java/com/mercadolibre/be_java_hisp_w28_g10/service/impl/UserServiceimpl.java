@@ -85,21 +85,57 @@ public class UserServiceimpl implements IUserService {
     }
 
     @Override
-    public UserFollowersDTO getUserFollowers(int userId) {
+    public UserFollowersDTO getUserFollowersById(int userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
+        List<FollowRelation> followRelationsByFollowedId = userRepository.getFollowRelationsByFollowedId(userId);
 
-        // TODO: Refactorizar este metodo para solo traer los id de los followers
-        List<FollowRelation> followRelations = userRepository.getFollowRelationsByFollowedId(userId);
+        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowedId, false, order);
+        return new UserFollowersDTO(user.getId(), user.getName(), followers);
+    }
 
-        List<ResponseUserDTO> followersDto = followRelations.stream()
-                .map(followRelation -> {
-                    User follower = userRepository.getUserById(followRelation.getIdFollower());
-                    return new ResponseUserDTO(follower.getId(), follower.getName());
-                })
-                .collect(Collectors.toList());
+    @Override
+    public UserFollowersDTO getUserFollowedById(Integer userId, String order) {
 
+        // Valido si existe user con ese userId;
+        User user = userRepository.getUserById(userId);
+        List<FollowRelation> followRelationsByFollowerId = userRepository.getFollowRelationsByFollowerId(userId);
+
+        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowerId, true, order);
+        return new UserFollowersDTO(user.getId(), user.getName(), followers);
+    }
+
+    private List<ResponseUserDTO> getRelatedUsersById(List<FollowRelation> followRelations, boolean isFollower, String order) {
+
+        List<ResponseUserDTO> responseUserDtos = followRelations.stream()
+                    .map(followRelation -> {
+                        User user;
+                        if(isFollower) {
+                            user = userRepository.getUserById(followRelation.getIdFollowed());
+                        } else {
+                            user = userRepository.getUserById(followRelation.getIdFollower());
+                        }
+                        return new ResponseUserDTO(user.getId(), user.getName());
+                    })
+                    .toList();
+
+        if(order == null || (!order.equalsIgnoreCase("name_asc") && !order.equalsIgnoreCase("name_desc"))) {
+            throw new BadRequestException("Invalid order, please set a valid order param");
+        }
+
+        return orderFollowersByName(responseUserDtos, order);
+    }
+
+    private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
+        if(order.equalsIgnoreCase("name_asc")) {
+            return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
+                    .toList();
+        }
+        return responseUsers.stream()
+                    .sorted(Comparator.comparing(ResponseUserDTO::getName))
+                    .toList().reversed();
         return orderFollowersByName(responseUserDtos, order);
     }
 

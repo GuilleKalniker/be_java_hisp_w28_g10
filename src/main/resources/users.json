@@ -1,52 +1,42 @@
 [
   {
     "id": 1,
-    "name": "Alice",
-    "postList": []
+    "name": "Alice"
   },
   {
     "id": 2,
-    "name": "Bob",
-    "postList": []
+    "name": "Ron"
   },
   {
     "id": 3,
-    "name": "Charlie",
-    "postList": []
+    "name": "Pepe"
   },
   {
     "id": 4,
-    "name": "Diana",
-    "postList": []
+    "name": "Diana"
   },
   {
     "id": 5,
-    "name": "Eve",
-    "postList": []
+    "name": "Eve"
   },
   {
     "id": 6,
-    "name": "Frank",
-    "postList": []
+    "name": "Frank"
   },
   {
     "id": 7,
-    "name": "Grace",
-    "postList": []
+    "name": "Grace"
   },
   {
     "id": 8,
-    "name": "Hannah",
-    "postList": []
+    "name": "Hannah"
   },
   {
     "id": 9,
-    "name": "Isaac",
-    "postList": []
+    "name": "Isaac"
   },
   {
     "id": 10,
-    "name": "Jack",
-    "postList": []
+    "name": "Jack"
   }
 ]
