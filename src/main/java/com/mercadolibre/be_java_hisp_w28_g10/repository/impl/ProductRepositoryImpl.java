@@ -19,7 +19,6 @@ import java.util.List;
 public class ProductRepositoryImpl implements IProductRepository {
     @Autowired
     private Utilities utilities;
-
     private List<Product> productList = new ArrayList<>();
     private List<Post> postList = new ArrayList<>();
 
