@@ -76,7 +76,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         } else if (order.equalsIgnoreCase("date_desc")) {
             postList = productRepository.findAllPost().stream().sorted(Comparator.comparing(Post::getDate).reversed()).limit(top).toList();
         } else {
-            throw new BadRequestException("Los posibles valores para el paràmetro 'order' son: date_asc  o date_desc");
+            throw new BadRequestException("The only possible values for the order param are: date_asc  o date_desc");
         }
         postList.forEach(
                 p -> response
