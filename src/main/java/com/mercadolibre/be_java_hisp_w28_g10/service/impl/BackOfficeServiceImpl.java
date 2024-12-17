@@ -32,59 +32,59 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
         List genericList = new ArrayList<>();
 
-        try{
+        try {
             ReportTypeEnum reportType = ReportTypeEnum.valueOf(reportName);
-            if(!validateOrderByReportType(reportType, order) || top < 1){
+            if (!validateOrderByReportType(reportType, order) || top < 1) {
                 throw new BadRequestException("Invalid report order or top");
             }
 
-            switch (reportType){
+            switch (reportType) {
                 case USERS_BY_FOLLOWERS:
-                    genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWERS ,  order,  top);
+                    genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWERS, order, top);
                     break;
                 case USERS_BY_FOLLOWS:
-                    genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWS ,  order,  top);
+                    genericList = getUsersReports(ReportTypeEnum.USERS_BY_FOLLOWS, order, top);
                     break;
                 case USERS_BY_POSTS:
 
                     break;
                 case POSTS_BY_PRICE:
-                    csvResult = getPostsByPrice(order,  top);
+                    genericList = getPostsByPrice(order, top);
                     break;
                 case POSTS_BY_DISCOUNT:
 
                     break;
                 case POSTS_BY_DATE:
-                    csvResult = getPostsByDate(order,  top);
+                    genericList = getPostsByDate(order, top);
                     break;
             }
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new BadRequestException("Invalid report name");
         }
 
         return utilities.generateCsv(genericList);
     }
 
-    private boolean validateOrderByReportType(ReportTypeEnum reportType, String order){
-        if(reportType == ReportTypeEnum.USERS_BY_FOLLOWERS || reportType == ReportTypeEnum.USERS_BY_FOLLOWS
-                || reportType == ReportTypeEnum.USERS_BY_POSTS){
-            if(order.equalsIgnoreCase("count_asc") || order.equalsIgnoreCase("count_desc")){
+    private boolean validateOrderByReportType(ReportTypeEnum reportType, String order) {
+        if (reportType == ReportTypeEnum.USERS_BY_FOLLOWERS || reportType == ReportTypeEnum.USERS_BY_FOLLOWS
+                || reportType == ReportTypeEnum.USERS_BY_POSTS) {
+            if (order.equalsIgnoreCase("count_asc") || order.equalsIgnoreCase("count_desc")) {
                 return true;
             }
         }
-        if(reportType == ReportTypeEnum.POSTS_BY_PRICE && (
+        if (reportType == ReportTypeEnum.POSTS_BY_PRICE && (
                 order.equalsIgnoreCase("price_asc") || order.equalsIgnoreCase("price_desc")
-        )){
+        )) {
             return true;
         }
-        if(reportType == ReportTypeEnum.POSTS_BY_DISCOUNT && (
+        if (reportType == ReportTypeEnum.POSTS_BY_DISCOUNT && (
                 order.equalsIgnoreCase("discount_asc") || order.equalsIgnoreCase("discount_desc")
-        )){
+        )) {
             return true;
         }
-        if(reportType == ReportTypeEnum.POSTS_BY_DATE && (
+        if (reportType == ReportTypeEnum.POSTS_BY_DATE && (
                 order.equalsIgnoreCase("date_asc") || order.equalsIgnoreCase("date_desc")
-        )){
+        )) {
             return true;
         }
 
@@ -98,9 +98,9 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         List<UserWithCountDTO> userWithCountDTOList = users.stream().map(
                         user -> {
                             List<FollowRelation> userRelations;
-                            if(reportType == ReportTypeEnum.USERS_BY_FOLLOWERS){
+                            if (reportType == ReportTypeEnum.USERS_BY_FOLLOWERS) {
                                 userRelations = userRepository.getFollowRelationsByFollowedId(user.getId());
-                            }else{
+                            } else {
                                 userRelations = userRepository.getFollowRelationsByFollowerId(user.getId());
                             }
                             return new UserWithCountDTO(user.getId(), user.getName(), userRelations.size());
@@ -108,7 +108,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                 .toList();
 
         // Sorting
-        if(order.equalsIgnoreCase("count_asc")) {
+        if (order.equalsIgnoreCase("count_asc")) {
             userWithCountDTOList = userWithCountDTOList.stream()
                     .sorted(Comparator.comparing(UserWithCountDTO::getCount))
                     .limit(top).toList();
@@ -117,12 +117,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                     .sorted(Comparator.comparing(UserWithCountDTO::getCount))
                     .toList().reversed().stream().limit(top).toList();
         }
-        
+
         return userWithCountDTOList;
     }
 
     private List<ResponseCsvPostDTO> getPostsByPrice(String order, int top) {
         List<Post> posts = productRepository.findAllPost();
+
         Comparator<Post> comparator = order.equalsIgnoreCase("price_asc") ?
                 Comparator.comparing(Post::getPrice) :
                 Comparator.comparing(Post::getPrice).reversed();
@@ -132,7 +133,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                 .limit(top)
                 .toList();
 
-        return null;
+        return mapPostsToResponseCsvPostDTO(sortedPosts);
     }
 
     private List<ResponseCsvPostDTO> getPostsByDate(String order, int top) {
@@ -147,7 +148,22 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                 .limit(top)
                 .toList();
 
-        return null;
+        return mapPostsToResponseCsvPostDTO(sortedPosts);
+    }
+
+    private List<ResponseCsvPostDTO> mapPostsToResponseCsvPostDTO(List<Post> posts) {
+        return posts.stream().map(post ->
+                new ResponseCsvPostDTO(
+                        post.getId(),
+                        post.getDate().toString(),
+                        post.getCategory(),
+                        post.getPrice(),
+                        post.getProduct().getName(),
+                        post.getProduct().getType(),
+                        post.getProduct().getBrand(),
+                        post.isHasPromo(),
+                        post.getDiscount()
+                )).toList();
     }
 
 
