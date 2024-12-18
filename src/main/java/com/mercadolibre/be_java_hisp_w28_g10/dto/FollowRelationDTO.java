@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FollowRelationDTO {
     @JsonProperty("id_follower")
-    private int idFollower; // ID del seguidor
+    private int idFollower;
     @JsonProperty("id_followed")
-    private int idFollowed; // ID de la persona seguida
+    private int idFollowed;
 }
