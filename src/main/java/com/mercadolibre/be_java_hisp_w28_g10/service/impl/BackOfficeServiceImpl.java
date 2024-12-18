@@ -186,17 +186,18 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
 
         return mapPostsToResponseCsvPostDTO(sortedPosts);
     }
-    private List<ResponseCsvPostDTO> getPostsByDiscount(String order, int top) {
 
+    private List<ResponseCsvPostDTO> getPostsByDiscount(String order, int top) {
+        //I get a comparator of Discounts and this is sorted in ascendant
         Comparator<Post> comparator = order.equalsIgnoreCase("discount_asc") ?
                 Comparator.comparing(Post::getDiscount) :
                 Comparator.comparing(Post::getDiscount).reversed();
-
+        //I get a List of the sorted Post and limit to top variable
         List<Post> sortedPosts = productRepository.findAllPost().stream()
                 .sorted(comparator)
                 .limit(top)
                 .toList();
-
+        //return a response of CSV file
         return mapPostsToResponseCsvPostDTO(sortedPosts);
     }
 

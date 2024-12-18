@@ -2,7 +2,6 @@ package com.mercadolibre.be_java_hisp_w28_g10.repository.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.LoadJSONDataException;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
@@ -63,12 +62,4 @@ public class ProductRepositoryImpl implements IProductRepository {
         return postList.add(post);
     }
 
-    @Override
-    public Product getProductById(int id) {
-        return productList.stream()
-                .filter(user -> user.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Product not found with id: " + id));
-
-    }
 }
