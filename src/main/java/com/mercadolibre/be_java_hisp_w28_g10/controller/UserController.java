@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller for managing user-related actions and interactions.
+ * <p>
+ * This controller handles HTTP requests for user operations,
+ * including retrieving user information, following/unfollowing users,
+ * and managing follow relationships.
+ * </p>
+ */
 @RestController
 @RequestMapping("/users/")
 public class UserController {
