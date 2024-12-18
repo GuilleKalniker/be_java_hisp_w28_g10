@@ -134,7 +134,7 @@ public class ProductServiceImpl implements IProductService {
         //Get the list of every post
         List<Post> postList = productRepository.findAllPost();
 
-        //Filter by follower users
+        //Filter by followed users
         List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
 
         //Filter to get the posts in the specified time
