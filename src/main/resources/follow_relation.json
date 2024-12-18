@@ -1,38 +1,38 @@
 [
   {
-    "idFollower": 1,
-    "idFollowed": 2
+    "id_follower": 1,
+    "id_followed": 2
   },
   {
-    "idFollower": 1,
-    "idFollowed": 3
+    "id_follower": 1,
+    "id_followed": 3
   },
   {
-    "idFollower": 1,
-    "idFollowed": 4
+    "id_follower": 1,
+    "id_followed": 4
   },
   {
-    "idFollower": 2,
-    "idFollowed": 5
+    "id_follower": 2,
+    "id_followed": 5
   },
   {
-    "idFollower": 2,
-    "idFollowed": 6
+    "id_follower": 2,
+    "id_followed": 6
   },
   {
-    "idFollower": 2,
-    "idFollowed": 7
+    "id_follower": 2,
+    "id_followed": 7
   },
   {
-    "idFollower": 2,
-    "idFollowed": 4
+    "id_follower": 2,
+    "id_followed": 4
   },
   {
-    "idFollower": 3,
-    "idFollowed": 4
+    "id_follower": 3,
+    "id_followed": 4
   },
   {
-    "idFollower": 5,
-    "idFollowed": 4
+    "id_follower": 5,
+    "id_followed": 4
   }
 ]
