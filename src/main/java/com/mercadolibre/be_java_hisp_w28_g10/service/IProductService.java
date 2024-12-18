@@ -7,7 +7,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.SaveOperationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,6 @@ public interface IProductService {
      *
      * @param post the {@link PostDTO} containing the details of the post to be added.
      * @return a {@link ResponsePostNoPromoDTO} containing the details of the added post.
-     * @throws SaveOperationException if the save operation fails.
      */
     ResponsePostNoPromoDTO addPost(PostDTO post);
 
@@ -46,7 +44,6 @@ public interface IProductService {
      * Adds a promotional post to the system.
      * @param promoPost the {@link PostDTO} containing the details of the post to be added.
      * @return the added {@link PostDTO}.
-     * @throws SaveOperationException if the save operation fails.
      */
     PostDTO addPromoPost(PostDTO promoPost);
 

@@ -133,14 +133,14 @@ public class UserServiceimpl implements IUserService {
      *
      */
     @Override
-    public UserFollowersDTO getUserFollowedById(Integer userId, String order) {
+    public UserFollowedDTO getUserFollowedById(Integer userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
         List<FollowRelation> followRelationsByFollowerId = userRepository.getFollowRelationsByFollowerId(userId);
 
-        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowerId, true, order);
-        return new UserFollowersDTO(user.getId(), user.getName(), followers);
+        List<ResponseUserDTO> followed = getRelatedUsersById(followRelationsByFollowerId, true, order);
+        return new UserFollowedDTO(user.getId(), user.getName(), followed);
     }
 
     /**
