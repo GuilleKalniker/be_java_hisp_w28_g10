@@ -93,9 +93,9 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ProductsWithPromoDTO productsWithPromoDTO(int id) {
-        //I find the user with id
+        //Find the user with id
         User user = userRepository.findUserById(id);
-        //I get all the list of Post
+        //Get all the list of Post
         List<Post> product = productRepository.findAllPost();
         //Validate if the list is empty or the user id exist in the json
         if (user == null || product.isEmpty()) {

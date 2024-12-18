@@ -97,9 +97,9 @@ public class UserServiceimpl implements IUserService {
      */
     @Override
     public FollowersDTO getFollowersAmountById(int id) {
-        //I get a User for user id
+        //Get a User for user id
         User user = userRepository.findUserById(id);
-        //I get a List of followRelation of followers and followed
+        //Get a List of followRelation of followers and followed
         List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
         //Validate if the user is null
         if (user == null) {
