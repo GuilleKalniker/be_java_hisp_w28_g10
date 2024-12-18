@@ -44,6 +44,12 @@ Run in console
   mvn spring-boot:run
 ```
 
+## Generate Documentation
+
+```bash
+  mvn javadoc:javadoc
+```
+
 ## API Reference
 
 #### Follow a user
