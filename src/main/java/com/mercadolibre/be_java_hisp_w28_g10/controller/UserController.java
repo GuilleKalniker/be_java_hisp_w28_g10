@@ -1,10 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowRelationDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.FollowersDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -98,7 +95,7 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followed users and an HTTP status code.
      */
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam(defaultValue = "") String order) {
+    public ResponseEntity<UserFollowedDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam String order) {
         return new ResponseEntity<>(userService.getUserFollowedById(userId, order), HttpStatus.OK);
     }
 }

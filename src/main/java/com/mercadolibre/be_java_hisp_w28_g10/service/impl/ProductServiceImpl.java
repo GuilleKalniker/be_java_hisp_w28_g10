@@ -5,7 +5,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.SaveOperationException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
@@ -59,11 +58,10 @@ public class ProductServiceImpl implements IProductService {
      * {@inheritDoc}
      * <p>
      * This method processes the given post and performs any necessary validations before saving it.
-     * If the save operation fails, a {@link SaveOperationException} is thrown.
      */
     @Override
     public PostDTO addPromoPost(PostDTO post) {
-        if (!savePostLogic(post)) throw new SaveOperationException("Couldn't make the save operation.");
+        savePostLogic(post);
         return post;
     }
 
@@ -72,11 +70,10 @@ public class ProductServiceImpl implements IProductService {
      * {@inheritDoc}
      * <p>
      * This method handles the addition of a regular post. If the save operation fails, a
-     * {@link SaveOperationException} is thrown.
      */
     @Override
     public ResponsePostNoPromoDTO addPost(PostDTO newPost) {
-        if (!savePostLogic(newPost)) throw new SaveOperationException("Couldn't make the save operation.");
+        savePostLogic(newPost);
         Post post = utilities.convertValue(newPost, Post.class);
         ProductDTO productDto = utilities.convertValue(post.getProduct(), ProductDTO.class);
 
@@ -99,7 +96,7 @@ public class ProductServiceImpl implements IProductService {
             throw new NotFoundException("User not found");
         }
         List<Post> productFilter = product.stream()
-                .filter(p -> p.getId() == user.getId()).filter(p -> p.isHasPromo() == true)
+                .filter(p -> p.getId() == user.getId()).filter(Post::isHasPromo)
                 .toList();
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
@@ -150,7 +147,7 @@ public class ProductServiceImpl implements IProductService {
         } else if (order.get().equals("date_asc")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
         } else {
-            throw new BadRequestException("Thats not an ordenation criteria");
+            throw new BadRequestException("That's not a valid order criteria");
         }
     }
 
