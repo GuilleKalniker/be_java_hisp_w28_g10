@@ -71,6 +71,12 @@ public class ProductServiceImpl implements IProductService {
     }
 
     private void validatePostDto(PostDTO post) {
+        try {
+            LocalDate ld = utilities.convertValue(post.getDate(), LocalDate.class);
+        } catch (Exception e) {
+            throw new BadRequestException("The date field must be in the dd/MM/yyyy format.");
+        }
+
         if (post.getId() <= 0) {
             throw new IllegalArgumentException("The ID must be a positive number.");
         }
@@ -103,14 +109,14 @@ public class ProductServiceImpl implements IProductService {
         }
     }
     @Override
-    public ProductsWithPromoDTO productsWithPromoDTO(int id){
+    public ProductsWithPromoDTO productsWithPromoDTO(int id) {
         User user = userRepository.findUserById(id);
         List<Post> product = productRepository.findAllPost();
         if (user == null || product.isEmpty()) {
             throw new NotFoundException("User not found");
         }
         List<Post> productFilter = product.stream()
-                .filter(p -> p.getId() == user.getId()).filter(p ->p.isHasPromo() == true)
+                .filter(p -> p.getId() == user.getId()).filter(p -> p.isHasPromo() == true)
                 .toList();
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
@@ -118,34 +124,36 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order) {
 
-        //Preservar esta estructura para poder reimplementarla en un filtro mas adelante
-        //Filtro de tiempo. Dos semanas
+        //Time filter. Two Weeks
         LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
 
-        //Obtengo la lista de ID de usuarios relacionados
+        //Get the ID list of related users
         List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
                 .stream()
                 .map(FollowRelation::getIdFollowed)
                 .toList();
 
+        //Exception. Following no one
         if(followedIds.isEmpty())throw new BadRequestException("You are following no one");
 
-        //Obtengo la lista completa de Posts
+        //Get the list of every post
         List<Post> postList = productRepository.findAllPost();
 
-        //Los filtro por usuarios seguidos
+        //Filter by gollowed users
         List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
 
-        //Filtro para obtener los posteos de el periodo de tiempo especificado
+        //Filter to get the posts in the specified time
         List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
                 .stream()
                 .filter(post -> post.getDate()
                 .isAfter(twoWeeksAgo))
                 .toList();
 
+        //Exception. No posts from the last two weeks
         if(followedPostsfromTwoWeeksAgo.isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
 
-        if(order.isEmpty() || order.get().equals("date_des")){
+        //Sort by date. Ascending or Descending
+        if(order.isEmpty() || order.get().equals("date_desc")){
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
         } else if (order.get().equals("date_asc")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());

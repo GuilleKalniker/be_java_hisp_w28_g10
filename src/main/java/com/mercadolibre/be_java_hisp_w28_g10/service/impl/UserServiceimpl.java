@@ -119,7 +119,7 @@ public class UserServiceimpl implements IUserService {
                     })
                     .toList();
 
-        if(order == null || (!order.equalsIgnoreCase("name_asc") && !order.equalsIgnoreCase("name_desc"))) {
+        if(!order.equalsIgnoreCase("name_asc") && !order.equalsIgnoreCase("name_desc") && !order.isEmpty()) {
             throw new BadRequestException("Invalid order, please set a valid order param");
         }
 
@@ -127,7 +127,9 @@ public class UserServiceimpl implements IUserService {
     }
 
     private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
-        if(order.equalsIgnoreCase("name_asc")) {
+        if(order.isEmpty()) {
+            return responseUsers;
+        } else if(order.equalsIgnoreCase("name_asc")) {
             return responseUsers.stream()
                     .sorted(Comparator.comparing(ResponseUserDTO::getName))
                     .toList();
