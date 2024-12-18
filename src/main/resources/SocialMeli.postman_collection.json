@@ -24,12 +24,12 @@
 								}
 							}
 						},
-						"url": "localhost:8080/users/8/follow/9"
+						"url": "localhost:8080/users/2/follow/1"
 					},
 					"response": []
 				},
 				{
-					"name": "BadRequest caso: mismo id de usuario y usuario a seguir",
+					"name": "Conflict caso: mismo id de usuario y usuario a seguir",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -38,20 +38,20 @@
 					"response": []
 				},
 				{
-					"name": "UserNotFound caso: mismo id de usuario y usuario a seguir Copy",
+					"name": "UserNotFound caso: mismo id de usuario y usuario a seguir",
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "localhost:8080/users/8/follow/8"
+						"url": "localhost:8080/users/8/follow/300"
 					},
 					"response": []
 				},
 				{
-					"name": "Conflict caso: id de usuario no existe",
+					"name": "BadRequest caso: id de usuario no existe",
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "localhost:8080/users/1/follow/2"
+						"url": "localhost:8080/users/1/follow/asdasd"
 					},
 					"response": []
 				}
@@ -64,7 +64,8 @@
 					"name": "Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": "localhost:8080/users/4/followers/count"
 					},
 					"response": []
 				},
@@ -87,26 +88,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/users/4/followers/list?order",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"4",
-								"followers",
-								"list"
-							],
-							"query": [
-								{
-									"key": "order",
-									"value": null
-								}
-							]
-						}
+						"url": "http://localhost:8080/users/4/followers/list"
 					},
 					"response": []
 				},
@@ -228,25 +210,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "localhost:8080/users/1/followed/list?order=",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"1",
-								"followed",
-								"list"
-							],
-							"query": [
-								{
-									"key": "order",
-									"value": ""
-								}
-							]
-						}
+						"url": "localhost:8080/users/1/followed/list"
 					},
 					"response": []
 				},
@@ -388,7 +352,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_id\": 4, \n    \"date\": \"19-12-2024\", \n    \"product\": {\n        \"product_id\": 505, \n        \"product_name\": \"Silla Gamer\", \n        \"type\": \"Gamer\",\n        \"brand\": \"Racer\",\n        \"color\": \"Red & Black\",\n        \"notes\": \"Special Edition\"\n    },\n    \"category\": 100, \n    \"price\": 1500.50\n}",
+							"raw": "{\n    \"user_id\": -4, \n    \"date\": \"20-12-2024\", \n    \"product\": {\n        \"product_id\": -505, \n        \"product_name\": \"Silla Gamer\", \n        \"type\": \"Gamer\",\n        \"brand\": \"Racer\",\n        \"color\": \"Red & Black\",\n        \"notes\": \"Special Edition\"\n    },\n    \"category\": 100, \n    \"price\": 1500.50\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -418,7 +382,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/products/followed/-565656/list"
+						"url": "http://localhost:8080/products/followed/40/list"
 					},
 					"response": []
 				}
@@ -465,7 +429,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/followed/1/list?order=date_asc",
+							"raw": "http://localhost:8080/products/followed/5/list?order=date_asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -474,13 +438,41 @@
 							"path": [
 								"products",
 								"followed",
-								"1",
+								"5",
 								"list"
 							],
 							"query": [
 								{
 									"key": "order",
 									"value": "date_asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener listado de productos de usuarios seguidos por orden descendente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/followed/5/list?order=date_desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"followed",
+								"5",
+								"list"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "date_desc"
 								}
 							]
 						}
@@ -539,7 +531,7 @@
 					"response": []
 				},
 				{
-					"name": "Bad Request: Llevar a cabo la publicación de un nuevo producto en promoción Copy",
+					"name": "Bad Request: Llevar a cabo la publicación de un nuevo producto en promoción",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -682,7 +674,7 @@
 							"response": []
 						},
 						{
-							"name": "BadRequest caso: order no valido",
+							"name": "BadRequest caso: order o top no valido",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -747,7 +739,7 @@
 							"response": []
 						},
 						{
-							"name": "Obtener reporte USERS_BY_FOLLOWS orden descendente",
+							"name": "Obtener reporte USERS_BY_FOLLOWS orden ascendente",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -843,7 +835,7 @@
 							"response": []
 						},
 						{
-							"name": "Obtener reporte USERS_BY_POSTS orden descendiente",
+							"name": "Obtener reporte USERS_BY_POSTS orden descendente",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -930,6 +922,37 @@
 										{
 											"key": "order",
 											"value": "price_asc"
+										},
+										{
+											"key": "top",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener reporte POSTS_BY_PRICE orden descendente",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/reports/getReport/POSTS_BY_PRICE?order=price_desc&top=100",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"reports",
+										"getReport",
+										"POSTS_BY_PRICE"
+									],
+									"query": [
+										{
+											"key": "order",
+											"value": "price_desc"
 										},
 										{
 											"key": "top",
