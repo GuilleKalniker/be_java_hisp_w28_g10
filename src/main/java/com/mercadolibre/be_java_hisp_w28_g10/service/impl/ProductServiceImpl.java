@@ -111,11 +111,16 @@ public class ProductServiceImpl implements IProductService {
      * <p>
      * Retrieves the most recent posts from users that the specified user follows within a two-week period.
      *
-     * @throws NotFoundException   if there are no posts from followed users in the last two weeks.
-     * @throws BadRequestException if the user follows no one or if the order parameter is invalid.
+     * @throws NotFoundException   if userId doesn't exist in the system.
+     * @throws BadRequestException if the order parameter is invalid.
      */
     @Override
     public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order) {
+
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            throw new NotFoundException("User not found");
+        }
 
         //Time filter. Two Weeks
         LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
@@ -126,13 +131,10 @@ public class ProductServiceImpl implements IProductService {
                 .map(FollowRelation::getIdFollowed)
                 .toList();
 
-        //Exception. Following no one
-        if (followedIds.isEmpty()) throw new BadRequestException("You are following no one");
-
         //Get the list of every post
         List<Post> postList = productRepository.findAllPost();
 
-        //Filter by gollowed users
+        //Filter by follower users
         List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
 
         //Filter to get the posts in the specified time
@@ -141,10 +143,6 @@ public class ProductServiceImpl implements IProductService {
                 .filter(post -> post.getDate()
                         .isAfter(twoWeeksAgo))
                 .toList();
-
-        //Exception. No posts from the last two weeks
-        if (followedPostsfromTwoWeeksAgo.isEmpty())
-            throw new NotFoundException("There are no posts from two weeks ago");
 
         //Sort by date. Ascending or Descending
         if (order.isEmpty() || order.get().equals("date_desc")) {

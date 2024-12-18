@@ -508,5 +508,39 @@
     "price": 199.99,
     "has_promo": true,
     "discount": 0.15
+  },
+  {
+    "user_id": 1,
+    "post_id": 31,
+    "date": "17-12-2024",
+    "product": {
+      "product_id": 130,
+      "product_name": "Tocadiscos",
+      "type": "Audio",
+      "brand": "Crosley",
+      "color": "Red",
+      "notes": "Reproduce tus discos de vinilo."
+    },
+    "category": 109,
+    "price": 199.99,
+    "has_promo": true,
+    "discount": 0.15
+  },
+  {
+    "user_id": 1,
+    "post_id": 32,
+    "date": "13-12-2024",
+    "product": {
+      "product_id": 130,
+      "product_name": "Tocadiscos",
+      "type": "Audio",
+      "brand": "Crosley",
+      "color": "Red",
+      "notes": "Reproduce tus discos de vinilo."
+    },
+    "category": 109,
+    "price": 199.99,
+    "has_promo": true,
+    "discount": 0.15
   }
 ]

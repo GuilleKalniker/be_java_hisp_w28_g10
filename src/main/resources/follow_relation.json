@@ -34,5 +34,9 @@
   {
     "id_follower": 5,
     "id_followed": 4
+  },
+  {
+    "id_follower": 5,
+    "id_followed": 1
   }
 ]
