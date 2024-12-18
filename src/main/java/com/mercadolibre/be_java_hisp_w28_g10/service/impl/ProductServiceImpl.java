@@ -24,7 +24,6 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -72,6 +71,12 @@ public class ProductServiceImpl implements IProductService {
     }
 
     private void validatePostDto(PostDTO post) {
+        try {
+            LocalDate ld = utilities.convertValue(post.getDate(), LocalDate.class);
+        } catch (Exception e) {
+            throw new BadRequestException("The date field must be in the dd/MM/yyyy format.");
+        }
+
         if (post.getId() <= 0) {
             throw new IllegalArgumentException("The ID must be a positive number.");
         }
@@ -104,14 +109,14 @@ public class ProductServiceImpl implements IProductService {
         }
     }
     @Override
-    public ProductsWithPromoDTO productsWithPromoDTO(int id){
+    public ProductsWithPromoDTO productsWithPromoDTO(int id) {
         User user = userRepository.findUserById(id);
         List<Post> product = productRepository.findAllPost();
         if (user == null || product.isEmpty()) {
             throw new NotFoundException("User not found");
         }
         List<Post> productFilter = product.stream()
-                .filter(p -> p.getId() == user.getId()).filter(p ->p.isHasPromo() == true)
+                .filter(p -> p.getId() == user.getId()).filter(p -> p.isHasPromo() == true)
                 .toList();
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
