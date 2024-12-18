@@ -12,6 +12,6 @@ public interface IUserService {
     public FollowRelationDTO follow(int followerId, int followedId);
     public FollowersDTO getFollowersAmountById(int id);
     public UserFollowersDTO getUserFollowersById(int userId, String order);
-    public UserFollowersDTO getUserFollowedById(Integer userId, String order);
+    public UserFollowedDTO getUserFollowedById(Integer userId, String order);
 
 }
