@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the {@link IBackOfficeService} for handling reporting operations.
+ * This service provides functionality to retrieve and generate reports based on various criteria,
+ * including user statistics and post details, formatted for CSV output.
+ */
 @Service
 public class BackOfficeServiceImpl implements IBackOfficeService {
     @Autowired
@@ -29,6 +34,14 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
     @Autowired
     private Utilities utilities;
 
+    /**
+     * {@inheritDoc}
+     *
+     * This method processes the request for a report based on the provided parameters.
+     * It validates the inputs, retrieves the relevant data, and formats it into CSV format.
+     *
+     * @throws BadRequestException if the report name is invalid, or the order or top limit are out of bounds.
+     */
     @Override
     public String getReport(String reportName, String order, int top) {
 
@@ -71,6 +84,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return utilities.generateCsv(genericList, headers);
     }
 
+    /**
+     * Validates the order parameter based on the report type.
+     *
+     * @param reportType the type of the report to validate against.
+     * @param order the order criteria provided.
+     * @return true if the order is valid for the specified report type; false otherwise.
+     */
     private boolean validateOrderByReportType(ReportTypeEnum reportType, String order) {
         if (reportType == ReportTypeEnum.USERS_BY_FOLLOWERS || reportType == ReportTypeEnum.USERS_BY_FOLLOWS
                 || reportType == ReportTypeEnum.USERS_BY_POSTS) {
@@ -97,6 +117,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return false;
     }
 
+    /**
+     * Retrieves the count of posts per user and sorts the results.
+     *
+     * @param order the order in which to sort the users.
+     * @param top the maximum number of results to return.
+     * @return a List of {@link UserWithCountDTO} containing user IDs, names, and post counts.
+     */
     private List<UserWithCountDTO> getUsersByPostsReport(String order, int top){
 
         //I get the list of Posts and the list of Users
@@ -127,6 +154,14 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return userIdsWithPostCount;
     }
 
+    /**
+     * Retrieves user reports based on followers or follows, sorted according to the specified criteria.
+     *
+     * @param reportType the type of report to generate.
+     * @param order the order in which to sort the users.
+     * @param top the maximum number of results to return.
+     * @return a List of {@link UserWithCountDTO} containing user statistics.
+     */
     private List<UserWithCountDTO> getUsersReports(ReportTypeEnum reportType, String order, int top) {
         List<User> users = userRepository.findAllUsers();
 
@@ -157,6 +192,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return userWithCountDTOList;
     }
 
+    /**
+     * Retrieves posts sorted by price according to the specified order.
+     *
+     * @param order the order in which to sort the posts.
+     * @param top the maximum number of results to return.
+     * @return a List of {@link ResponseCsvPostDTO} representing the sorted posts.
+     */
     private List<ResponseCsvPostDTO> getPostsByPrice(String order, int top) {
         List<Post> posts = productRepository.findAllPost();
 
@@ -172,6 +214,13 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return mapPostsToResponseCsvPostDTO(sortedPosts);
     }
 
+    /**
+     * Retrieves posts sorted by date according to the specified order.
+     *
+     * @param order the order in which to sort the posts.
+     * @param top the maximum number of results to return.
+     * @return a List of {@link ResponseCsvPostDTO} representing the sorted posts.
+     */
     private List<ResponseCsvPostDTO> getPostsByDate(String order, int top) {
         List<Post> posts = productRepository.findAllPost();
 
@@ -187,6 +236,12 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
         return mapPostsToResponseCsvPostDTO(sortedPosts);
     }
 
+    /**
+     * Maps a list of posts to a list of {@link ResponseCsvPostDTO}.
+     *
+     * @param posts the list of posts to map.
+     * @return a List of {@link ResponseCsvPostDTO} representing the posts.
+     */
     private List<ResponseCsvPostDTO> mapPostsToResponseCsvPostDTO(List<Post> posts) {
         return posts.stream().map(post ->
                 new ResponseCsvPostDTO(

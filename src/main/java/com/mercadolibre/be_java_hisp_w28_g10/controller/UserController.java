@@ -62,6 +62,14 @@ public class UserController {
     public ResponseEntity<FollowersDTO> getAmountFollowersById(@PathVariable int userId) {
         return new ResponseEntity<>(userService.getFollowersAmountById(userId), HttpStatus.OK);
     }
+
+    /**
+     * Endpoint to unfollow a user.
+     *
+     * @param userId           the ID of the user who is unfollowing.
+     * @param userIdToUnfollow the ID of the user to be unfollowed.
+     * @return ResponseEntity containing a {@link ResponseMessageDTO} indicating the result of the unfollow operation and an HTTP status code.
+     */
     @PostMapping("{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<ResponseMessageDTO> unfollowUserById(@PathVariable int userId, @PathVariable int userIdToUnfollow) {
         return new ResponseEntity<>(userService.unfollowUserById(userId, userIdToUnfollow), HttpStatus.OK);
@@ -75,7 +83,7 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followers and an HTTP status code.
      */
     @GetMapping("{userId}/followers/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam String order) {
+    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(userService.getUserFollowersById(userId, order), HttpStatus.OK);
     }
 
@@ -88,7 +96,6 @@ public class UserController {
      */
     @GetMapping("/{userId}/followed/list")
     public ResponseEntity<UserFollowedDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam String order) {
-        return new ResponseEntity<>(userService.getUserFollowedById(userId,order), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserFollowedById(userId, order), HttpStatus.OK);
     }
-
 }
