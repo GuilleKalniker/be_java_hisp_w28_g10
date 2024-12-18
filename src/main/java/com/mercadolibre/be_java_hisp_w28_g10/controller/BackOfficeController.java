@@ -15,12 +15,20 @@ public class BackOfficeController {
     @Autowired
     IBackOfficeService backOfficeService;
 
+    /**
+     * Endpoint to retrieve a report in CSV format.
+     *
+     * @param reportName the name of the report to be retrieved.
+     * @param order      the order in which the report data should be returned.
+     * @param top        the number of top entries to include in the report.
+     * @return ResponseEntity containing the report data as CSV and appropriate HTTP headers for download.
+     */
     @GetMapping("getReport/{reportName}")
     public ResponseEntity<String> getReport(@PathVariable String reportName,
-                                                   @RequestParam String order,
-                                                   @RequestParam int top) {
+                                            @RequestParam String order,
+                                            @RequestParam int top) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+ reportName +".csv");
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + reportName + ".csv");
         headers.set(HttpHeaders.CONTENT_TYPE, "text/csv");
         return new ResponseEntity<>(backOfficeService.getReport(reportName, order, top), headers, HttpStatus.OK);
     }

@@ -16,6 +16,11 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.*;
 
+/**
+ * Implementation of the {@link IUserService} for handling user-related operations.
+ * This service provides functionality to retrieve user information, manage follow relationships,
+ * and gather statistics regarding user followers and following behaviors.
+ */
 @Service
 public class UserServiceimpl implements IUserService {
     @Autowired
@@ -24,18 +29,30 @@ public class UserServiceimpl implements IUserService {
     private Utilities utilities;
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<UserDTO> getAllUsers() {
         ObjectMapper mapper = new ObjectMapper();
         return userRepository.findAllUsers().stream().map(u -> mapper.convertValue(u, UserDTO.class)).toList();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<FollowRelationDTO> getAllFollowRelation() {
         ObjectMapper mapper = new ObjectMapper();
         return userRepository.findAllFollowRelation().stream().map(fr -> mapper.convertValue(fr, FollowRelationDTO.class)).toList();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public ResponseMessageDTO unfollowUserById(int userId, int userIdToUnfollow) {
         List<FollowRelation> followRelations = userRepository.findAllFollowRelation();
@@ -52,6 +69,10 @@ public class UserServiceimpl implements IUserService {
         return new ResponseMessageDTO("The user with id:" + userIdToUnfollow + " was unfollowed successfully.");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public FollowRelationDTO follow(int followerId, int followedId) {
         if (!userRepository.existsUser(followerId)) {
@@ -70,6 +91,10 @@ public class UserServiceimpl implements IUserService {
         return utilities.convertValue(newFollow, FollowRelationDTO.class);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public FollowersDTO getFollowersAmountById(int id) {
         User user = userRepository.findUserById(id);
@@ -83,6 +108,10 @@ public class UserServiceimpl implements IUserService {
         return new FollowersDTO(user.getId(), user.getName(), followedFilter.size());
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public UserFollowersDTO getUserFollowersById(int userId, String order) {
 
@@ -94,6 +123,10 @@ public class UserServiceimpl implements IUserService {
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public UserFollowersDTO getUserFollowedById(Integer userId, String order) {
 
@@ -105,6 +138,18 @@ public class UserServiceimpl implements IUserService {
         return new UserFollowersDTO(user.getId(), user.getName(), followers);
     }
 
+    /**
+     * Retrieves related users based on follow relations.
+     * This private method maps a list of follow relations to {@link ResponseUserDTO} objects
+     * based on whether the user is a follower or followed. It also validates the provided order
+     * parameter and sorts the list accordingly before returning it.
+     *
+     * @param followRelations a list of follow relations to process
+     * @param isFollower a boolean indicating if the user is a follower or followed
+     * @param order the order in which to sort the related users (e.g., "name_asc", "name_desc")
+     * @return a list of {@link ResponseUserDTO} representing the related users
+     * @throws BadRequestException if the order parameter is invalid
+     */
     private List<ResponseUserDTO> getRelatedUsersById(List<FollowRelation> followRelations, boolean isFollower, String order) {
 
         List<ResponseUserDTO> responseUserDtos = followRelations.stream()
@@ -126,6 +171,16 @@ public class UserServiceimpl implements IUserService {
         return orderFollowersByName(responseUserDtos, order);
     }
 
+    /**
+     * Orders a list of users by their names.
+     * This private method sorts a list of {@link ResponseUserDTO} objects either in ascending
+     * or descending order based on the value of the order parameter. If the order parameter
+     * is empty, it returns the list without sorting.
+     *
+     * @param responseUsers the list of users to sort
+     * @param order the order in which to sort the users (e.g., "name_asc", "name_desc")
+     * @return a sorted list of {@link ResponseUserDTO}
+     */
     private List<ResponseUserDTO> orderFollowersByName(List<ResponseUserDTO> responseUsers,String order) {
         if(order.isEmpty()) {
             return responseUsers;
