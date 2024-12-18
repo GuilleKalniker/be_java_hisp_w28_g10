@@ -71,7 +71,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                     genericList = getPostsByPrice(order, top);
                     break;
                 case POSTS_BY_DISCOUNT:
-
+                    genericList = getPostsByDiscount(order, top);
                     break;
                 case POSTS_BY_DATE:
                     genericList = getPostsByDate(order, top);
