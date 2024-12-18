@@ -86,7 +86,7 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followers and an HTTP status code.
      */
     @GetMapping("{userId}/followers/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam String order) {
+    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(userService.getUserFollowersById(userId, order), HttpStatus.OK);
     }
 
@@ -98,7 +98,7 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followed users and an HTTP status code.
      */
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam String order) {
+    public ResponseEntity<UserFollowersDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(userService.getUserFollowedById(userId, order), HttpStatus.OK);
     }
 }
