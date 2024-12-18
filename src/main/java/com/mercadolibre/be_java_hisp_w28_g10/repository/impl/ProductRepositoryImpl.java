@@ -110,11 +110,10 @@ public class ProductRepositoryImpl implements IProductRepository {
     public boolean addPost(Post post) {
         return postList.add(post);
     }
-
     /**
      * {@inheritDoc}
      *
-     * Retrieves a product by its ID, throwing an exception if not found.
+     * Retrieves a product by its ID.
      *
      * @param id the ID of the product to retrieve.
      * @return the corresponding {@link Product} object.

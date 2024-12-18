@@ -92,14 +92,19 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ProductsWithPromoDTO productsWithPromoDTO(int id) {
+        //Find the user with id
         User user = userRepository.findUserById(id);
+        //Get all the list of Post
         List<Post> product = productRepository.findAllPost();
+        //Validate if the list is empty or the user id exist in the json
         if (user == null || product.isEmpty()) {
             throw new NotFoundException("User not found");
         }
+        //Filter the post fot user id and if the post has promo
         List<Post> productFilter = product.stream()
                 .filter(p -> p.getId() == user.getId()).filter(Post::isHasPromo)
                 .toList();
+        //return a DTO
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
 

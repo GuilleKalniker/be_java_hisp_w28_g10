@@ -1,6 +1,5 @@
 package com.mercadolibre.be_java_hisp_w28_g10.dto;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
