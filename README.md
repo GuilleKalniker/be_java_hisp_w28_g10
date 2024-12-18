@@ -236,11 +236,13 @@ Run in console
 
 ## Documentation
 
-[Flow chart](https://drive.google.com/file/d/1sEvryaNadPFzJY8JUjBJOYcA089dzhMN/view?usp=drive_link)
+- Flow chart
+![Flow chart](/src/main/resources/images/DiagramaDeFlujo.png)
 
-[Class diagram](https://drive.google.com/file/d/1yN03FCV8rI6Qs8tF8E_OJ0FYFJ-F5u03/view?usp=drive_link)
+- Class Diagram
+![Class diagram](/src/main/resources/images/DiagramaDeClase.png)
 
-[Postman Library](/src/main/resources/users.json)
+[Postman Library](/src/main/resources/SocialMeli.postman_collection.json)
 
 ## Authors
 

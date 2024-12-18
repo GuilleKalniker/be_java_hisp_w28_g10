@@ -7,7 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * Controller for managing back-office report operations.
+ * <p>
+ * This controller exposes RESTful endpoints for generating and downloading reports
+ * in CSV format, providing various filtering options for end-users.
+ * </p>
+ */
 @RestController
 @RequestMapping("/reports/")
 public class BackOfficeController {

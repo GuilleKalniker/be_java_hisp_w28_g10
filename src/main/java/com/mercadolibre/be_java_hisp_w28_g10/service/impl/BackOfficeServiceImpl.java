@@ -71,7 +71,7 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                     genericList = getPostsByPrice(order, top);
                     break;
                 case POSTS_BY_DISCOUNT:
-
+                    genericList = getPostsByDiscount(order, top);
                     break;
                 case POSTS_BY_DATE:
                     genericList = getPostsByDate(order, top);
@@ -233,6 +233,26 @@ public class BackOfficeServiceImpl implements IBackOfficeService {
                 .limit(top)
                 .toList();
 
+        return mapPostsToResponseCsvPostDTO(sortedPosts);
+    }
+    /**
+     * Retrieves posts sorted by discount according to the specified order.
+     *
+     * @param order the order in which to sort the posts.
+     * @param top the maximum number of results to return.
+     * @return a List of {@link ResponseCsvPostDTO} representing the sorted posts.
+     */
+    private List<ResponseCsvPostDTO> getPostsByDiscount(String order, int top) {
+        //Get a comparator of Discounts and this is sorted in ascendant
+        Comparator<Post> comparator = order.equalsIgnoreCase("discount_asc") ?
+                Comparator.comparing(Post::getDiscount) :
+                Comparator.comparing(Post::getDiscount).reversed();
+        //Get a List of the sorted Post and limit to top variable
+        List<Post> sortedPosts = productRepository.findAllPost().stream()
+                .sorted(comparator)
+                .limit(top)
+                .toList();
+        //return a response of CSV file
         return mapPostsToResponseCsvPostDTO(sortedPosts);
     }
 

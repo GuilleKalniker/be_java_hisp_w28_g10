@@ -49,7 +49,6 @@ public interface IProductRepository {
      * @return true if the post was added successfully; false otherwise.
      */
     boolean addPost(Post post);
-
     /**
      * Retrieves a product by its ID.
      *

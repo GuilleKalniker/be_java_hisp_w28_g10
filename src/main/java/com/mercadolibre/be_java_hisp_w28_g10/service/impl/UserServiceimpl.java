@@ -97,14 +97,19 @@ public class UserServiceimpl implements IUserService {
      */
     @Override
     public FollowersDTO getFollowersAmountById(int id) {
+        //Get a User for user id
         User user = userRepository.findUserById(id);
+        //Get a List of followRelation of followers and followed
         List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
+        //Validate if the user is null
         if (user == null) {
             throw new NotFoundException("User not found");
         }
+        //Filter of FollowRelation by user id
         List<FollowRelation> followedFilter = followRelation.stream()
                 .filter(f -> f.getIdFollowed() == user.getId())
                 .toList();
+        //return a DTO
         return new FollowersDTO(user.getId(), user.getName(), followedFilter.size());
     }
 
@@ -128,14 +133,14 @@ public class UserServiceimpl implements IUserService {
      *
      */
     @Override
-    public UserFollowersDTO getUserFollowedById(Integer userId, String order) {
+    public UserFollowedDTO getUserFollowedById(Integer userId, String order) {
 
         // Valido si existe user con ese userId;
         User user = userRepository.getUserById(userId);
         List<FollowRelation> followRelationsByFollowerId = userRepository.getFollowRelationsByFollowerId(userId);
 
-        List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowerId, true, order);
-        return new UserFollowersDTO(user.getId(), user.getName(), followers);
+        List<ResponseUserDTO> followed = getRelatedUsersById(followRelationsByFollowerId, true, order);
+        return new UserFollowedDTO(user.getId(), user.getName(), followed);
     }
 
     /**

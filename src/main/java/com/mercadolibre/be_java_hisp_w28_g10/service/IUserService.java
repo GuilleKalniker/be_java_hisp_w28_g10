@@ -101,9 +101,9 @@ public interface IUserService {
      *
      * @param userId the ID of the user whose followed users are to be retrieved
      * @param order the order in which to sort the followed users (e.g., "name_asc", "name_desc")
-     * @return a {@link UserFollowersDTO} containing the user ID, name, and a list of followed users
+     * @return a {@link UserFollowedDTO} containing the user ID, name, and a list of followed users
      * @throws NotFoundException if the user is not found
      */
-    public UserFollowersDTO getUserFollowedById(Integer userId, String order);
+    public UserFollowedDTO getUserFollowedById(Integer userId, String order);
 
 }

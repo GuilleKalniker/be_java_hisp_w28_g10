@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class ResponsePostNoPromoDTO {
     @JsonProperty("user_id")
     private int id;
+    @JsonProperty("post_id")
+    private int postId;
     private String date;
     private int category;
     private double price;
