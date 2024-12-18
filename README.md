@@ -213,6 +213,13 @@ Run in console
 | `date_desc`          | `String` | **Option**. Descending price for report POSTS_BY_DATE                                                                               |
 | `top`                | `int`    | **Required**. Number of results expected                                                                                            |
 
+- Response: .csv file (must be executed from browser)
+
+
+- Example: USERS_BY_FOLLOWERS report in descending order csv file
+![reportExample.png](src/main/resources/images/reportExample.png)
+
+
 ## Naming rules
 #### Branch name:
 - feature/{nro}
