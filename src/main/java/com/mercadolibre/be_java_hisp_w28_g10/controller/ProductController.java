@@ -14,6 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller for managing product-related actions and operations.
+ * <p>
+ * This controller exposes RESTful endpoints for managing products and posts,
+ * including functionalities to retrieve, add, and manipulate promotional and regular posts.
+ * </p>
+ */
 @RestController
 @RequestMapping("/products/")
 public class ProductController {
