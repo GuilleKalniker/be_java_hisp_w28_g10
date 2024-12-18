@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
-    public static int counterPostId = 0;
+    public static int counterPostId = 50;
     @JsonProperty("user_id")
     private int id;
     @JsonProperty("post_id")
