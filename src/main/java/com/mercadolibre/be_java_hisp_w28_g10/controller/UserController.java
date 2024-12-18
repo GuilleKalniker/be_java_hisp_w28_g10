@@ -103,7 +103,7 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followed users and an HTTP status code.
      */
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<UserFollowedDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam String order) {
+    public ResponseEntity<UserFollowedDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(userService.getUserFollowedById(userId, order), HttpStatus.OK);
     }
 }
