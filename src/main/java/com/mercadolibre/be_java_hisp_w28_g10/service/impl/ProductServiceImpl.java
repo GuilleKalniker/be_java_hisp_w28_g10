@@ -57,7 +57,7 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * This method processes the given post and performs any necessary validations before saving it.
      * If the save operation fails, a {@link SaveOperationException} is thrown.
      */
@@ -70,7 +70,7 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * This method handles the addition of a regular post. If the save operation fails, a
      * {@link SaveOperationException} is thrown.
      */
@@ -80,13 +80,13 @@ public class ProductServiceImpl implements IProductService {
         Post post = utilities.convertValue(newPost, Post.class);
         ProductDTO productDto = utilities.convertValue(post.getProduct(), ProductDTO.class);
 
-        return new ResponsePostNoPromoDTO(post.getId(), post.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), post.getCategory(), post.getPrice(),
+        return new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), post.getCategory(), post.getPrice(),
                 productDto);
     }
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * Retrieves the number of promotional products associated with a specified user.
      *
      * @throws NotFoundException if the user is not found or if there are no posts.
@@ -106,10 +106,10 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * Retrieves the most recent posts from users that the specified user follows within a two-week period.
      *
-     * @throws NotFoundException if there are no posts from followed users in the last two weeks.
+     * @throws NotFoundException   if there are no posts from followed users in the last two weeks.
      * @throws BadRequestException if the user follows no one or if the order parameter is invalid.
      */
     @Override
@@ -125,7 +125,7 @@ public class ProductServiceImpl implements IProductService {
                 .toList();
 
         //Exception. Following no one
-        if(followedIds.isEmpty())throw new BadRequestException("You are following no one");
+        if (followedIds.isEmpty()) throw new BadRequestException("You are following no one");
 
         //Get the list of every post
         List<Post> postList = productRepository.findAllPost();
@@ -141,13 +141,14 @@ public class ProductServiceImpl implements IProductService {
                 .toList();
 
         //Exception. No posts from the last two weeks
-        if(followedPostsfromTwoWeeksAgo.isEmpty()) throw new NotFoundException("There are no posts from two weeks ago");
+        if (followedPostsfromTwoWeeksAgo.isEmpty())
+            throw new NotFoundException("There are no posts from two weeks ago");
 
         //Sort by date. Ascending or Descending
-        if(order.isEmpty() || order.get().equals("date_desc")){
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+        if (order.isEmpty() || order.get().equals("date_desc")) {
+            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
         } else if (order.get().equals("date_asc")) {
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> utilities.convertValue(post, PostDTO.class)).toList());
+            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
         } else {
             throw new BadRequestException("Thats not an ordenation criteria");
         }
@@ -166,6 +167,8 @@ public class ProductServiceImpl implements IProductService {
         if (!productRepository.existsProduct(post.getProduct().getId())) {
             productRepository.addProduct(product);
         }
+        Post.counterPostId += 1;
+        post.setPostId(Post.counterPostId);
         return productRepository.addPost(utilities.convertValue(post, Post.class));
     }
 
