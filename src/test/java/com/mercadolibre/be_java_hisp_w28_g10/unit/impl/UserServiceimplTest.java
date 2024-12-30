@@ -1,15 +1,20 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.ProductServiceImpl;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
+import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +30,9 @@ class UserServiceimplTest {
 
     @Mock
     private IUserRepository userRepository;
+
+    @Mock
+    private Utilities utilities;
 
     @InjectMocks
     private UserServiceimpl userService;
