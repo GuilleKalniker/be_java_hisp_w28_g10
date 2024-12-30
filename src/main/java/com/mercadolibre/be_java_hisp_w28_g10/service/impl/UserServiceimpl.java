@@ -28,10 +28,13 @@ import java.util.*;
  */
 @Service
 public class UserServiceimpl implements IUserService {
-    @Autowired
-    private IUserRepository userRepository;
-    @Autowired
-    private Utilities utilities;
+    private final IUserRepository userRepository;
+    private final Utilities utilities;
+
+    public UserServiceimpl(IUserRepository userRepository, Utilities utilities) {
+        this.userRepository = userRepository;
+        this.utilities = utilities;
+    }
 
 
     /**
