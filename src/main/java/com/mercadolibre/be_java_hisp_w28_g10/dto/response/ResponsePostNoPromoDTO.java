@@ -1,7 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

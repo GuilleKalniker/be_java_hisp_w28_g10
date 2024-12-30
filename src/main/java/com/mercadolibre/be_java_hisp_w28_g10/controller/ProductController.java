@@ -1,10 +1,10 @@
 package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseFollowedPostsDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

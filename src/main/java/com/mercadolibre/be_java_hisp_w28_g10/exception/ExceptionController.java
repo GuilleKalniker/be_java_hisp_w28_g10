@@ -1,6 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10.exception;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ExceptionDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.exception.ExceptionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

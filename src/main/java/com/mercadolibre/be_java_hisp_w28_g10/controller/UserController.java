@@ -1,7 +1,11 @@
 package com.mercadolibre.be_java_hisp_w28_g10.controller;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.user.UserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +35,7 @@ public class UserController {
     /**
      * Endpoint to retrieve all users.
      *
-     * @return ResponseEntity containing a list of all users as {@link List<UserDTO>} and an HTTP status code.
+     * @return ResponseEntity containing a list of all users as {@link List< UserDTO >} and an HTTP status code.
      */
     @GetMapping("getAll")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -41,7 +45,7 @@ public class UserController {
     /**
      * Endpoint to retrieve all follow relations.
      *
-     * @return ResponseEntity containing a list of all follow relations as {@link List<FollowRelationDTO>} and an HTTP status code.
+     * @return ResponseEntity containing a list of all follow relations as {@link List< FollowRelationDTO >} and an HTTP status code.
      */
     @GetMapping("followRelation/getAll")
     public ResponseEntity<List<FollowRelationDTO>> getAllFollowRelations() {
