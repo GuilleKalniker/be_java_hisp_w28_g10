@@ -106,13 +106,9 @@ public class UserServiceimpl implements IUserService {
     @Override
     public FollowersDTO getFollowersAmountById(int id) {
         //Get a User for user id
-        User user = userRepository.findUserById(id);
+        User user = validateUser(id);
         //Get a List of followRelation of followers and followed
         List<FollowRelation> followRelation = userRepository.findAllFollowRelation();
-        //Validate if the user is null
-        if (user == null) {
-            throw new NotFoundException("User not found");
-        }
         //Filter of FollowRelation by user id
         List<FollowRelation> followedFilter = followRelation.stream()
                 .filter(f -> f.getIdFollowed() == user.getId())
@@ -127,9 +123,8 @@ public class UserServiceimpl implements IUserService {
      */
     @Override
     public UserFollowersDTO getUserFollowersById(int userId, String order) {
-
         // Valido si existe user con ese userId;
-        User user = userRepository.getUserById(userId);
+        User user = validateUser(userId);
         List<FollowRelation> followRelationsByFollowedId = userRepository.getFollowRelationsByFollowedId(userId);
 
         List<ResponseUserDTO> followers = getRelatedUsersById(followRelationsByFollowedId, false, order);
@@ -142,13 +137,27 @@ public class UserServiceimpl implements IUserService {
      */
     @Override
     public UserFollowedDTO getUserFollowedById(Integer userId, String order) {
-
         // Valido si existe user con ese userId;
-        User user = userRepository.getUserById(userId);
+        User user = validateUser(userId);
         List<FollowRelation> followRelationsByFollowerId = userRepository.getFollowRelationsByFollowerId(userId);
 
         List<ResponseUserDTO> followed = getRelatedUsersById(followRelationsByFollowerId, true, order);
         return new UserFollowedDTO(user.getId(), user.getName(), followed);
+    }
+
+    /**
+     * Validates that the user exists.
+     *
+     * @param userId the ID of the user to validate.
+     * @throws NotFoundException if the user doesn't exist in the system.
+     * @return the User object if found.
+     */
+    private User validateUser(Integer userId) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            throw new NotFoundException("User not found");
+        }
+        return user;
     }
 
     /**
