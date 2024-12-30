@@ -4,6 +4,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.ProductServiceImpl;
+import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +27,7 @@ class UserServiceimplTest {
     private IUserRepository userRepository;
 
     @InjectMocks
-    private ProductServiceImpl productService;
+    private UserServiceimpl userService;
 
     @Test
     void getAllUsers() {
