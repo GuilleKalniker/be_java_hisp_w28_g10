@@ -3,8 +3,12 @@ package com.mercadolibre.be_java_hisp_w28_g10.exception;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.exception.ExceptionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Exception handling controller to manage application-specific exceptions.
@@ -74,5 +78,13 @@ public class ExceptionController {
     public ResponseEntity<?> illegalArgumentException(IllegalArgumentException e) {
         ExceptionDTO dto = new ExceptionDTO(e.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage()));
+        return ResponseEntity.badRequest().body(errors);
     }
 }

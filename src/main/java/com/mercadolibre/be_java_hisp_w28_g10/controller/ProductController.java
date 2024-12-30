@@ -6,6 +6,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class ProductController {
      * @return ResponseEntity containing the result of the add operation as {@link ResponsePostNoPromoDTO} and an HTTP status code.
      */
     @PostMapping("post")
-    public ResponseEntity<ResponsePostNoPromoDTO> addPost(@RequestBody PostDTO post) {
+    public ResponseEntity<ResponsePostNoPromoDTO> addPost(@RequestBody @Valid PostDTO post) {
         return new ResponseEntity<>(productService.addPost(post), HttpStatus.OK);
     }
 
@@ -55,7 +56,7 @@ public class ProductController {
      * @return ResponseEntity<PostDTO> containing the created post and an HTTP status code.
      */
     @PostMapping("promo-post")
-    public ResponseEntity<PostDTO> addPromoPost(@RequestBody PostDTO promoPost) {
+    public ResponseEntity<PostDTO> addPromoPost(@RequestBody @Valid PostDTO promoPost) {
         return new ResponseEntity<>(productService.addPromoPost(promoPost), HttpStatus.OK);
     }
 

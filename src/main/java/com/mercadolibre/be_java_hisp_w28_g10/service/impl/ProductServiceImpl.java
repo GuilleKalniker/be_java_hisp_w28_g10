@@ -161,8 +161,8 @@ public class ProductServiceImpl implements IProductService {
      * @return true if the operation was successful; false otherwise.
      */
     private boolean savePostLogic(PostDTO post) {
-        validatePostDto(post);
-        validateProductDto(post.getProduct());
+        //validatePostDto(post);
+        //validateProductDto(post.getProduct());
         Product product = utilities.convertValue(post.getProduct(), Product.class);
         if (!productRepository.existsProduct(post.getProduct().getId())) {
             productRepository.addProduct(product);

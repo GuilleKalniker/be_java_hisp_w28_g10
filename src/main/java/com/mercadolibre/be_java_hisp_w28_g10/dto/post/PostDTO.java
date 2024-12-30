@@ -21,6 +21,8 @@ public class PostDTO {
     private int postId;
 
     @NotNull(message = "La fecha no puede estar vacía.")
+    @Pattern(regexp = "^([0-2][0-9]|(3)[0-1])-(0[1-9]|1[0-2])-(\\d{4})$",
+            message = "La fecha debe estar en el formato dd-MM-yyyy.")
     private String date;
 
     @NotNull(message = "El campo no puede estar vacío.")
