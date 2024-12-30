@@ -63,5 +63,5 @@ public interface IProductService {
      * @throws NotFoundException if there are no posts from followed users in the last two weeks.
      * @throws BadRequestException if the user follows no one or if the order parameter is invalid.
      */
-    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order);
+    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, String order);
 }

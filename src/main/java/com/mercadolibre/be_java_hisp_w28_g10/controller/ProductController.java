@@ -98,8 +98,7 @@ public class ProductController {
      */
     @GetMapping("followed/{userId}/list")
     public ResponseEntity<ResponseFollowedPostsDTO> getLastFollowedPosts(@PathVariable @Positive(message = "El id debe ser mayor a cero.") int userId,
-                                                                         @RequestParam(required = false)
-                                                                         Optional<String> order) {
+                                                                         @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(productService.getLastFollowedPosts(userId, order), HttpStatus.OK);
     }
 }
