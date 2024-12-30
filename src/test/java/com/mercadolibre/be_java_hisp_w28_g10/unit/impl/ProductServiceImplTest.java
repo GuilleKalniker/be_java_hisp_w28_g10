@@ -1,9 +1,37 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
+import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
+import com.mercadolibre.be_java_hisp_w28_g10.service.IProductService;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import com.mercadolibre.be_java_hisp_w28_g10.service.impl.ProductServiceImpl;
+import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+
+@ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
+
+    @Mock
+    private IProductRepository productRepository;
+
+    @Mock
+    private IUserRepository userRepository;
+
+    @Mock
+    private Utilities utilities;
+
+    @InjectMocks
+    private ProductServiceImpl productService;
 
     @BeforeEach
     void setUp() {
