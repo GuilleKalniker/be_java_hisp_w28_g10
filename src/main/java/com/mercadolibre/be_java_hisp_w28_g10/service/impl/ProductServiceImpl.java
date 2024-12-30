@@ -90,19 +90,12 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ProductsWithPromoDTO productsWithPromoDTO(int id) {
-        //Find the user with id
-        User user = userRepository.findUserById(id);
-        //Get all the list of Post
+        User user = validateUser(id);
         List<Post> product = productRepository.findAllPost();
-        //Validate if the list is empty or the user id exist in the json
-        if (user == null || product.isEmpty()) {
-            throw new NotFoundException("User not found");
-        }
-        //Filter the post fot user id and if the post has promo
         List<Post> productFilter = product.stream()
                 .filter(p -> p.getId() == user.getId()).filter(Post::isHasPromo)
                 .toList();
-        //return a DTO
+
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
 
@@ -116,42 +109,87 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, String order) {
+        validateUser(userId);
+        List<Integer> followedIds = getFollowedUserIds(userId);
+        List<Post> followedPosts = getFollowedPostsAfterDate(followedIds, LocalDate.now().minusWeeks(2));
+        List<Post> sortedFollowedPosts = sortPostsByDate(followedPosts, order);
 
+        List<ResponsePostNoPromoDTO> responsePosts = sortedFollowedPosts.stream()
+                .map(post -> new ResponsePostNoPromoDTO(
+                        post.getId(),
+                        post.getPostId(),
+                        post.getDate().toString(),
+                        post.getCategory(),
+                        post.getPrice(),
+                        utilities.convertValue(post.getProduct(), ProductDTO.class)))
+                .toList();
+
+        return new ResponseFollowedPostsDTO(userId, responsePosts);
+    }
+
+    /**
+     * Validates that the user exists.
+     *
+     * @param userId the ID of the user to validate.
+     * @throws NotFoundException if the user doesn't exist in the system.
+     * @return the User object if found.
+     */
+    private User validateUser(Integer userId) {
         User user = userRepository.findUserById(userId);
         if (user == null) {
             throw new NotFoundException("User not found");
         }
+        return user;
+    }
 
-        //Time filter. Two Weeks
-        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
-
-        //Get the ID list of related users
-        List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
+    /**
+     * Retrieves a list of IDs for the users that the specified user follows.
+     *
+     * @param userId the ID of the user whose followed users' IDs are to be retrieved.
+     * @return a list of user IDs that the specified user follows.
+     */
+    private List<Integer> getFollowedUserIds(Integer userId) {
+        return userRepository.getFollowRelationsByFollowerId(userId)
                 .stream()
                 .map(FollowRelation::getIdFollowed)
                 .toList();
+    }
 
-        //Get the list of every post
-        List<Post> postList = productRepository.findAllPost();
-
-        //Filter by followed users
-        List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
-
-        //Filter to get the posts in the specified time
-        List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
-                .stream()
-                .filter(post -> post.getDate()
-                        .isAfter(twoWeeksAgo))
+    /**
+     * Filters and retrieves posts from followed users created after the specified date.
+     *
+     * @param followedIds a list of IDs corresponding to users that are followed.
+     * @param sinceDate the date representing the cutoff for post retrieval.
+     * @return a list of posts from followed users created after the specified date.
+     */
+    private List<Post> getFollowedPostsAfterDate(List<Integer> followedIds, LocalDate sinceDate) {
+        return productRepository.findAllPost().stream()
+                .filter(post -> followedIds.contains(post.getId()) && post.getDate().isAfter(sinceDate))
                 .toList();
+    }
 
-        //Sort by date. Ascending or Descending
+    /**
+     * Sorts the list of posts based on the order criteria.
+     *
+     * @param posts the list of posts to be sorted.
+     * @param order parameter indicating the order criteria.
+     * @return a sorted list of Posts.
+     * @throws BadRequestException if the order criteria is invalid.
+     */
+    private List<Post> sortPostsByDate(List<Post> posts, String order) {
+        Comparator<Post> comparator;
+
         if (order.isEmpty() || order.equals("date_desc")) {
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
+            comparator = Comparator.comparing(Post::getDate).reversed();
         } else if (order.equals("date_asc")) {
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
+            comparator = Comparator.comparing(Post::getDate);
         } else {
-            throw new BadRequestException("That's not a valid order criteria");
+            throw new BadRequestException("That's not a valid order criteria: " + order);
         }
+
+        return posts.stream()
+                .sorted(comparator)
+                .toList();
     }
 
     /**
