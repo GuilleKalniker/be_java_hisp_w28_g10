@@ -115,7 +115,7 @@ public class ProductServiceImpl implements IProductService {
      * @throws BadRequestException if the order parameter is invalid.
      */
     @Override
-    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order) {
+    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, String order) {
 
         User user = userRepository.findUserById(userId);
         if (user == null) {
@@ -145,9 +145,9 @@ public class ProductServiceImpl implements IProductService {
                 .toList();
 
         //Sort by date. Ascending or Descending
-        if (order.isEmpty() || order.get().equals("date_desc")) {
+        if (order.isEmpty() || order.equals("date_desc")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
-        } else if (order.get().equals("date_asc")) {
+        } else if (order.equals("date_asc")) {
             return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
         } else {
             throw new BadRequestException("That's not a valid order criteria");
