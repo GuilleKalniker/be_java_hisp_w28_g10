@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.ProductServiceImpl;
+import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,9 @@ class ProductServiceImplTest {
 
     @Mock
     private IUserRepository userRepository;
+
+    @Mock
+    private Utilities utilities;
 
     @InjectMocks
     private ProductServiceImpl productService;
