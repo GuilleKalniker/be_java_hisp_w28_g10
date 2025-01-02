@@ -78,7 +78,7 @@ class UserServiceimplTest {
         int userId = DatosMock.USER_1.getId();
         int userIdToUnfollow = 999;
 
-        when(userRepository.findAllFollowRelation()).thenReturn(List.of());
+        when(userRepository.findAllFollowRelation()).thenReturn(DatosMock.FOLLOW_RELATIONS);
 
         // Act & Assert
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
