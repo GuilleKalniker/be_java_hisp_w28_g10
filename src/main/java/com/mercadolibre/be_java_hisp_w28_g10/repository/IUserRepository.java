@@ -26,6 +26,7 @@ public interface IUserRepository {
     public List<FollowRelation> findAllFollowRelation();
 
     /**
+     * US 0001
      * Creates and saves a follow relationship between two users.
      *
      * @param followerId the ID of the user who wants to follow another user.

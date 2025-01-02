@@ -24,6 +24,7 @@ public class BackOfficeController {
     IBackOfficeService backOfficeService;
 
     /**
+     * US 0012
      * Endpoint to retrieve a report in CSV format.
      *
      * @param reportName the name of the report to be retrieved.
