@@ -115,17 +115,29 @@ class UserControllerITest {
 
     @Test
     void getAmountFollowersById_happyPathCompleteAmount() throws Exception {
-        // ARRANGE
+        // Arrrange
         int userId = 4;
         User user = new User(userId, "Diana");
         FollowersDTO expectedDto = new FollowersDTO(user.getId(), user.getName(), DatosMock.FOLLOW_RELATIONS_5.size());
         String expectedJson = objectMapper.writeValueAsString(expectedDto);
 
-        // ACT AND ASSERT
+        // Act and Asserts
         mockMvc.perform(get("/users/{userId}/followers/count", userId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(expectedJson))
+                .andDo(print());
+    }
+    @Test
+    void getAmountFollowersById_sadPathIdNonExist() throws Exception {
+        // Arrrange
+        ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("User not found");
+        String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
+
+        // Act and Assert
+        mockMvc.perform(get("/users/{userId}/followers/count", 200))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(responseMessageJSON))
                 .andDo(print());
     }
 
