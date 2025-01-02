@@ -16,7 +16,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.*;
@@ -28,10 +27,13 @@ import java.util.*;
  */
 @Service
 public class UserServiceimpl implements IUserService {
-    @Autowired
-    private IUserRepository userRepository;
-    @Autowired
-    private Utilities utilities;
+    private final IUserRepository userRepository;
+    private final Utilities utilities;
+
+    public UserServiceimpl(IUserRepository userRepository, Utilities utilities) {
+        this.userRepository = userRepository;
+        this.utilities = utilities;
+    }
 
 
     /**
