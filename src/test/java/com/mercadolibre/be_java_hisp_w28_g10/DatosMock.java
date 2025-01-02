@@ -106,6 +106,8 @@ public class DatosMock {
             new Post(10, 20, LocalDate.parse("2024-06-20"),
                     109, 199.99, new Product(120, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15));
 
+    public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
+
     public static List<FollowRelation> FOLLOW_RELATIONS = Arrays.asList(
             new FollowRelation(1, 2),
             new FollowRelation(1, 3),
