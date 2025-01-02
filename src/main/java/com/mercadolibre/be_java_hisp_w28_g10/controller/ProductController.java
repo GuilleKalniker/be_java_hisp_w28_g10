@@ -45,6 +45,7 @@ public class ProductController {
     }
 
     /**
+     * US 0005
      * Endpoint to add a new post.
      *
      * @param post the {@link PostDTO} object containing the details of the post to be added.
@@ -56,6 +57,7 @@ public class ProductController {
     }
 
     /**
+     * US 0010
      * Endpoint to create a new promotional post.
      *
      * @param promoPost the {@link PostDTO} object containing the information for the new post.
@@ -77,6 +79,7 @@ public class ProductController {
     }
 
     /**
+     * US 0011
      * Endpoint to count promotional products for a specific user.
      *
      * @param user_id the ID of the user for whom to count promotional products.
@@ -90,6 +93,7 @@ public class ProductController {
     }
 
     /**
+     * US 0006 + US 0009
      * Endpoint to retrieve the list of the last followed posts for a specific user.
      *
      * @param userId the ID of the user whose followed posts are to be retrieved.

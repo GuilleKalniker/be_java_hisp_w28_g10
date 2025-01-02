@@ -8,6 +8,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
  */
 public interface IBackOfficeService {
     /**
+     * US 0012
      * Retrieves a report based on the specified report name, sorting order, and top limit.
      *
      * @param reportName the name of the report to generate (should match a valid report type).
