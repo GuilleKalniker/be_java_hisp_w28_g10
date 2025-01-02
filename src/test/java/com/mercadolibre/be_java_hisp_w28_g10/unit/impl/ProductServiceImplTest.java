@@ -77,7 +77,7 @@ class ProductServiceImplTest {
         int userId = 2;
         String order = "date_asc";
 
-        arrangePostTestForUser2(2);
+        arrangePostTestForUser2(userId);
 
         //ACT
         ResponseFollowedPostsDTO response = productService.getLastFollowedPosts(userId, order);
@@ -107,7 +107,7 @@ class ProductServiceImplTest {
         int userId = 2;
         String order = "date_desc";
 
-        arrangePostTestForUser2(2);
+        arrangePostTestForUser2(userId);
 
         //ACT
         ResponseFollowedPostsDTO response = productService.getLastFollowedPosts(userId, order);
@@ -137,7 +137,7 @@ class ProductServiceImplTest {
         int userId = 2;
         String order = "date_asc";
 
-        arrangePostTestForUser2(2);
+        arrangePostTestForUser2(userId);
 
         //ACT
         ResponseFollowedPostsDTO response = productService.getLastFollowedPosts(userId, order);
@@ -162,6 +162,7 @@ class ProductServiceImplTest {
         //ARRANGE
         int userId = 0;
         String order = "date_asc";
+        when(userRepository.findUserById(userId)).thenReturn(null);
 
         //ACT & ASSERT
         NotFoundException exception = assertThrows(NotFoundException.class, () -> productService.getLastFollowedPosts(userId, order));
@@ -178,7 +179,7 @@ class ProductServiceImplTest {
         int userId = 2;
         String order = "date_asc_FALLA";
 
-        arrangePostTestForUser2(2);
+        arrangePostTestForUser2(userId);
 
         //ACT & ASSERT
         BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.getLastFollowedPosts(userId, order));
