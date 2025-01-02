@@ -49,64 +49,64 @@ public class DatosMock {
             new Product(20, "Auriculares Gamer Inalámbricos", "Audio", "Razer", "Verde", "Audio inmersivo con soporte para sonido envolvente."));
 
     public static final List<Post> POST_LIST = Arrays.asList(
-            new Post(5, 1, LocalDate.parse("2024-12-25"),
+            new Post(5, 1, LocalDate.now().minusDays(12),
                     100, 1500.50, new Product(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"), true, 0.25),
 
-            new Post(5, 2, LocalDate.parse("2024-12-17"),
+            new Post(5, 2, LocalDate.now().minusDays(11),
                     101, 120.75, new Product(102, "Teclado Mecánico RGB", "Gaming", "Cooler Master", "Black", "Con retroiluminación RGB"), false, 0.10),
 
-            new Post(3, 3, LocalDate.parse("2024-01-28"),
+            new Post(3, 3, LocalDate.now().minusDays(10),
                     102, 220.00, new Product(103, "Auriculares Inalámbricos", "Audio", "Sony", "Blue", "Con cancelación de ruido"), true, 0.15),
 
-            new Post(4, 4, LocalDate.parse("2024-02-02"),
+            new Post(4, 4, LocalDate.now().minusDays(9),
                     103, 350.00, new Product(104, "Monitor 144Hz", "Gaming", "Acer", "Black", "Con panel IPS"), false, 0.05),
 
-            new Post(5, 5, LocalDate.parse("2024-02-14"),
+            new Post(5, 5, LocalDate.now().minusDays(8),
                     104, 75.99, new Product(105, "Mouse Gamer", "Accessories", "Logitech", "Black", "Alto rendimiento con 12 botones programables"), true, 0.20),
 
-            new Post(6, 6, LocalDate.parse("2024-12-16"),
+            new Post(6, 6, LocalDate.now().minusDays(7),
                     105, 99.99, new Product(106, "Microfono USB", "Audio", "Blue", "Silver", "Ideal para streamers"), false, 0.00),
 
-            new Post(7, 7, LocalDate.parse("2024-03-10"),
+            new Post(7, 7, LocalDate.now().minusDays(6),
                     106, 1200.00, new Product(107, "Laptop Gaming", "Computers", "Dell", "Black", "Con GPU de alta gama"), true, 0.10),
 
-            new Post(8, 8, LocalDate.parse("2024-03-29"),
+            new Post(8, 8, LocalDate.now().minusDays(5),
                     107, 70.00, new Product(108, "Pingüino de Refrigeración", "Cooler", "Thermaltake", "Black", "Refrigerador eficiente para CPU"), true, 0.15),
 
-            new Post(9, 9, LocalDate.parse("2024-04-15"),
+            new Post(9, 9, LocalDate.now().minusDays(4),
                     108, 300.00, new Product(109, "Gafas de Realidad Virtual", "Gaming", "Oculus", "Black", "Inmersión total en juegos"), false, 0.00),
 
-            new Post(10, 10, LocalDate.parse("2024-05-02"),
+            new Post(10, 10, LocalDate.now().minusDays(3),
                     109, 600.00, new Product(110, "Silla Ergonómica", "Furniture", "Herman Miller", "Grey", "Ideal para largas horas de trabajo"), true, 0.10),
 
-            new Post(1, 11, LocalDate.parse("2024-05-08"),
+            new Post(1, 11, LocalDate.now().minusDays(2),
                     100, 25.99, new Product(111, "Hub USB-C", "Accessories", "Anker", "White", "Con 3 puertos USB 3.0"), false, 0.05),
 
-            new Post(2, 12, LocalDate.parse("2024-05-20"),
+            new Post(2, 12, LocalDate.now().minusDays(1),
                     101, 45.00, new Product(112, "Bolsa Térmica", "Accessories", "Igloo", "Blue", "Mantiene tus bebidas frías por horas."), true, 0.10),
 
-            new Post(3, 13, LocalDate.parse("2024-05-25"),
+            new Post(3, 13, LocalDate.now().minusWeeks(3),
                     102, 120.00, new Product(113, "Cámara de Seguridad", "Cameras", "Ring", "White", "Con visión nocturna y alertas."), false, 0.00),
 
-            new Post(4, 14, LocalDate.parse("2024-05-30"),
+            new Post(4, 14, LocalDate.now().minusWeeks(3),
                     103, 500.00, new Product(114, "Bicicleta de Montaña", "Bikes", "Trek", "Green", "Aventura en cada montaña."), true, 0.15),
 
-            new Post(5, 15, LocalDate.parse("2024-06-03"),
+            new Post(5, 15, LocalDate.now().minusWeeks(3),
                     104, 25.00, new Product(115, "Cargador Inalámbrico", "Accessories", "Belkin", "Black", "Compatible con todos los smartphones."), false, 0.00),
 
-            new Post(6, 16, LocalDate.parse("2024-06-10"),
+            new Post(6, 16, LocalDate.now().minusWeeks(3),
                     105, 150.00, new Product(116, "Altavoz Portátil", "Audio", "Bose", "Black", "Resistencia al agua, duración de 12 horas."), false, 0.00),
 
-            new Post(7, 17, LocalDate.parse("2024-06-12"),
+            new Post(7, 17, LocalDate.now().minusWeeks(3),
                     106, 350.00, new Product(117, "Cámara de Acción", "Cameras", "GoPro", "Black", "Resistente al agua y a prueba de golpes."), true, 0.10),
 
-            new Post(8, 18, LocalDate.parse("2024-06-10"),
+            new Post(8, 18, LocalDate.now().minusWeeks(3),
                     107, 399.00, new Product(118, "Smartwatch", "Wearables", "Apple", "Gold", "Rastrea la actividad física."), true, 0.20),
 
-            new Post(9, 19, LocalDate.parse("2024-06-15"),
+            new Post(9, 19, LocalDate.now().minusWeeks(3),
                     108, 90.00, new Product(119, "Kettle Eléctrico", "Kitchen", "Breville", "Silver", "Con control de temperatura."), false, 0.00),
 
-            new Post(10, 20, LocalDate.parse("2024-06-20"),
+            new Post(10, 20, LocalDate.now().minusWeeks(3),
                     109, 199.99, new Product(120, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15));
 
     public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
