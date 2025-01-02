@@ -40,22 +40,6 @@ class UserServiceimplTest {
     @InjectMocks
     private UserServiceimpl userService;
 
-
-    private final User mockedUser1 = new User(1, "Lorena");
-    private final User mockedUser2 = new User(2, "Pepe");
-    private final User mockedUser3 = new User(3, "Juan");
-
-    private final List<FollowRelation> mockedFollowerRelations = List.of(
-            new FollowRelation(2, 1),
-            new FollowRelation(3, 1)
-    );
-
-    private final List<FollowRelation> mockedFollowedRelations = List.of(
-            new FollowRelation(1, 2),
-            new FollowRelation(1, 3)
-    );
-
-
     @Test
     void getAllUsers() {
     }
@@ -128,17 +112,9 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should return a valid UserFollowersDTO as 'name_asc' is a valid order")
     void getUserFollowersById_validOrderRequestParam_nameAscHappyPath() {
-        // Arrange
+        // Arrange & Act
         String order = "name_asc";
-
-        // Act
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowedId(anyInt()))
-                .thenReturn(mockedFollowerRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        UserFollowersDTO userFollowersDTO = userService.getUserFollowersById(mockedUser1.getId(), order);
+        UserFollowersDTO userFollowersDTO = getMockedUserFollowersById(order);
 
         // Assert
         assertNotNull(userFollowersDTO);
@@ -148,17 +124,9 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should return a valid UserFollowersDTO as 'name_desc' is a valid order")
     void getUserFollowersById_validOrderRequestParam_nameDescHappyPath() {
-        // Arrange
+        // Arrange & Act
         String order = "name_desc";
-
-        // Act
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowedId(anyInt()))
-                .thenReturn(mockedFollowerRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        UserFollowersDTO userFollowersDTO = userService.getUserFollowersById(mockedUser1.getId(), order);
+        UserFollowersDTO userFollowersDTO = getMockedUserFollowersById(order);
 
         // Assert
         assertNotNull(userFollowersDTO);
@@ -168,17 +136,9 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should return a valid UserFollowersDTO as '' is a valid order")
     void getUserFollowersById_validOrderRequestParam_emptyHappyPath() {
-        // Arrange
+        // Arrange & Act
         String order = "";
-
-        // Act
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowedId(anyInt()))
-                .thenReturn(mockedFollowerRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        UserFollowersDTO userFollowersDTO = userService.getUserFollowersById(mockedUser1.getId(), order);
+        UserFollowersDTO userFollowersDTO = getMockedUserFollowersById(order);
 
         // Assert
         assertNotNull(userFollowersDTO);
@@ -188,33 +148,18 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should throw an exception as 'unexistingOrder' is not a valid order")
     void getUserFollowersById_validOrderRequestParam_sadPath() {
-        // Arrange
+        // Arrange & Act & Assert
         String order = "unexistingOrder";
 
-        // Act & Assert
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowedId(anyInt()))
-                .thenReturn(mockedFollowerRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        Assertions.assertThrows(BadRequestException.class, () -> userService.getUserFollowersById(mockedUser1.getId(), order));
+        Assertions.assertThrows(BadRequestException.class, () -> getMockedUserFollowersById(order));
     }
 
     @Test
     @DisplayName("Should return a valid UserFollowedDTO as 'name_asc' is a valid order")
     void getUserFollowedById_validOrderRequestParam_nameAscHappyPath() {
-        // Arrange
+        // Arrange & Act
         String order = "name_asc";
-
-        // Act
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowerId(anyInt()))
-                .thenReturn(mockedFollowedRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        UserFollowedDTO userFollowedDTO = userService.getUserFollowedById(mockedUser1.getId(), order);
+        UserFollowedDTO userFollowedDTO = getMockedUserFollowedById(order);
 
         // Assert
         assertNotNull(userFollowedDTO);
@@ -224,17 +169,9 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should return a valid UserFollowedDTO as 'name_desc' is a valid order")
     void getUserFollowedById_validOrderRequestParam_nameDescHappyPath() {
-        // Arrange
+        // Arrange & Act
         String order = "name_desc";
-
-        // Act
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowerId(anyInt()))
-                .thenReturn(mockedFollowedRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        UserFollowedDTO userFollowedDTO = userService.getUserFollowedById(mockedUser1.getId(), order);
+        UserFollowedDTO userFollowedDTO = getMockedUserFollowedById(order);
 
         // Assert
         assertNotNull(userFollowedDTO);
@@ -244,17 +181,9 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should return a valid UserFollowedDTO as '' is a valid order")
     void getUserFollowedById_validOrderRequestParam_emptyHappyPath() {
-        // Arrange
+        // Arrange & Act
         String order = "";
-
-        // Act
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
-        when(userRepository.getFollowRelationsByFollowerId(anyInt()))
-                .thenReturn(mockedFollowedRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
-
-        UserFollowedDTO userFollowedDTO = userService.getUserFollowedById(mockedUser1.getId(), order);
+        UserFollowedDTO userFollowedDTO = getMockedUserFollowedById(order);
 
         // Assert
         assertNotNull(userFollowedDTO);
@@ -264,17 +193,58 @@ class UserServiceimplTest {
     @Test
     @DisplayName("Should throw an exception as 'unexistingOrder' is not a valid order")
     void getUserFollowedById_validOrderRequestParam_sadPath() {
-        // Arrange
+        // Arrange & act
         String order = "unexistingOrder";
 
-        // Act & Assert
+        Assertions.assertThrows(BadRequestException.class, () -> getMockedUserFollowedById(order));
+    }
+
+    private UserFollowedDTO getMockedUserFollowedById(String order) {
+        User mockedUser1 = new User(1, "Lorena");
+        User mockedUser2 = new User(2, "Pepe");
+        User mockedUser3 = new User(3, "Juan");
+
+        List<FollowRelation> mockedFollowerRelations = List.of(
+                new FollowRelation(2, 1),
+                new FollowRelation(3, 1)
+        );
+
+        List<FollowRelation> mockedFollowedRelations = List.of(
+                new FollowRelation(1, 2),
+                new FollowRelation(1, 3)
+        );
+
         when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
         when(userRepository.getFollowRelationsByFollowerId(anyInt()))
                 .thenReturn(mockedFollowedRelations);
         when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
         when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
 
-        Assertions.assertThrows(BadRequestException.class, () -> userService.getUserFollowedById(mockedUser1.getId(), order));
+        return userService.getUserFollowedById(mockedUser1.getId(), order);
+    }
+
+    private UserFollowersDTO getMockedUserFollowersById(String order) {
+        User mockedUser1 = new User(1, "Lorena");
+        User mockedUser2 = new User(2, "Pepe");
+        User mockedUser3 = new User(3, "Juan");
+
+        List<FollowRelation> mockedFollowerRelations = List.of(
+                new FollowRelation(2, 1),
+                new FollowRelation(3, 1)
+        );
+
+        List<FollowRelation> mockedFollowedRelations = List.of(
+                new FollowRelation(1, 2),
+                new FollowRelation(1, 3)
+        );
+
+        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
+        when(userRepository.getFollowRelationsByFollowedId(anyInt()))
+                .thenReturn(mockedFollowerRelations);
+        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
+        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
+
+        return userService.getUserFollowersById(mockedUser1.getId(), order);
     }
 
     @Test
