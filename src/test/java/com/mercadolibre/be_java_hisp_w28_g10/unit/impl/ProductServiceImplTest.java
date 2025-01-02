@@ -148,9 +148,11 @@ class ProductServiceImplTest {
                 () -> assertEquals(6, response.getPostDTOList().size()),
                 () -> {
                     int rand = new Random().nextInt(response.getPostDTOList().size());
-                    String fechaPostString = response.getPostDTOList().get(rand).getDate();
-                    LocalDate fechaPost = LocalDate.parse(fechaPostString);
-                    assertTrue(!fechaPost.isBefore(dateBeforeTwoWeeks) && !fechaPost.isAfter(nowDate));
+                    response.getPostDTOList().forEach(x -> {
+                        String fechaPostString = x.getDate();
+                        LocalDate fechaPost = LocalDate.parse(fechaPostString);
+                        assertTrue(!fechaPost.isBefore(dateBeforeTwoWeeks) && !fechaPost.isAfter(nowDate));
+                    });
                 }
         );
     }
