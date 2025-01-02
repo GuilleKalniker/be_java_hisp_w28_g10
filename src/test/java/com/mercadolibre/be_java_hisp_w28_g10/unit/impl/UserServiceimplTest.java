@@ -1,11 +1,9 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.*;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
@@ -188,6 +186,7 @@ class UserServiceimplTest {
         when(userRepository.findUserById(1)).thenReturn(null);
         // ACT
         assertThrows(NotFoundException.class, () -> userService.getFollowersAmountById(1));
+    }
     @DisplayName("Should return a valid UserFollowersDTO as 'name_asc' is a valid order")
     void getUserFollowersById_validOrderRequestParam_nameAscHappyPath() {
         // Arrange & Act

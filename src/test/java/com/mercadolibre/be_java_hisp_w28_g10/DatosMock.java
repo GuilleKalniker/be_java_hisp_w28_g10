@@ -140,6 +140,12 @@ public class DatosMock {
             new FollowRelation(1, 5),
             new FollowRelation(1, 7)
     );
+    public static List<FollowRelation> FOLLOW_RELATIONS_5 = List.of(
+            new FollowRelation(4, 2),
+            new FollowRelation(4, 3),
+            new FollowRelation(4, 5),
+            new FollowRelation(4, 7)
+    );
 
     public static final User USER_1 = new User(1, "Alice");
     public static final User USER_2 = new User(2, "Ron");
