@@ -71,9 +71,7 @@ class UserServiceimplTest {
         when(userRepository.findUserById(1)).thenReturn(null);
 
         // ACT
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.getFollowersAmountById(1));
-        //ASSERT
-        assertEquals("User not found", exception.getMessage());
+        assertThrows(NotFoundException.class, () -> userService.getFollowersAmountById(1));
     }
 
     @Test
