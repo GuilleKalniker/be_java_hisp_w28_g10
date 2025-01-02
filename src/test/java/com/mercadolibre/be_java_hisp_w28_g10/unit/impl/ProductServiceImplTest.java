@@ -196,6 +196,7 @@ class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Should return a list of elements only when the order string is valid")
     void getLastFollowedPosts_ascendingOrderArgumentIsValid_happyPathOrderExists() {
         //ARRANGE
         Integer userId = 2;
