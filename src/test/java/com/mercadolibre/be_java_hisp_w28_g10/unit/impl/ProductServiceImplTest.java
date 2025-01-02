@@ -22,8 +22,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.*;
 import java.util.stream.IntStream;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
@@ -193,5 +193,23 @@ class ProductServiceImplTest {
         when(userRepository.findUserById(userId)).thenReturn(DatosMock.USER_2);
         when(userRepository.getFollowRelationsByFollowerId(userId)).thenReturn(DatosMock.FOLLOW_RELATIONS_2);
         when(productRepository.findAllPost()).thenReturn(DatosMock.POST_LIST);
+    }
+
+    @Test
+    @DisplayName("Should return a list of elements only when the order string is valid")
+    void getLastFollowedPosts_ascendingOrderArgumentIsValid_happyPathOrderExists() {
+        //ARRANGE
+        Integer userId = 2;
+
+        when(productRepository.findAllPost()).thenReturn(DatosMock.POST_LIST);
+        when(userRepository.getFollowRelationsByFollowerId(2)).thenReturn(DatosMock.FOLLOW_RELATIONS_2);
+        when(userRepository.findUserById(2)).thenReturn(DatosMock.USER_2);
+        String order = "date_asc";
+
+        //ACT
+        ResponseFollowedPostsDTO result = productService.getLastFollowedPosts(userId, order);
+
+        //ASSERT
+        assertNotNull(result, "Result should not be null");
     }
 }
