@@ -1,5 +1,8 @@
 package com.mercadolibre.be_java_hisp_w28_g10;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
@@ -143,8 +146,53 @@ public class DatosMock {
 
     public static final User USER_1 = new User(1, "Alice");
     public static final User USER_2 = new User(2, "Ron");
-    public static final User USER_3 =  new User(3, "Pepe");
+    public static final User USER_3 = new User(3, "Pepe");
     public static final User USER_5 = new User(5, "Eve");
     public static final User USER_7 = new User(7, "Grace");
+
+    public static final UserFollowersDTO userFollowersNoOrder = new UserFollowersDTO(4,"Diana",
+            List.of(
+                 new ResponseUserDTO(1, "Alice"),
+                 new ResponseUserDTO(2, "Ron"),
+                 new ResponseUserDTO(3, "Pepe"),
+                 new ResponseUserDTO(5, "Eve")
+            ));
+
+    public static final UserFollowersDTO userFollowersOrderedByNameAsc = new UserFollowersDTO(4,"Diana",
+            List.of(
+                    new ResponseUserDTO(1, "Alice"),
+                    new ResponseUserDTO(5, "Eve"),
+                    new ResponseUserDTO(3, "Pepe"),
+                    new ResponseUserDTO(2, "Ron")
+            ));
+
+    public static final UserFollowersDTO userFollowersOrderedByNameDesc = new UserFollowersDTO(4,"Diana",
+            List.of(
+                    new ResponseUserDTO(2, "Ron"),
+                    new ResponseUserDTO(3, "Pepe"),
+                    new ResponseUserDTO(5, "Eve"),
+                    new ResponseUserDTO(1, "Alice")
+            ));
+
+    public static final UserFollowedDTO userFollowedNoOrder = new UserFollowedDTO(1,"Alice",
+            List.of(
+                    new ResponseUserDTO(2, "Ron"),
+                    new ResponseUserDTO(3, "Pepe"),
+                    new ResponseUserDTO(4, "Diana")
+            ));
+
+    public static final UserFollowedDTO userFollowedOrderedByNameAsc = new UserFollowedDTO(1,"Alice",
+            List.of(
+                    new ResponseUserDTO(4, "Diana"),
+                    new ResponseUserDTO(3, "Pepe"),
+                    new ResponseUserDTO(2, "Ron")
+            ));
+
+    public static final UserFollowedDTO userFollowedOrderedByNameDesc = new UserFollowedDTO(1,"Alice",
+            List.of(
+                    new ResponseUserDTO(2, "Ron"),
+                    new ResponseUserDTO(3, "Pepe"),
+                    new ResponseUserDTO(4, "Diana")
+            ));
 
 }
