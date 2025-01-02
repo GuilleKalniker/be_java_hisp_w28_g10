@@ -112,11 +112,32 @@ class UserControllerITest {
 
     @Test
     void getAmountFollowersById() throws Exception {
-
     }
 
     @Test
-    void unfollowUserById() {
+    void unfollowUserById_happyPath() throws Exception {
+        //Arrange
+        ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("The user with id:3 was unfollowed successfully.");
+        String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
+
+        // Act & Assert
+        mockMvc.perform(post("/users/{userId}/unfollow/{userIdToollow}", 1, 3)) // user tries to follow themselves
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseMessageJSON))
+                .andDo(print());
+    }
+
+    @Test
+    void unfollowUserById_sadPath() throws Exception {
+        //Arrange
+        ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("No follower relationship found for the given ids");
+        String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
+
+        // Act & Assert
+        mockMvc.perform(post("/users/{userId}/unfollow/{userIdToollow}", 1, 39)) // user tries to follow themselves
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(responseMessageJSON))
+                .andDo(print());
     }
 
     @Test
