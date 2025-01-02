@@ -11,9 +11,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,6 +37,30 @@ class UserServiceimplTest {
 
     @InjectMocks
     private UserServiceimpl userService;
+
+    private User mockedUser1;
+    private User mockedUser2;
+    private User mockedUser3;
+    private List<FollowRelation> mockedFollowerRelations;
+    private List<FollowRelation> mockedFollowedRelations;
+    private Object mockedUser1;
+
+    @BeforeEach
+    public void setup() {
+        mockedUser1 = new User(1, "Lorena");
+        mockedUser2 = new User(2, "Pepe");
+        mockedUser3 = new User(3, "Juan");
+
+        mockedFollowerRelations = List.of(
+                new FollowRelation(2, 1),
+                new FollowRelation(3, 1)
+        );
+
+        mockedFollowedRelations = List.of(
+                new FollowRelation(1, 2),
+                new FollowRelation(1, 3)
+        );
+    }
 
     @Test
     void getAllUsers() {
@@ -200,44 +222,17 @@ class UserServiceimplTest {
     }
 
     private UserFollowedDTO getMockedUserFollowedById(String order) {
-        User mockedUser1 = new User(1, "Lorena");
-        User mockedUser2 = new User(2, "Pepe");
-        User mockedUser3 = new User(3, "Juan");
-
-        List<FollowRelation> mockedFollowerRelations = List.of(
-                new FollowRelation(2, 1),
-                new FollowRelation(3, 1)
-        );
-
-        List<FollowRelation> mockedFollowedRelations = List.of(
-                new FollowRelation(1, 2),
-                new FollowRelation(1, 3)
-        );
 
         when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
         when(userRepository.getFollowRelationsByFollowerId(anyInt()))
                 .thenReturn(mockedFollowedRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
+        when(userRepository.getUserById(UserServiceimplTest.mockedUser2.getId())).thenReturn(mockedUser2);
+        when(userRepository.getUserById(UserServiceimplTest.mockedUser3.getId())).thenReturn(mockedUser3);
 
         return userService.getUserFollowedById(mockedUser1.getId(), order);
     }
 
     private UserFollowersDTO getMockedUserFollowersById(String order) {
-        User mockedUser1 = new User(1, "Lorena");
-        User mockedUser2 = new User(2, "Pepe");
-        User mockedUser3 = new User(3, "Juan");
-
-        List<FollowRelation> mockedFollowerRelations = List.of(
-                new FollowRelation(2, 1),
-                new FollowRelation(3, 1)
-        );
-
-        List<FollowRelation> mockedFollowedRelations = List.of(
-                new FollowRelation(1, 2),
-                new FollowRelation(1, 3)
-        );
-
         when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
         when(userRepository.getFollowRelationsByFollowedId(anyInt()))
                 .thenReturn(mockedFollowerRelations);
