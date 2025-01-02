@@ -2,20 +2,12 @@ package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.*;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-<<<<<<< HEAD
-import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
-=======
-import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
->>>>>>> dd4d22b5ee4fc730974f75c02e0ca5c539b5c835
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
@@ -26,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -163,13 +156,6 @@ class UserServiceimplTest {
         Assertions.assertThrows(NotFoundException.class, () -> userService.follow(followerId, followedId));
     }
 
-    @Test
-<<<<<<< HEAD
-    void getFollowersAmountById() {
-    }
-
-    @Test
-=======
     void getUserFollowersAmountById_followersComplete_happyPath() {
         User user = new User(2, "Pedro");
         //ARRANGE
@@ -197,7 +183,6 @@ class UserServiceimplTest {
     }
 
     @Test
->>>>>>> dd4d22b5ee4fc730974f75c02e0ca5c539b5c835
     @DisplayName("Should return a valid UserFollowersDTO as 'name_asc' is a valid order")
     void getUserFollowersById_validOrderRequestParam_nameAscHappyPath() {
         // Arrange & Act
