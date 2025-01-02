@@ -1,7 +1,10 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
-
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
@@ -10,9 +13,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,6 +24,7 @@ import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -129,6 +131,113 @@ class UserServiceimplTest {
         when(userRepository.findUserById(1)).thenReturn(null);
         // ACT
         assertThrows(NotFoundException.class, () -> userService.getFollowersAmountById(1));
+    @DisplayName("Should return a valid UserFollowersDTO as 'name_asc' is a valid order")
+    void getUserFollowersById_validOrderRequestParam_nameAscHappyPath() {
+        // Arrange & Act
+        String order = "name_asc";
+        UserFollowersDTO userFollowersDTO = getMockedUserFollowersById(order);
+
+        // Assert
+        assertNotNull(userFollowersDTO);
+        Assertions.assertFalse(userFollowersDTO.getFollowers().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowersDTO as 'name_desc' is a valid order")
+    void getUserFollowersById_validOrderRequestParam_nameDescHappyPath() {
+        // Arrange & Act
+        String order = "name_desc";
+        UserFollowersDTO userFollowersDTO = getMockedUserFollowersById(order);
+
+        // Assert
+        assertNotNull(userFollowersDTO);
+        Assertions.assertFalse(userFollowersDTO.getFollowers().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowersDTO as '' is a valid order")
+    void getUserFollowersById_validOrderRequestParam_emptyHappyPath() {
+        // Arrange & Act
+        String order = "";
+        UserFollowersDTO userFollowersDTO = getMockedUserFollowersById(order);
+
+        // Assert
+        assertNotNull(userFollowersDTO);
+        Assertions.assertFalse(userFollowersDTO.getFollowers().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should throw an exception as 'unexistingOrder' is not a valid order")
+    void getUserFollowersById_validOrderRequestParam_sadPath() {
+        // Arrange & Act & Assert
+        String order = "unexistingOrder";
+
+        Assertions.assertThrows(BadRequestException.class, () -> getMockedUserFollowersById(order));
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowedDTO as 'name_asc' is a valid order")
+    void getUserFollowedById_validOrderRequestParam_nameAscHappyPath() {
+        // Arrange & Act
+        String order = "name_asc";
+        UserFollowedDTO userFollowedDTO = getMockedUserFollowedById(order);
+
+        // Assert
+        assertNotNull(userFollowedDTO);
+        Assertions.assertFalse(userFollowedDTO.getFollowed().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowedDTO as 'name_desc' is a valid order")
+    void getUserFollowedById_validOrderRequestParam_nameDescHappyPath() {
+        // Arrange & Act
+        String order = "name_desc";
+        UserFollowedDTO userFollowedDTO = getMockedUserFollowedById(order);
+
+        // Assert
+        assertNotNull(userFollowedDTO);
+        Assertions.assertFalse(userFollowedDTO.getFollowed().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowedDTO as '' is a valid order")
+    void getUserFollowedById_validOrderRequestParam_emptyHappyPath() {
+        // Arrange & Act
+        String order = "";
+        UserFollowedDTO userFollowedDTO = getMockedUserFollowedById(order);
+
+        // Assert
+        assertNotNull(userFollowedDTO);
+        Assertions.assertFalse(userFollowedDTO.getFollowed().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should throw an exception as 'unexistingOrder' is not a valid order")
+    void getUserFollowedById_validOrderRequestParam_sadPath() {
+        // Arrange & act
+        String order = "unexistingOrder";
+
+        Assertions.assertThrows(BadRequestException.class, () -> getMockedUserFollowedById(order));
+    }
+
+    private UserFollowedDTO getMockedUserFollowedById(String order) {
+        when(userRepository.findUserById(anyInt())).thenReturn(DatosMock.USER_1);
+        when(userRepository.getFollowRelationsByFollowerId(anyInt()))
+                .thenReturn(DatosMock.FOLLOW_RELATIONS_4);
+        when(userRepository.getUserById(DatosMock.USER_2.getId())).thenReturn(DatosMock.USER_2);
+        when(userRepository.getUserById(DatosMock.USER_3.getId())).thenReturn(DatosMock.USER_3);
+
+        return userService.getUserFollowedById(DatosMock.USER_1.getId(), order);
+    }
+
+    private UserFollowersDTO getMockedUserFollowersById(String order) {
+        when(userRepository.findUserById(anyInt())).thenReturn(DatosMock.USER_1);
+        when(userRepository.getFollowRelationsByFollowedId(anyInt()))
+                .thenReturn(DatosMock.FOLLOW_RELATIONS_3);
+        when(userRepository.getUserById(DatosMock.USER_2.getId())).thenReturn(DatosMock.USER_2);
+        when(userRepository.getUserById(DatosMock.USER_3.getId())).thenReturn(DatosMock.USER_3);
+
+        return userService.getUserFollowersById(DatosMock.USER_1.getId(), order);
     }
 
     @Test
