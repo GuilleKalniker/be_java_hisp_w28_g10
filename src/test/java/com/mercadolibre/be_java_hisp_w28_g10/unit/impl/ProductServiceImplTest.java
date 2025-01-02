@@ -147,7 +147,6 @@ class ProductServiceImplTest {
                 () -> assertNotNull(response),
                 () -> assertEquals(6, response.getPostDTOList().size()),
                 () -> {
-                    int rand = new Random().nextInt(response.getPostDTOList().size());
                     response.getPostDTOList().forEach(x -> {
                         String fechaPostString = x.getDate();
                         LocalDate fechaPost = LocalDate.parse(fechaPostString);
