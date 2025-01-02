@@ -106,6 +106,8 @@ public class DatosMock {
             new Post(10, 20, LocalDate.parse("2024-06-20"),
                     109, 199.99, new Product(120, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15));
 
+    public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
+
     public static List<FollowRelation> FOLLOW_RELATIONS = Arrays.asList(
             new FollowRelation(1, 2),
             new FollowRelation(1, 3),
@@ -127,17 +129,22 @@ public class DatosMock {
 
     public static List<FollowRelation> FOLLOW_RELATIONS_3  = List.of(
             new FollowRelation(2, 1),
-            new FollowRelation(3, 1)
+            new FollowRelation(3, 1),
+            new FollowRelation(5, 1),
+            new FollowRelation(7, 1)
         );
 
     public static List<FollowRelation> FOLLOW_RELATIONS_4 = List.of(
             new FollowRelation(1, 2),
-            new FollowRelation(1, 3)
+            new FollowRelation(1, 3),
+            new FollowRelation(1, 5),
+            new FollowRelation(1, 7)
     );
 
     public static final User USER_1 = new User(1, "Alice");
     public static final User USER_2 = new User(2, "Ron");
     public static final User USER_3 =  new User(3, "Pepe");
     public static final User USER_5 = new User(5, "Eve");
+    public static final User USER_7 = new User(7, "Grace");
 
 }
