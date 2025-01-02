@@ -199,8 +199,6 @@ public class ProductServiceImpl implements IProductService {
      * @return true if the operation was successful; false otherwise.
      */
     private boolean savePostLogic(PostDTO post) {
-        //validatePostDto(post);
-        //validateProductDto(post.getProduct());
         Product product = utilities.convertValue(post.getProduct(), Product.class);
         if (!productRepository.existsProduct(post.getProduct().getId())) {
             productRepository.addProduct(product);
@@ -210,54 +208,4 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.addPost(utilities.convertValue(post, Post.class));
     }
 
-    /**
-     * Validates the given {@link PostDTO} for required fields and constraints.
-     *
-     * @param post the post data to validate.
-     * @throws BadRequestException if validation fails.
-     */
-    private void validatePostDto(PostDTO post) {
-        try {
-            LocalDate ld = utilities.convertValue(post.getDate(), LocalDate.class);
-        } catch (Exception e) {
-            throw new BadRequestException("The date field must be in the dd/MM/yyyy format.");
-        }
-
-        if (post.getId() <= 0) {
-            throw new IllegalArgumentException("The ID must be a positive number.");
-        }
-        if (post.getDate() == null || post.getDate().isEmpty()) {
-            throw new IllegalArgumentException("Date is required.");
-        }
-        if (post.getCategory() <= 0) {
-            throw new IllegalArgumentException("Category must be a positive value.");
-        }
-        if (post.getPrice() <= 0) {
-            throw new IllegalArgumentException("The price must be a positive number.");
-        }
-    }
-
-    /**
-     * Validates the provided {@link ProductDTO} for required fields.
-     *
-     * @param productDto the product data to validate.
-     * @throws IllegalArgumentException if validation fails.
-     */
-    private void validateProductDto(ProductDTO productDto) {
-        if (productDto.getId() <= 0) {
-            throw new IllegalArgumentException("The product ID must be a positive number.");
-        }
-        if (productDto.getName() == null || productDto.getName().isEmpty()) {
-            throw new IllegalArgumentException("The product name is required.");
-        }
-        if (productDto.getType() == null || productDto.getType().isEmpty()) {
-            throw new IllegalArgumentException("The product type is required.");
-        }
-        if (productDto.getBrand() == null || productDto.getBrand().isEmpty()) {
-            throw new IllegalArgumentException("The product brand is required.");
-        }
-        if (productDto.getColor() == null || productDto.getColor().isEmpty()) {
-            throw new IllegalArgumentException("The product color is required.");
-        }
-    }
 }
