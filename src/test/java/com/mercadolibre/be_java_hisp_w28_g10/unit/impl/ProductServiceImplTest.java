@@ -5,10 +5,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
-import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 
@@ -26,12 +22,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.*;
 import java.util.stream.IntStream;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
@@ -219,70 +211,4 @@ class ProductServiceImplTest {
         //ASSERT
         assertNotNull(result, "Result should not be null");
     }
-
-    /*@Test
-    void getLastFollowedPosts_ascendingOrderArgumentIsValid_happyPathAscendingOrderIsValid() {
-        //ARRANGE
-        Integer userId = 2;
-
-        when(productRepository.findAllPost()).thenReturn(DatosMock.POST_LIST);
-        when(userRepository.getFollowRelationsByFollowerId(2)).thenReturn(DatosMock.FOLLOW_RELATIONS_2);
-        when(userRepository.findUserById(2)).thenReturn(DatosMock.USER_2);
-        String order = "date_asc";
-
-        //ACT
-        ResponseFollowedPostsDTO result = productService.getLastFollowedPosts(userId, order);
-
-        //ASSERT
-        assertNotNull(result, "Result should not be null");
-        assertTrue(IntStream.range(1, result.getPostDTOList().size())
-                .allMatch(i -> {
-                    List<ResponsePostNoPromoDTO> list = result.getPostDTOList();
-                    String fechaPostString = list.get(i).getDate();
-                    LocalDate fechaPost = LocalDate.parse(fechaPostString);
-                    return !fechaPost.isBefore(LocalDate.parse(list.get(i - 1).getDate()));
-                })
-        );
-    }
-
-    @Test
-    void getLastFollowedPosts_descendingOrderArgumentIsValid_happyPathDescendingOrderIsValid() {
-        //ARRANGE
-        Integer userId = 2;
-
-        when(productRepository.findAllPost()).thenReturn(DatosMock.POST_LIST);
-        when(userRepository.getFollowRelationsByFollowerId(2)).thenReturn(DatosMock.FOLLOW_RELATIONS_2);
-        when(userRepository.findUserById(2)).thenReturn(DatosMock.USER_2);
-        String order = "date_desc";
-
-        //ACT
-        ResponseFollowedPostsDTO result = productService.getLastFollowedPosts(userId, order);
-
-        //ASSERT
-        assertNotNull(result, "Result should not be null");
-        assertTrue(IntStream.range(1, result.getPostDTOList().size())
-                .allMatch(i -> {
-                    List<ResponsePostNoPromoDTO> list = result.getPostDTOList();
-                    String fechaPostString = list.get(i).getDate();
-                    LocalDate fechaPost = LocalDate.parse(fechaPostString);
-                    return fechaPost.isBefore(LocalDate.parse(list.get(i - 1).getDate()));
-                })
-
-        );
-    }
-
-    @Test
-    void getLastFollowedPosts_ordenationOrderArgumentIsNotValid_throwsException() {
-        //ARRANGE
-        Integer userId = 2;
-
-        when(productRepository.findAllPost()).thenReturn(DatosMock.POST_LIST);
-        when(userRepository.getFollowRelationsByFollowerId(2)).thenReturn(DatosMock.FOLLOW_RELATIONS_2);
-        when(userRepository.findUserById(2)).thenReturn(DatosMock.USER_2);
-        String order = "invalid_criteria";
-
-        //ACT & ASSERT
-        assertThrows(BadRequestException.class, () -> productService.getLastFollowedPosts(userId, order));
-
-    }*/
 }
