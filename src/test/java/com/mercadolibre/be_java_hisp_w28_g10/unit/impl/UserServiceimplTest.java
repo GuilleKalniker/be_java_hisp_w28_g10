@@ -3,6 +3,7 @@ package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
@@ -20,6 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -251,12 +254,70 @@ class UserServiceimplTest {
         Assertions.assertThrows(BadRequestException.class, () -> getMockedUserFollowedById(order));
     }
 
+    @Test
+    @DisplayName("Should return a valid UserFollowersDTO with a list of ResponseUserDTO ordered by name ascendant")
+    void getUserFollowersById_orderedResponseUserDTOsByName_nameAscHappyPath() {
+        // Arrange & Act
+        String order = "name_asc";
+        List<ResponseUserDTO> responseUserDTOs = getMockedUserFollowersById(order).getFollowers();
+
+        // Assert
+        assertEquals("Eve", responseUserDTOs.get(0).getName());
+        assertEquals("Grace", responseUserDTOs.get(1).getName());
+        assertEquals("Pepe", responseUserDTOs.get(2).getName());
+        assertEquals("Ron", responseUserDTOs.get(3).getName());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowersDTO with a list of ResponseUserDTO ordered by name descendant")
+    void getUserFollowersById_orderedResponseUserDTOsByName_nameDescHappyPath() {
+        // Arrange & Act
+        String order = "name_desc";
+        List<ResponseUserDTO> responseUserDTOs = getMockedUserFollowersById(order).getFollowers();
+
+        // Assert
+        assertEquals("Ron", responseUserDTOs.get(0).getName());
+        assertEquals("Pepe", responseUserDTOs.get(1).getName());
+        assertEquals("Grace", responseUserDTOs.get(2).getName());
+        assertEquals("Eve", responseUserDTOs.get(3).getName());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowersDTO with a list of ResponseUserDTO ordered by name ascendant")
+    void getUserFollowedById_orderedResponseUserDTOsByName_nameAscHappyPath() {
+        // Arrange & Act
+        String order = "name_asc";
+        List<ResponseUserDTO> responseUserDTOs = getMockedUserFollowedById(order).getFollowed();
+
+        // Assert
+        assertEquals("Eve", responseUserDTOs.get(0).getName());
+        assertEquals("Grace", responseUserDTOs.get(1).getName());
+        assertEquals("Pepe", responseUserDTOs.get(2).getName());
+        assertEquals("Ron", responseUserDTOs.get(3).getName());
+    }
+
+    @Test
+    @DisplayName("Should return a valid UserFollowedDTO with a list of ResponseUserDTO ordered by name descendant")
+    void getUserFollowedById_orderedResponseUserDTOsByName_nameDescHappyPath() {
+        // Arrange & Act
+        String order = "name_desc";
+        List<ResponseUserDTO> responseUserDTOs = getMockedUserFollowedById(order).getFollowed();
+
+        // Assert
+        assertEquals("Ron", responseUserDTOs.get(0).getName());
+        assertEquals("Pepe", responseUserDTOs.get(1).getName());
+        assertEquals("Grace", responseUserDTOs.get(2).getName());
+        assertEquals("Eve", responseUserDTOs.get(3).getName());
+    }
+
     private UserFollowedDTO getMockedUserFollowedById(String order) {
         when(userRepository.findUserById(anyInt())).thenReturn(DatosMock.USER_1);
         when(userRepository.getFollowRelationsByFollowerId(anyInt()))
                 .thenReturn(DatosMock.FOLLOW_RELATIONS_4);
         when(userRepository.getUserById(DatosMock.USER_2.getId())).thenReturn(DatosMock.USER_2);
         when(userRepository.getUserById(DatosMock.USER_3.getId())).thenReturn(DatosMock.USER_3);
+        when(userRepository.getUserById(DatosMock.USER_5.getId())).thenReturn(DatosMock.USER_5);
+        when(userRepository.getUserById(DatosMock.USER_7.getId())).thenReturn(DatosMock.USER_7);
 
         return userService.getUserFollowedById(DatosMock.USER_1.getId(), order);
     }
@@ -267,6 +328,8 @@ class UserServiceimplTest {
                 .thenReturn(DatosMock.FOLLOW_RELATIONS_3);
         when(userRepository.getUserById(DatosMock.USER_2.getId())).thenReturn(DatosMock.USER_2);
         when(userRepository.getUserById(DatosMock.USER_3.getId())).thenReturn(DatosMock.USER_3);
+        when(userRepository.getUserById(DatosMock.USER_5.getId())).thenReturn(DatosMock.USER_5);
+        when(userRepository.getUserById(DatosMock.USER_7.getId())).thenReturn(DatosMock.USER_7);
 
         return userService.getUserFollowersById(DatosMock.USER_1.getId(), order);
     }
