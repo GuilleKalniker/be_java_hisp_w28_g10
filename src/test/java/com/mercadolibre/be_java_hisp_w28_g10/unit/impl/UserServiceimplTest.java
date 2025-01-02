@@ -1,12 +1,12 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
+import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
@@ -16,8 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,30 +35,6 @@ class UserServiceimplTest {
 
     @InjectMocks
     private UserServiceimpl userService;
-
-    private User mockedUser1;
-    private User mockedUser2;
-    private User mockedUser3;
-    private List<FollowRelation> mockedFollowerRelations;
-    private List<FollowRelation> mockedFollowedRelations;
-    private Object mockedUser1;
-
-    @BeforeEach
-    public void setup() {
-        mockedUser1 = new User(1, "Lorena");
-        mockedUser2 = new User(2, "Pepe");
-        mockedUser3 = new User(3, "Juan");
-
-        mockedFollowerRelations = List.of(
-                new FollowRelation(2, 1),
-                new FollowRelation(3, 1)
-        );
-
-        mockedFollowedRelations = List.of(
-                new FollowRelation(1, 2),
-                new FollowRelation(1, 3)
-        );
-    }
 
     @Test
     void getAllUsers() {
@@ -222,24 +196,23 @@ class UserServiceimplTest {
     }
 
     private UserFollowedDTO getMockedUserFollowedById(String order) {
-
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
+        when(userRepository.findUserById(anyInt())).thenReturn(DatosMock.USER_1);
         when(userRepository.getFollowRelationsByFollowerId(anyInt()))
-                .thenReturn(mockedFollowedRelations);
-        when(userRepository.getUserById(UserServiceimplTest.mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(UserServiceimplTest.mockedUser3.getId())).thenReturn(mockedUser3);
+                .thenReturn(DatosMock.FOLLOW_RELATIONS_4);
+        when(userRepository.getUserById(DatosMock.USER_2.getId())).thenReturn(DatosMock.USER_2);
+        when(userRepository.getUserById(DatosMock.USER_3.getId())).thenReturn(DatosMock.USER_3);
 
-        return userService.getUserFollowedById(mockedUser1.getId(), order);
+        return userService.getUserFollowedById(DatosMock.USER_1.getId(), order);
     }
 
     private UserFollowersDTO getMockedUserFollowersById(String order) {
-        when(userRepository.findUserById(anyInt())).thenReturn(mockedUser1);
+        when(userRepository.findUserById(anyInt())).thenReturn(DatosMock.USER_1);
         when(userRepository.getFollowRelationsByFollowedId(anyInt()))
-                .thenReturn(mockedFollowerRelations);
-        when(userRepository.getUserById(mockedUser2.getId())).thenReturn(mockedUser2);
-        when(userRepository.getUserById(mockedUser3.getId())).thenReturn(mockedUser3);
+                .thenReturn(DatosMock.FOLLOW_RELATIONS_3);
+        when(userRepository.getUserById(DatosMock.USER_2.getId())).thenReturn(DatosMock.USER_2);
+        when(userRepository.getUserById(DatosMock.USER_3.getId())).thenReturn(DatosMock.USER_3);
 
-        return userService.getUserFollowersById(mockedUser1.getId(), order);
+        return userService.getUserFollowersById(DatosMock.USER_1.getId(), order);
     }
 
     @Test
