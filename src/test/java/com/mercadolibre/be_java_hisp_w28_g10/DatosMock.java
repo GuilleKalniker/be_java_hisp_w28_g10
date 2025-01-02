@@ -1,5 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
@@ -44,6 +46,14 @@ public class DatosMock {
             new Product(18, "Auriculares Inalámbricos con Cancelación de Ruido", "Audio", "Bose", "Negro", "Calidad de sonido excepcional y cancelación de ruido."),
             new Product(19, "Silla de Oficina Ergonómica", "Muebles", "Herman Miller", "Negro", "Soporte para buena postura con características ajustables."),
             new Product(20, "Auriculares Gamer Inalámbricos", "Audio", "Razer", "Verde", "Audio inmersivo con soporte para sonido envolvente."));
+
+    public static final ProductDTO VALID_PRODUCT_DTO = new ProductDTO(
+            505, "Silla Gamer", "Gamer", "Racer", "Red & Black", "Special Edition"
+    );
+
+    public static final PostDTO VALID_POST_DTO = new PostDTO(
+            1, 100, "19-12-2024", 100, 1500.50, VALID_PRODUCT_DTO, false, 0.0
+    );
 
     public static final List<Post> POST_LIST = Arrays.asList(
             new Post(5, 1, LocalDate.parse("2024-12-25"),
