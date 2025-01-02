@@ -1,17 +1,14 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.*;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
-import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
+import com.mercadolibre.be_java_hisp_w28_g10.model.User;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
@@ -22,9 +19,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -161,7 +158,30 @@ class UserServiceimplTest {
     }
 
     @Test
-    void getFollowersAmountById() {
+    void getUserFollowersAmountById_followersComplete_happyPath() {
+        User user = new User(2, "Pedro");
+        //ARRANGE
+        FollowRelation followRelation1 = new FollowRelation(10, user.getId());
+        FollowRelation followRelation2 = new FollowRelation(1, user.getId());
+        FollowRelation followRelation3 = new FollowRelation(11, user.getId());
+        List<FollowRelation> followRelations = Arrays.asList(followRelation1, followRelation2, followRelation3);
+        when(userRepository.findUserById(1)).thenReturn(user);
+        when(userRepository.findAllFollowRelation()).thenReturn(followRelations);
+        //ACT
+        FollowersDTO result = userService.getFollowersAmountById(1);
+        //ASSERT
+        assertNotNull(result);
+        assertEquals(user.getId(), result.getId());
+        assertEquals(user.getName(), result.getName());
+        assertEquals(3, result.getFollowersCount());
+    }
+
+    @Test
+    void testGetFollowersAmountById_UserNotFound_badPath() {
+        // ARRANGE
+        when(userRepository.findUserById(1)).thenReturn(null);
+        // ACT
+        assertThrows(NotFoundException.class, () -> userService.getFollowersAmountById(1));
     }
 
     @Test
