@@ -55,6 +55,7 @@ public class UserController {
     }
 
     /**
+     * US 0001
      * Endpoint to follow a user.
      *
      * @param userId         the ID of the user who is following.
@@ -67,6 +68,7 @@ public class UserController {
     }
 
     /**
+     * US 0002
      * Endpoint to count the number of followers for a user.
      *
      * @param userId the ID of the user whose followers count is to be retrieved.
@@ -78,6 +80,7 @@ public class UserController {
     }
 
     /**
+     * US 0007
      * Endpoint to unfollow a user.
      *
      * @param userId           the ID of the user who is unfollowing.
@@ -90,6 +93,7 @@ public class UserController {
     }
 
     /**
+     * US 0003 + US 0008
      * Endpoint to retrieve the list of followers for a user.
      *
      * @param userId the ID of the user whose followers are to be retrieved.
@@ -102,6 +106,7 @@ public class UserController {
     }
 
     /**
+     * US 0004 + US 0008
      * Endpoint to retrieve the list of users followed by a specific user.
      *
      * @param userId the ID of the user whose following list is to be retrieved.
