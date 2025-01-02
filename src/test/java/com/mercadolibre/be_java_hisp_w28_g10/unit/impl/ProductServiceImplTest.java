@@ -1,10 +1,15 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
+import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 
@@ -185,8 +190,42 @@ class ProductServiceImplTest {
         //ACT & ASSERT
         BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.getLastFollowedPosts(userId, order));
         assertEquals("That's not a valid order criteria: " + order, exception.getMessage());
+    }
 
+    @Test
+    @DisplayName("Should return a PostDTO of the created Post with promo")
+    void addPromoPost_createPost_happyPath() {
+        // Arrange
+        mockSavePostLogic();
 
+        // Act
+        PostDTO obtainedDTO = productService.addPromoPost(DatosMock.POST_DTO_1);
+
+        // Assert
+        assertEquals(DatosMock.POST_DTO_1, obtainedDTO);
+    }
+
+    @Test
+    @DisplayName("Should return a ResponsePostNoPromoDTO of the created Post with no promo")
+    void addPost_createPost_happyPath() {
+        // Arrange
+        mockSavePostLogic();
+        when(utilities.convertValue(DatosMock.POST_DTO_1, Post.class)).thenReturn(DatosMock.POST_1);
+        when(utilities.convertValue(DatosMock.POST_1.getProduct(), ProductDTO.class)).thenReturn(DatosMock.POST_DTO_1.getProduct());
+
+        // Act
+        ResponsePostNoPromoDTO obtainedDTO = productService.addPost(DatosMock.POST_DTO_1);
+
+        // Assert
+        assertEquals(DatosMock.RESPONSE_POST_NO_PROMO_DTO , obtainedDTO);
+    }
+
+    private void mockSavePostLogic() {
+        when(utilities.convertValue(DatosMock.POST_DTO_1.getProduct(), Product.class)).thenReturn(DatosMock.POST_1.getProduct());
+        when(productRepository.existsProduct(DatosMock.POST_1.getProduct().getId())).thenReturn(false);
+        when(productRepository.addProduct(DatosMock.POST_1.getProduct())).thenReturn(true);
+        when(utilities.convertValue(DatosMock.POST_DTO_1, Post.class)).thenReturn(DatosMock.POST_1);
+        when(productRepository.addPost(DatosMock.POST_1)).thenReturn(true);
     }
 
     private void arrangePostTestForUser2(int userId) {
