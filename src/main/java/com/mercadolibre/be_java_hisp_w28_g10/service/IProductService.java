@@ -33,6 +33,7 @@ public interface IProductService {
     List<PostDTO> getAllPost();
 
     /**
+     * US 0005
      * Adds a regular post to the system.
      *
      * @param post the {@link PostDTO} containing the details of the post to be added.
@@ -41,6 +42,7 @@ public interface IProductService {
     ResponsePostNoPromoDTO addPost(PostDTO post);
 
     /**
+     * US 0010
      * Adds a promotional post to the system.
      * @param promoPost the {@link PostDTO} containing the details of the post to be added.
      * @return the added {@link PostDTO}.
@@ -48,6 +50,7 @@ public interface IProductService {
     PostDTO addPromoPost(PostDTO promoPost);
 
     /**
+     * US 0011
      * Retrieves the number of promotional products associated with a specified user.
      * @param id the ID of the user.
      * @return a {@link ProductsWithPromoDTO} containing the user's ID, name, and the count of promotional products.
@@ -56,6 +59,7 @@ public interface IProductService {
     ProductsWithPromoDTO productsWithPromoDTO(int id);
 
     /**
+     * US 0006 + US 0009
      * Retrieves the most recent posts from users that the specified user follows.
      * @param userId the ID of the user requesting the posts.
      * @param order optional sorting order for the posts (asc/desc).
