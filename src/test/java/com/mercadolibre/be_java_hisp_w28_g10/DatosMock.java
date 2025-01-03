@@ -54,7 +54,7 @@ public class DatosMock {
             new Product(20, "Auriculares Gamer Inalámbricos", "Audio", "Razer", "Verde", "Audio inmersivo con soporte para sonido envolvente."));
 
     public static final ProductDTO VALID_PRODUCT_DTO = new ProductDTO(
-            505, "Silla Gamer", "Gamer", "Racer", "Red & Black", "Special Edition"
+            505, "Silla Gamer", "Gamer", "Racer", "Red and Black", "Special Edition"
     );
 
     public static final PostDTO VALID_POST_DTO = new PostDTO(
