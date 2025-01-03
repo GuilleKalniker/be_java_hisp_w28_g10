@@ -2,6 +2,8 @@ package com.mercadolibre.be_java_hisp_w28_g10;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
@@ -9,6 +11,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -108,6 +111,12 @@ public class DatosMock {
 
             new Post(10, 20, LocalDate.now().minusWeeks(3),
                     109, 199.99, new Product(120, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15));
+
+    public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_ASC = Arrays.asList(
+            new ResponsePostNoPromoDTO(5, 23, "2024-12-30",
+                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Juego de cuchillos de acero inoxidable.")),
+            new ResponsePostNoPromoDTO(5, 24, "2025-01-01",
+                    103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable y de bajo consumo.")));
 
     public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
 
