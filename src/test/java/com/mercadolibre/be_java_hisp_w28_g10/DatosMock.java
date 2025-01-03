@@ -161,20 +161,6 @@ public class DatosMock {
             new PostDTO(5, 52, LocalDate.now().minusDays(5).format(DATE_FORMATTER),
                             103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."), false, 0.0);
 
-    public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_DESC = Arrays.asList(
-            new ResponsePostNoPromoDTO(5, 55, LocalDate.now().minusDays(7).toString(),
-                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos.")),
-            new ResponsePostNoPromoDTO(5, 56, LocalDate.now().minusDays(5).toString(),
-                    103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."))
-    );
-
-    public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_ASC = Arrays.asList(
-            new ResponsePostNoPromoDTO(5, 51, LocalDate.now().minusDays(7).toString(),
-                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos.")),
-            new ResponsePostNoPromoDTO(5, 52, LocalDate.now().minusDays(5).toString(),
-                    103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."))
-    );
-
     public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
 
     public static List<FollowRelation> FOLLOW_RELATIONS = Arrays.asList(

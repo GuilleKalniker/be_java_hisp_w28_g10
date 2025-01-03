@@ -20,6 +20,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -174,10 +176,6 @@ class ProductControllerITest {
         PostDTO postDTO1 = DatosMock.FIRST_TEST_POST;
         PostDTO postDTO2 = DatosMock.SECOND_TEST_POST;
 
-        //Preparo el mensaje de respuesta esperado
-        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_ASC);
-        String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
-
         //ACT AND ASSERT
         //Load the publications from at least 2 weeks ago
         mockMvc.perform(post("/products/post")
@@ -188,8 +186,29 @@ class ProductControllerITest {
                 .content(objectMapper.writeValueAsString(postDTO2)));
 
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_asc"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(responseMessageJSON))
+                .andExpectAll(
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        status().isOk(),
+                        jsonPath("$.posts[1].date").value(LocalDate.now().minusDays(5).toString()),
+                        jsonPath("$.posts[1].category").value(103),
+                        jsonPath("$.posts[1].price").value(45.0),
+                        jsonPath("$.posts[1].user_id").value(5),
+                        jsonPath("$.posts[1].product.type").value("Lighting"),
+                        jsonPath("$.posts[1].product.brand").value("Philips"),
+                        jsonPath("$.posts[1].product.color").value("White"),
+                        jsonPath("$.posts[1].product.notes").value("Regulable."),
+                        jsonPath("$.posts[1].product.product_id").value(124),
+                        jsonPath("$.posts[1].product.product_name").value("Lámpara LED Regulable"),
+                        jsonPath("$.posts[0].date").value(LocalDate.now().minusDays(7).toString()),
+                        jsonPath("$.posts[0].category").value(102),
+                        jsonPath("$.posts[0].price").value(80.0),
+                        jsonPath("$.posts[0].user_id").value(5),
+                        jsonPath("$.posts[0].product.type").value("Kitchen"),
+                        jsonPath("$.posts[0].product.brand").value("Cuisinart"),
+                        jsonPath("$.posts[0].product.color").value("Silver"),
+                        jsonPath("$.posts[0].product.notes").value("Cuchillos."),
+                        jsonPath("$.posts[0].product.product_id").value(123),
+                        jsonPath("$.posts[0].product.product_name").value("Juego de Cuchillos"))
                 .andDo(print());
     }
 
@@ -199,10 +218,6 @@ class ProductControllerITest {
         //Cargo 2 productos validos de las utlimas 2 semanas
         PostDTO postDTO1 = DatosMock.FIRST_TEST_POST;
         PostDTO postDTO2 = DatosMock.SECOND_TEST_POST;
-
-        //Preparo el mensaje de respuesta esperado
-        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_DESC);
-        String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
 
         //ACT AND ASSERT
         //Load the publications from at least 2 weeks ago
@@ -215,8 +230,29 @@ class ProductControllerITest {
 
         //Call the method to test
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(responseMessageJSON))
+                .andExpectAll(
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        status().isOk(),
+                        jsonPath("$.posts[0].date").value(LocalDate.now().minusDays(5).toString()),
+                        jsonPath("$.posts[0].category").value(103),
+                        jsonPath("$.posts[0].price").value(45.0),
+                        jsonPath("$.posts[0].user_id").value(5),
+                        jsonPath("$.posts[0].product.type").value("Lighting"),
+                        jsonPath("$.posts[0].product.brand").value("Philips"),
+                        jsonPath("$.posts[0].product.color").value("White"),
+                        jsonPath("$.posts[0].product.notes").value("Regulable."),
+                        jsonPath("$.posts[0].product.product_id").value(124),
+                        jsonPath("$.posts[0].product.product_name").value("Lámpara LED Regulable"),
+                        jsonPath("$.posts[1].date").value(LocalDate.now().minusDays(7).toString()),
+                        jsonPath("$.posts[1].category").value(102),
+                        jsonPath("$.posts[1].price").value(80.0),
+                        jsonPath("$.posts[1].user_id").value(5),
+                        jsonPath("$.posts[1].product.type").value("Kitchen"),
+                        jsonPath("$.posts[1].product.brand").value("Cuisinart"),
+                        jsonPath("$.posts[1].product.color").value("Silver"),
+                        jsonPath("$.posts[1].product.notes").value("Cuchillos."),
+                        jsonPath("$.posts[1].product.product_id").value(123),
+                        jsonPath("$.posts[1].product.product_name").value("Juego de Cuchillos"))
                 .andDo(print());
     }
 
