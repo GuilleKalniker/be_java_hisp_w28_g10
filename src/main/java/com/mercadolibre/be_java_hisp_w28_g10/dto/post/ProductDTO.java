@@ -13,7 +13,7 @@ public class ProductDTO {
     @NotNull(message = "El id no puede estar vacío.")
     @Positive(message = "El id debe ser mayor a cero.")
     @JsonProperty("product_id")
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "El campo no puede estar vacío.")
     @Size(max = 40, message = "La longitud no puede superar los 40 caracteres.")
