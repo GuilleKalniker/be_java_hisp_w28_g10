@@ -1,7 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseCsvPostDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.UserWithCountDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseCsvPostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.user.UserWithCountDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.enums.ReportTypeEnum;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;

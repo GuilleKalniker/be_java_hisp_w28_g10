@@ -1,7 +1,8 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service.impl;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
@@ -9,7 +10,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.model.Post;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
@@ -90,19 +90,12 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ProductsWithPromoDTO productsWithPromoDTO(int id) {
-        //Find the user with id
-        User user = userRepository.findUserById(id);
-        //Get all the list of Post
+        User user = validateUser(id);
         List<Post> product = productRepository.findAllPost();
-        //Validate if the list is empty or the user id exist in the json
-        if (user == null || product.isEmpty()) {
-            throw new NotFoundException("User not found");
-        }
-        //Filter the post fot user id and if the post has promo
         List<Post> productFilter = product.stream()
                 .filter(p -> p.getId() == user.getId()).filter(Post::isHasPromo)
                 .toList();
-        //return a DTO
+
         return new ProductsWithPromoDTO(user.getId(), user.getName(), productFilter.size());
     }
 
@@ -115,43 +108,90 @@ public class ProductServiceImpl implements IProductService {
      * @throws BadRequestException if the order parameter is invalid.
      */
     @Override
-    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order) {
+    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, String order) {
+        validateUser(userId);
+        List<Integer> followedIds = getFollowedUserIds(userId);
+        List<Post> followedPosts = getFollowedPostsAfterDate(followedIds, LocalDate.now().minusWeeks(2));
+        List<Post> sortedFollowedPosts = sortPostsByDate(followedPosts, order);
 
+        List<ResponsePostNoPromoDTO> responsePosts = sortedFollowedPosts.stream()
+                .map(post -> new ResponsePostNoPromoDTO(
+                        post.getId(),
+                        post.getPostId(),
+                        post.getDate().toString(),
+                        post.getCategory(),
+                        post.getPrice(),
+                        utilities.convertValue(post.getProduct(), ProductDTO.class)))
+                .toList();
+
+        return new ResponseFollowedPostsDTO(userId, responsePosts);
+    }
+
+    /**
+     * Validates that the user exists.
+     *
+     * @param userId the ID of the user to validate.
+     * @throws NotFoundException if the user doesn't exist in the system.
+     * @return the User object if found.
+     */
+    private User validateUser(Integer userId) {
         User user = userRepository.findUserById(userId);
         if (user == null) {
             throw new NotFoundException("User not found");
         }
+        return user;
+    }
 
-        //Time filter. Two Weeks
-        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
-
-        //Get the ID list of related users
-        List<Integer> followedIds = userRepository.getFollowRelationsByFollowerId(userId)
+    /**
+     * Retrieves a list of IDs for the users that the specified user follows.
+     *
+     * @param userId the ID of the user whose followed users' IDs are to be retrieved.
+     * @return a list of user IDs that the specified user follows.
+     */
+    private List<Integer> getFollowedUserIds(Integer userId) {
+        return userRepository.getFollowRelationsByFollowerId(userId)
                 .stream()
                 .map(FollowRelation::getIdFollowed)
                 .toList();
+    }
 
-        //Get the list of every post
-        List<Post> postList = productRepository.findAllPost();
+    /**
+     * Filters and retrieves posts from followed users created after the specified date.
+     *
+     * @param followedIds a list of IDs corresponding to users that are followed.
+     * @param sinceDate the date representing the cutoff for post retrieval.
+     * @return a list of posts from followed users created after the specified date.
+     */
+    private List<Post> getFollowedPostsAfterDate(List<Integer> followedIds, LocalDate sinceDate) {
+        List<Post> posts = productRepository.findAllPost();
 
-        //Filter by followed users
-        List<Post> postListByUserId = postList.stream().filter(post -> followedIds.contains(post.getId())).toList();
-
-        //Filter to get the posts in the specified time
-        List<Post> followedPostsfromTwoWeeksAgo = postListByUserId
-                .stream()
-                .filter(post -> post.getDate()
-                        .isAfter(twoWeeksAgo))
+        return posts.stream()
+                .filter(post -> followedIds.contains(post.getId()) && post.getDate().isAfter(sinceDate))
                 .toList();
+    }
 
-        //Sort by date. Ascending or Descending
-        if (order.isEmpty() || order.get().equals("date_desc")) {
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate).reversed()).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
-        } else if (order.get().equals("date_asc")) {
-            return new ResponseFollowedPostsDTO(userId, followedPostsfromTwoWeeksAgo.stream().sorted(Comparator.comparing(Post::getDate)).map(post -> new ResponsePostNoPromoDTO(post.getId(), post.getPostId(), post.getDate().toString(), post.getCategory(), post.getPrice(), utilities.convertValue(post.getProduct(), ProductDTO.class))).toList());
+    /**
+     * Sorts the list of posts based on the order criteria.
+     *
+     * @param posts the list of posts to be sorted.
+     * @param order parameter indicating the order criteria.
+     * @return a sorted list of Posts.
+     * @throws BadRequestException if the order criteria is invalid.
+     */
+    private List<Post> sortPostsByDate(List<Post> posts, String order) {
+        Comparator<Post> comparator;
+
+        if (order.isEmpty() || order.equals("date_desc")) {
+            comparator = Comparator.comparing(Post::getDate).reversed();
+        } else if (order.equals("date_asc")) {
+            comparator = Comparator.comparing(Post::getDate);
         } else {
-            throw new BadRequestException("That's not a valid order criteria");
+            throw new BadRequestException("That's not a valid order criteria: " + order);
         }
+
+        return posts.stream()
+                .sorted(comparator)
+                .toList();
     }
 
     /**
@@ -161,8 +201,6 @@ public class ProductServiceImpl implements IProductService {
      * @return true if the operation was successful; false otherwise.
      */
     private boolean savePostLogic(PostDTO post) {
-        validatePostDto(post);
-        validateProductDto(post.getProduct());
         Product product = utilities.convertValue(post.getProduct(), Product.class);
         if (!productRepository.existsProduct(post.getProduct().getId())) {
             productRepository.addProduct(product);
@@ -172,54 +210,4 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.addPost(utilities.convertValue(post, Post.class));
     }
 
-    /**
-     * Validates the given {@link PostDTO} for required fields and constraints.
-     *
-     * @param post the post data to validate.
-     * @throws BadRequestException if validation fails.
-     */
-    private void validatePostDto(PostDTO post) {
-        try {
-            LocalDate ld = utilities.convertValue(post.getDate(), LocalDate.class);
-        } catch (Exception e) {
-            throw new BadRequestException("The date field must be in the dd/MM/yyyy format.");
-        }
-
-        if (post.getId() <= 0) {
-            throw new IllegalArgumentException("The ID must be a positive number.");
-        }
-        if (post.getDate() == null || post.getDate().isEmpty()) {
-            throw new IllegalArgumentException("Date is required.");
-        }
-        if (post.getCategory() <= 0) {
-            throw new IllegalArgumentException("Category must be a positive value.");
-        }
-        if (post.getPrice() <= 0) {
-            throw new IllegalArgumentException("The price must be a positive number.");
-        }
-    }
-
-    /**
-     * Validates the provided {@link ProductDTO} for required fields.
-     *
-     * @param productDto the product data to validate.
-     * @throws IllegalArgumentException if validation fails.
-     */
-    private void validateProductDto(ProductDTO productDto) {
-        if (productDto.getId() <= 0) {
-            throw new IllegalArgumentException("The product ID must be a positive number.");
-        }
-        if (productDto.getName() == null || productDto.getName().isEmpty()) {
-            throw new IllegalArgumentException("The product name is required.");
-        }
-        if (productDto.getType() == null || productDto.getType().isEmpty()) {
-            throw new IllegalArgumentException("The product type is required.");
-        }
-        if (productDto.getBrand() == null || productDto.getBrand().isEmpty()) {
-            throw new IllegalArgumentException("The product brand is required.");
-        }
-        if (productDto.getColor() == null || productDto.getColor().isEmpty()) {
-            throw new IllegalArgumentException("The product color is required.");
-        }
-    }
 }

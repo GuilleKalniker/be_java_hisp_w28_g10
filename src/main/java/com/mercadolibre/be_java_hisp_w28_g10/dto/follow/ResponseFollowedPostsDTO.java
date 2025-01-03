@@ -1,4 +1,4 @@
-package com.mercadolibre.be_java_hisp_w28_g10.dto;
+package com.mercadolibre.be_java_hisp_w28_g10.dto.follow;
 
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;

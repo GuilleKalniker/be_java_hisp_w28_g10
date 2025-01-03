@@ -1,8 +1,8 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.PostDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ProductDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.ResponseFollowedPostsDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
@@ -33,6 +33,7 @@ public interface IProductService {
     List<PostDTO> getAllPost();
 
     /**
+     * US 0005
      * Adds a regular post to the system.
      *
      * @param post the {@link PostDTO} containing the details of the post to be added.
@@ -41,6 +42,7 @@ public interface IProductService {
     ResponsePostNoPromoDTO addPost(PostDTO post);
 
     /**
+     * US 0010
      * Adds a promotional post to the system.
      * @param promoPost the {@link PostDTO} containing the details of the post to be added.
      * @return the added {@link PostDTO}.
@@ -48,6 +50,7 @@ public interface IProductService {
     PostDTO addPromoPost(PostDTO promoPost);
 
     /**
+     * US 0011
      * Retrieves the number of promotional products associated with a specified user.
      * @param id the ID of the user.
      * @return a {@link ProductsWithPromoDTO} containing the user's ID, name, and the count of promotional products.
@@ -56,6 +59,7 @@ public interface IProductService {
     ProductsWithPromoDTO productsWithPromoDTO(int id);
 
     /**
+     * US 0006 + US 0009
      * Retrieves the most recent posts from users that the specified user follows.
      * @param userId the ID of the user requesting the posts.
      * @param order optional sorting order for the posts (asc/desc).
@@ -63,5 +67,5 @@ public interface IProductService {
      * @throws NotFoundException if there are no posts from followed users in the last two weeks.
      * @throws BadRequestException if the user follows no one or if the order parameter is invalid.
      */
-    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, Optional<String> order);
+    public ResponseFollowedPostsDTO getLastFollowedPosts(Integer userId, String order);
 }

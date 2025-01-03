@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  */
 @RestController
+@Validated
 @RequestMapping("/reports/")
 public class BackOfficeController {
 
@@ -22,6 +24,7 @@ public class BackOfficeController {
     IBackOfficeService backOfficeService;
 
     /**
+     * US 0012
      * Endpoint to retrieve a report in CSV format.
      *
      * @param reportName the name of the report to be retrieved.

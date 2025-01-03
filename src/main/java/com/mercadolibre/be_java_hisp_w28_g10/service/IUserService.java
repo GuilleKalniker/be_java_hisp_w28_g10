@@ -1,7 +1,13 @@
 package com.mercadolibre.be_java_hisp_w28_g10.service;
 
-import com.mercadolibre.be_java_hisp_w28_g10.dto.*;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.user.UserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.ConflictException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
@@ -35,6 +41,7 @@ public interface IUserService {
     public List<FollowRelationDTO> getAllFollowRelation();
 
     /**
+     * US 0007
      * Unfollows a user by removing the follow relationship between two users.
      * This method retrieves all follow relations from the user repository and searches for the specific
      * follow relationship based on the provided follower and followed user IDs. If a matching follow
@@ -50,6 +57,7 @@ public interface IUserService {
     public ResponseMessageDTO unfollowUserById(int userId, int userIdToUnfollow);
 
     /**
+     * US 0001
      * Creates a follow relationship between two users.
      * This method allows a user (identified by followerId) to follow another user (identified by followedId).
      * It performs the following validations before establishing the follow:
@@ -69,6 +77,7 @@ public interface IUserService {
     public FollowRelationDTO follow(int followerId, int followedId);
 
     /**
+     * US 0002
      * Retrieves the number of followers for a specified user.
      * This method checks if a user exists in the repository by their ID. If the user is found,
      * it counts the number of follow relations where the user is the followed individual.
@@ -81,6 +90,7 @@ public interface IUserService {
     public FollowersDTO getFollowersAmountById(int id);
 
     /**
+     * US 0003 + US 0008
      * Retrieves the followers of a specified user.
      * This method checks if the user exists by their user ID. If the user is found, it fetches
      * the follow relations for the user's followers. It then generates a list of {@link ResponseUserDTO}
@@ -94,6 +104,7 @@ public interface IUserService {
     public UserFollowersDTO getUserFollowersById(int userId, String order);
 
     /**
+     * US 0004 + US 0008
      * Retrieves the users that a specified user is following.
      * This method checks if the user exists by their user ID. If the user is found, it fetches
      * the follow relations for the users that the user is following. It then creates a list of

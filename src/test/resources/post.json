@@ -22,7 +22,7 @@
     "date": "17-12-2024",
     "product": {
       "product_id": 102,
-      "product_name": "Teclado Mecánico RGB",
+      "product_name": "Teclado Mecanico RGB",
       "type": "Gaming",
       "brand": "Cooler Master",
       "color": "Black",
@@ -39,7 +39,7 @@
     "date": "28-01-2024",
     "product": {
       "product_id": 103,
-      "product_name": "Auriculares Inalámbricos",
+      "product_name": "Auriculares Inalambricos",
       "type": "Audio",
       "brand": "Sony",
       "color": "Blue",
@@ -243,7 +243,7 @@
     "date": "03-06-2024",
     "product": {
       "product_id": 115,
-      "product_name": "Cargador Inalámbrico",
+      "product_name": "Cargador Inalambrico",
       "type": "Accessories",
       "brand": "Belkin",
       "color": "Black",
@@ -374,9 +374,9 @@
     "discount": 0.00
   },
   {
-    "user_id": 5,
+    "user_id": 3,
     "post_id": 23,
-    "date": "30-12-2024",
+    "date": "20-07-2024",
     "product": {
       "product_id": 123,
       "product_name": "Juego de Cuchillos",
@@ -391,9 +391,9 @@
     "discount": 0.05
   },
   {
-    "user_id": 5,
+    "user_id": 4,
     "post_id": 24,
-    "date": "01-01-2025",
+    "date": "25-07-2024",
     "product": {
       "product_id": 124,
       "product_name": "Lámpara LED Regulable",
