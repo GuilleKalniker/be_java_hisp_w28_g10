@@ -29,10 +29,6 @@ public class BackOfficeControllerITest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeEach
-    void setUp() {
-    }
-
     @Test
     void getReport_ValidRequestReportUSERS_BY_FOLLOWERSOrdercound_desc_ReturnsCsv() throws Exception {
         // ARRANGE

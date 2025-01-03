@@ -731,7 +731,7 @@ The following integration tests are designed to ensure the proper functionality 
   - **HTTP Status:** 400 Bad Request.
   - **Content:** Error message "Invalid report order or top".
 
-### Test line coverage is 90%
+### Test line coverage is 87%
 
 ## Naming rules
 #### Branch name:

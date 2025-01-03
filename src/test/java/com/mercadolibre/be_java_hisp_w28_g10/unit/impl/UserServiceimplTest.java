@@ -8,7 +8,6 @@ import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
-import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
 import com.mercadolibre.be_java_hisp_w28_g10.util.Utilities;
@@ -31,8 +30,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceimplTest {
-    @Mock
-    private IProductRepository productRepository;
 
     @Mock
     private IUserRepository userRepository;
@@ -42,14 +39,6 @@ class UserServiceimplTest {
 
     @InjectMocks
     private UserServiceimpl userService;
-
-    @Test
-    void getAllUsers() {
-    }
-
-    @Test
-    void getAllFollowRelation() {
-    }
 
     @Test
     @DisplayName("Should unfollow a user successfully when follow relation exists")
@@ -353,9 +342,5 @@ class UserServiceimplTest {
         when(userRepository.getUserById(DatosMock.USER_7.getId())).thenReturn(DatosMock.USER_7);
 
         return userService.getUserFollowersById(DatosMock.USER_1.getId(), order);
-    }
-
-    @Test
-    void getUserFollowedById() {
     }
 }
