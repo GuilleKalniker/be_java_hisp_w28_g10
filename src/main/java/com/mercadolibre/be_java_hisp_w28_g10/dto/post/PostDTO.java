@@ -15,10 +15,10 @@ public class PostDTO {
     @NotNull(message = "El id no puede estar vacío.")
     @Positive(message = "El id debe ser mayor a cero.")
     @JsonProperty("user_id")
-    private int id;
+    private Integer id;
 
     @JsonProperty("post_id")
-    private int postId;
+    private Integer postId;
 
     @NotNull(message = "La fecha no puede estar vacía.")
     @Pattern(regexp = "^([0-2][0-9]|(3)[0-1])-(0[1-9]|1[0-2])-(\\d{4})$",
@@ -26,12 +26,12 @@ public class PostDTO {
     private String date;
 
     @NotNull(message = "El campo no puede estar vacío.")
-    private int category;
+    private Integer category;
 
     @NotNull(message = "El campo no puede estar vacío.")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El precio no puede ser 0.")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor a 0.")
     @DecimalMax(value = "10000000.0", message = "El precio máximo por producto es de 10.000.000.")
-    private double price;
+    private Double price;
 
     @Valid
     private ProductDTO product;
@@ -39,5 +39,5 @@ public class PostDTO {
     @JsonProperty("has_promo")
     private boolean hasPromo;
 
-    private double discount;
+    private Double discount;
 }
