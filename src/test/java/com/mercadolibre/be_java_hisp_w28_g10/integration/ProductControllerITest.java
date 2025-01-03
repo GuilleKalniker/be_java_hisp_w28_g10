@@ -179,11 +179,14 @@ class ProductControllerITest {
         //ACT AND ASSERT
         //Load the publications from at least 2 weeks ago
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO1)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO1)))
+                .andExpect(status().isOk());
+
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO2)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO2)))
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_asc"))
                 .andExpectAll(
@@ -222,11 +225,14 @@ class ProductControllerITest {
         //ACT AND ASSERT
         //Load the publications from at least 2 weeks ago
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO1)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO1)))
+                .andExpect(status().isOk());
+
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO2)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO2)))
+                .andExpect(status().isOk());
 
         //Call the method to test
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_desc"))
