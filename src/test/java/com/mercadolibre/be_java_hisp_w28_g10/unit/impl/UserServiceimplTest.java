@@ -156,6 +156,8 @@ class UserServiceimplTest {
         Assertions.assertThrows(NotFoundException.class, () -> userService.follow(followerId, followedId));
     }
 
+    @Test
+    @DisplayName("Should return the correct amount of followers")
     void getUserFollowersAmountById_followersComplete_happyPath() {
         User user = new User(2, "Pedro");
         //ARRANGE
@@ -175,6 +177,7 @@ class UserServiceimplTest {
     }
 
     @Test
+    @DisplayName("Should throws an exception of non-existent user")
     void testGetFollowersAmountById_UserNotFound_badPath() {
         // ARRANGE
         when(userRepository.findUserById(1)).thenReturn(null);

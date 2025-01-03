@@ -52,44 +52,27 @@ class ProductControllerITest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.post_id").exists())
                 .andExpect(jsonPath("$.user_id").value(postDTO.getId()))
-                .andExpect(jsonPath("$.date").value("19-12-2024"))
+                .andExpect(jsonPath("$.date").value(postDTO.getDate()))
                 .andExpect(jsonPath("$.category").value(postDTO.getCategory()))
                 .andExpect(jsonPath("$.price").value(postDTO.getPrice()))
                 .andExpect(jsonPath("$.product.product_id").value(postDTO.getProduct().getId()));
     }
 
     @Test
-    void addPost_InvalidUserId() throws Exception {
-        PostDTO postDTO = new PostDTO(0, 0, "19-12-2024", 100, 1500.50, DatosMock.VALID_PRODUCT_DTO, false, 0.0);
+    void addPost_InvalidData() throws Exception {
 
-        // Act & Assert
-        mockMvc.perform(post("/products/post")
+        PostDTO invalidPostDTO = DatosMock.INVALID_POST_DTO;
+
+        mockMvc.perform(post("/products/promo-post")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(postDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.id").value("El id debe ser mayor a cero."));
-    }
-
-    @Test
-    void addPost_InvalidPrice() throws Exception {
-        PostDTO postDTO = new PostDTO(2, 0, "19-12-2024", 100, 0.0, DatosMock.VALID_PRODUCT_DTO, false, 0.0);
-
-        mockMvc.perform(post("/products/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(postDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.price").value("El precio no puede ser 0."));
-    }
-
-    @Test
-    void addPost_InvalidDateFormat() throws Exception {
-        PostDTO postDTO = new PostDTO(2, 0, "2024-12-19", 100, 1500.50, DatosMock.VALID_PRODUCT_DTO, false, 0.0);
-
-        mockMvc.perform(post("/products/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(postDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.date").value("La fecha debe estar en el formato dd-MM-yyyy."));
+                        .content(objectMapper.writeValueAsString(invalidPostDTO)))
+                .andExpectAll(
+                        status().isBadRequest(),
+                        jsonPath("$.date").value("La fecha debe estar en el formato dd-MM-yyyy."),
+                        jsonPath("$.price").value("El precio no puede ser 0."),
+                        jsonPath("$.id").value("El id debe ser mayor a cero."),
+                        jsonPath("$.['product.id']").value("El id debe ser mayor a cero.")
+                );
     }
 
     @Test
