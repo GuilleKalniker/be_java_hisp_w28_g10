@@ -2,13 +2,12 @@ package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.*;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
@@ -158,6 +157,7 @@ class UserServiceimplTest {
     }
 
     @Test
+    @DisplayName("Should return the correct amount of followers")
     void getUserFollowersAmountById_followersComplete_happyPath() {
         User user = new User(2, "Pedro");
         //ARRANGE
@@ -177,6 +177,7 @@ class UserServiceimplTest {
     }
 
     @Test
+    @DisplayName("Should throws an exception of non-existent user")
     void testGetFollowersAmountById_UserNotFound_badPath() {
         // ARRANGE
         when(userRepository.findUserById(1)).thenReturn(null);

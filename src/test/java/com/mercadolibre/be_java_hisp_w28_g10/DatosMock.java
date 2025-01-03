@@ -1,8 +1,9 @@
 package com.mercadolibre.be_java_hisp_w28_g10;
 
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponsePostNoPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
@@ -11,7 +12,7 @@ import com.mercadolibre.be_java_hisp_w28_g10.model.Product;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +51,22 @@ public class DatosMock {
             new Product(18, "Auriculares Inalámbricos con Cancelación de Ruido", "Audio", "Bose", "Negro", "Calidad de sonido excepcional y cancelación de ruido."),
             new Product(19, "Silla de Oficina Ergonómica", "Muebles", "Herman Miller", "Negro", "Soporte para buena postura con características ajustables."),
             new Product(20, "Auriculares Gamer Inalámbricos", "Audio", "Razer", "Verde", "Audio inmersivo con soporte para sonido envolvente."));
+
+    public static final ProductDTO VALID_PRODUCT_DTO = new ProductDTO(
+            505, "Silla Gamer", "Gamer", "Racer", "Red & Black", "Special Edition"
+    );
+
+    public static final PostDTO VALID_POST_DTO = new PostDTO(
+            1, 100, "19-12-2024", 100, 1500.50, VALID_PRODUCT_DTO, false, 0.0
+    );
+
+    public static final ProductDTO INVALID_PRODUCT_DTO = new ProductDTO(
+            -60, "Silla Gamer", "Gamer", "Racer", "Red & Black", "Special Edition"
+    );
+
+    public static final PostDTO INVALID_POST_DTO = new PostDTO(
+            -5, 100, "29-0-202011", 100, -1500.50, INVALID_PRODUCT_DTO, false, 0.0
+    );
 
     public static final List<Post> POST_LIST = Arrays.asList(
             new Post(5, 1, LocalDate.now().minusDays(12),
@@ -112,6 +129,28 @@ public class DatosMock {
             new Post(10, 20, LocalDate.now().minusWeeks(3),
                     109, 199.99, new Product(120, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15));
 
+    public static final List<Post> POST_LIST1 = Arrays.asList(
+            new Post(1, 21, LocalDate.now().minusDays(12),
+                    100, 800.00, new Product(121, "Camara DSLR", "Camera", "Nikon", "Black", "Cámara con alta calidad de imagen."), true, 0.10),
+
+            new Post(1, 31, LocalDate.now().minusDays(11),
+                    109, 199.99, new Product(130, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15),
+
+            new Post(1, 32, LocalDate.now().minusDays(10),
+                    109, 199.99, new Product(130, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15),
+            new Post(1, 35, LocalDate.now().minusDays(9),
+                    110, 299.99, new Product(130, "Tetera", "Porcelana", "Corona", "Blue", "Porcelana de calidad"), true, 0.25));
+
+    public static final Post POST_1  = new Post(5, 1, LocalDate.now().minusDays(12),
+            100, 1500.50, new Product(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"), false, 0.00);
+
+    public static final PostDTO POST_DTO_1  = new PostDTO(5, 1, LocalDate.now().minusDays(12).toString(),
+            100, 1500.50, new ProductDTO(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"), false, 0.00);
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static final ResponsePostNoPromoDTO RESPONSE_POST_NO_PROMO_DTO = new ResponsePostNoPromoDTO(5, 1, LocalDate.now().minusDays(12).format(DATE_FORMATTER).toString(),
+            100, 1500.50, new ProductDTO(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"));
+
     public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_ASC = Arrays.asList(
             new ResponsePostNoPromoDTO(5, 23, "2024-12-30",
                     102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Juego de cuchillos de acero inoxidable.")),
@@ -151,6 +190,12 @@ public class DatosMock {
             new FollowRelation(1, 3),
             new FollowRelation(1, 5),
             new FollowRelation(1, 7)
+    );
+    public static List<FollowRelation> FOLLOW_RELATIONS_5 = List.of(
+            new FollowRelation(4, 2),
+            new FollowRelation(4, 3),
+            new FollowRelation(4, 5),
+            new FollowRelation(4, 7)
     );
 
     public static final User USER_1 = new User(1, "Alice");
