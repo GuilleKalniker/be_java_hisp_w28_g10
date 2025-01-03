@@ -155,11 +155,11 @@ public class DatosMock {
 
     public static final PostDTO FIRST_TEST_POST =
             new PostDTO(5, 51, LocalDate.now().minusDays(7).format(DATE_FORMATTER),
-                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos."), false, 0.0);
+                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos"), false, 0.0);
 
     public static final PostDTO SECOND_TEST_POST =
             new PostDTO(5, 52, LocalDate.now().minusDays(5).format(DATE_FORMATTER),
-                            103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."), false, 0.0);
+                            103, 45.0, new ProductDTO(124, "Lampara LED Regulable", "Lighting", "Philips", "White", "Regulable"), false, 0.0);
 
     public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
 

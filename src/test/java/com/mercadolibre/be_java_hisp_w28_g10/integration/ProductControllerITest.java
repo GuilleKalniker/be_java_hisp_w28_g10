@@ -196,9 +196,9 @@ class ProductControllerITest {
                         jsonPath("$.posts[1].product.type").value("Lighting"),
                         jsonPath("$.posts[1].product.brand").value("Philips"),
                         jsonPath("$.posts[1].product.color").value("White"),
-                        jsonPath("$.posts[1].product.notes").value("Regulable."),
+                        jsonPath("$.posts[1].product.notes").value("Regulable"),
                         jsonPath("$.posts[1].product.product_id").value(124),
-                        jsonPath("$.posts[1].product.product_name").value("Lámpara LED Regulable"),
+                        jsonPath("$.posts[1].product.product_name").value("Lampara LED Regulable"),
                         jsonPath("$.posts[0].date").value(LocalDate.now().minusDays(7).toString()),
                         jsonPath("$.posts[0].category").value(102),
                         jsonPath("$.posts[0].price").value(80.0),
@@ -206,7 +206,7 @@ class ProductControllerITest {
                         jsonPath("$.posts[0].product.type").value("Kitchen"),
                         jsonPath("$.posts[0].product.brand").value("Cuisinart"),
                         jsonPath("$.posts[0].product.color").value("Silver"),
-                        jsonPath("$.posts[0].product.notes").value("Cuchillos."),
+                        jsonPath("$.posts[0].product.notes").value("Cuchillos"),
                         jsonPath("$.posts[0].product.product_id").value(123),
                         jsonPath("$.posts[0].product.product_name").value("Juego de Cuchillos"))
                 .andDo(print());
@@ -240,9 +240,9 @@ class ProductControllerITest {
                         jsonPath("$.posts[0].product.type").value("Lighting"),
                         jsonPath("$.posts[0].product.brand").value("Philips"),
                         jsonPath("$.posts[0].product.color").value("White"),
-                        jsonPath("$.posts[0].product.notes").value("Regulable."),
+                        jsonPath("$.posts[0].product.notes").value("Regulable"),
                         jsonPath("$.posts[0].product.product_id").value(124),
-                        jsonPath("$.posts[0].product.product_name").value("Lámpara LED Regulable"),
+                        jsonPath("$.posts[0].product.product_name").value("Lampara LED Regulable"),
                         jsonPath("$.posts[1].date").value(LocalDate.now().minusDays(7).toString()),
                         jsonPath("$.posts[1].category").value(102),
                         jsonPath("$.posts[1].price").value(80.0),
@@ -250,7 +250,7 @@ class ProductControllerITest {
                         jsonPath("$.posts[1].product.type").value("Kitchen"),
                         jsonPath("$.posts[1].product.brand").value("Cuisinart"),
                         jsonPath("$.posts[1].product.color").value("Silver"),
-                        jsonPath("$.posts[1].product.notes").value("Cuchillos."),
+                        jsonPath("$.posts[1].product.notes").value("Cuchillos"),
                         jsonPath("$.posts[1].product.product_id").value(123),
                         jsonPath("$.posts[1].product.product_name").value("Juego de Cuchillos"))
                 .andDo(print());
