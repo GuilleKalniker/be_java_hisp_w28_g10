@@ -746,6 +746,8 @@ The following integration tests are designed to ensure the proper functionality 
 #### Naming
 - General -> camelCase
 - DTO Mapping -> snake_case
+#### Test
+- format: MethodName_StateUnderTest_ExpectedBehavior
 
 ## Documentation
 
