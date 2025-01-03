@@ -163,7 +163,9 @@ public class ProductServiceImpl implements IProductService {
      * @return a list of posts from followed users created after the specified date.
      */
     private List<Post> getFollowedPostsAfterDate(List<Integer> followedIds, LocalDate sinceDate) {
-        return productRepository.findAllPost().stream()
+        List<Post> posts = productRepository.findAllPost();
+
+        return posts.stream()
                 .filter(post -> followedIds.contains(post.getId()) && post.getDate().isAfter(sinceDate))
                 .toList();
     }
