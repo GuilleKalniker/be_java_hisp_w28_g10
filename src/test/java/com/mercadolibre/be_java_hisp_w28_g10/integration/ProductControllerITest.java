@@ -1,6 +1,7 @@
 package com.mercadolibre.be_java_hisp_w28_g10.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,10 +38,42 @@ class ProductControllerITest {
     }
 
     @Test
-    @DisplayName("Should create a new promotional post successfully")
-    void addPost() {
+    @DisplayName("Should create a new post successfully and return it")
+    void addPost_HappyPath() throws Exception {
+        PostDTO postDTO = DatosMock.VALID_POST_DTO;
+
+        // Act & Assert
+        mockMvc.perform(post("/products/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.post_id").exists())
+                .andExpect(jsonPath("$.user_id").value(postDTO.getId()))
+                .andExpect(jsonPath("$.date").value(postDTO.getDate()))
+                .andExpect(jsonPath("$.category").value(postDTO.getCategory()))
+                .andExpect(jsonPath("$.price").value(postDTO.getPrice()))
+                .andExpect(jsonPath("$.product.product_id").value(postDTO.getProduct().getId()));
     }
 
+    @Test
+    @DisplayName("Should return BadRequest when provided invalid data")
+    void addPost_InvalidData() throws Exception {
+
+        PostDTO invalidPostDTO = DatosMock.INVALID_POST_DTO;
+
+        mockMvc.perform(post("/products/promo-post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidPostDTO)))
+                .andExpectAll(
+                        status().isBadRequest(),
+                        jsonPath("$.date").value("La fecha debe estar en el formato dd-MM-yyyy."),
+                        jsonPath("$.price").value("El precio no puede ser 0."),
+                        jsonPath("$.id").value("El id debe ser mayor a cero."),
+                        jsonPath("$.['product.id']").value("El id debe ser mayor a cero.")
+                );
+    }
+
+    @DisplayName("Should create a new promotional post successfully and return it")
     @Test
     void addPromoPost() throws Exception {
         PostDTO promoPost = new PostDTO(5, 1, "15-12-2024", 100, 1500.50,
