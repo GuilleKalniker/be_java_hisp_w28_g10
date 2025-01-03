@@ -179,11 +179,14 @@ class ProductControllerITest {
         //ACT AND ASSERT
         //Load the publications from at least 2 weeks ago
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO1)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO1)))
+                .andExpect(status().isOk());
+
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO2)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO2)))
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_asc"))
                 .andExpectAll(
@@ -196,9 +199,9 @@ class ProductControllerITest {
                         jsonPath("$.posts[1].product.type").value("Lighting"),
                         jsonPath("$.posts[1].product.brand").value("Philips"),
                         jsonPath("$.posts[1].product.color").value("White"),
-                        jsonPath("$.posts[1].product.notes").value("Regulable."),
+                        jsonPath("$.posts[1].product.notes").value("Regulable"),
                         jsonPath("$.posts[1].product.product_id").value(124),
-                        jsonPath("$.posts[1].product.product_name").value("Lámpara LED Regulable"),
+                        jsonPath("$.posts[1].product.product_name").value("Lampara LED Regulable"),
                         jsonPath("$.posts[0].date").value(LocalDate.now().minusDays(7).toString()),
                         jsonPath("$.posts[0].category").value(102),
                         jsonPath("$.posts[0].price").value(80.0),
@@ -206,7 +209,7 @@ class ProductControllerITest {
                         jsonPath("$.posts[0].product.type").value("Kitchen"),
                         jsonPath("$.posts[0].product.brand").value("Cuisinart"),
                         jsonPath("$.posts[0].product.color").value("Silver"),
-                        jsonPath("$.posts[0].product.notes").value("Cuchillos."),
+                        jsonPath("$.posts[0].product.notes").value("Cuchillos"),
                         jsonPath("$.posts[0].product.product_id").value(123),
                         jsonPath("$.posts[0].product.product_name").value("Juego de Cuchillos"))
                 .andDo(print());
@@ -222,11 +225,14 @@ class ProductControllerITest {
         //ACT AND ASSERT
         //Load the publications from at least 2 weeks ago
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO1)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO1)))
+                .andExpect(status().isOk());
+
         mockMvc.perform(post("/products/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postDTO2)));
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(postDTO2)))
+                .andExpect(status().isOk());
 
         //Call the method to test
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_desc"))
@@ -240,9 +246,9 @@ class ProductControllerITest {
                         jsonPath("$.posts[0].product.type").value("Lighting"),
                         jsonPath("$.posts[0].product.brand").value("Philips"),
                         jsonPath("$.posts[0].product.color").value("White"),
-                        jsonPath("$.posts[0].product.notes").value("Regulable."),
+                        jsonPath("$.posts[0].product.notes").value("Regulable"),
                         jsonPath("$.posts[0].product.product_id").value(124),
-                        jsonPath("$.posts[0].product.product_name").value("Lámpara LED Regulable"),
+                        jsonPath("$.posts[0].product.product_name").value("Lampara LED Regulable"),
                         jsonPath("$.posts[1].date").value(LocalDate.now().minusDays(7).toString()),
                         jsonPath("$.posts[1].category").value(102),
                         jsonPath("$.posts[1].price").value(80.0),
@@ -250,7 +256,7 @@ class ProductControllerITest {
                         jsonPath("$.posts[1].product.type").value("Kitchen"),
                         jsonPath("$.posts[1].product.brand").value("Cuisinart"),
                         jsonPath("$.posts[1].product.color").value("Silver"),
-                        jsonPath("$.posts[1].product.notes").value("Cuchillos."),
+                        jsonPath("$.posts[1].product.notes").value("Cuchillos"),
                         jsonPath("$.posts[1].product.product_id").value(123),
                         jsonPath("$.posts[1].product.product_name").value("Juego de Cuchillos"))
                 .andDo(print());
