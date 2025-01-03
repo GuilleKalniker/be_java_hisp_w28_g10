@@ -170,42 +170,42 @@ class UserControllerITest {
     @Test
     void getUserFollowersById_happyPathOrderedByNameAsc() throws Exception {
         //Arrange
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(DatosMock.userFollowersOrderedByNameAsc));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(DatosMock.userFollowersOrderedByNameAsc));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", 4)
                         .param("order","name_asc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
     @Test
     void getUserFollowersById_happyPathOrderedByNameDesc() throws Exception {
         //Arrange
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(DatosMock.userFollowersOrderedByNameDesc));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(DatosMock.userFollowersOrderedByNameDesc));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", 4)
                         .param("order","name_desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
     @Test
     void getUserFollowersById_happyPath() throws Exception {
         //Arrange
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(DatosMock.userFollowersNoOrder));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(DatosMock.userFollowersNoOrder));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", 4)
                         .param("order",""))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
@@ -213,14 +213,14 @@ class UserControllerITest {
     void getUserFollowersById_sadPathUnexistingOrder() throws Exception {
         //Arrange
         ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("Invalid order, please set a valid order param");
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", 4)
                         .param("order", "brokenOrder"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
@@ -228,54 +228,54 @@ class UserControllerITest {
     void getUserFollowersById_sadPathUnexistingUser() throws Exception {
         //Arrange
         ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("User not found");
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", 999))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
     @Test
     void getUserFollowedById_noOrderHappyPath() throws Exception {
         //Arrange
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(DatosMock.userFollowedNoOrder));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(DatosMock.userFollowedNoOrder));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
     @Test
     void getUserFollowedById_orderByNameAscHappyPath() throws Exception {
         //Arrange
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(DatosMock.userFollowedOrderedByNameAsc));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(DatosMock.userFollowedOrderedByNameAsc));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", 1)
                         .param("order", "name_asc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
     @Test
     void getUserFollowedById_orderByNameDescHappyPath() throws Exception {
         //Arrange
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(DatosMock.userFollowedOrderedByNameDesc));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(DatosMock.userFollowedOrderedByNameDesc));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", 1)
                         .param("order", "name_desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
@@ -283,14 +283,14 @@ class UserControllerITest {
     void getUserFollowedById_sadPathUnexistingOrder() throws Exception {
         //Arrange
         ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("Invalid order, please set a valid order param");
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", 4)
                         .param("order", "brokenOrder"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 
@@ -298,13 +298,13 @@ class UserControllerITest {
     void getUserFollowedById_sadPathUnexistingUser() throws Exception {
         //Arrange
         ResponseMessageDTO expectedResponseMessage = new ResponseMessageDTO("User not found");
-        ResultMatcher bodyEsperado = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
+        ResultMatcher expectedBody = content().json(objectMapper.writeValueAsString(expectedResponseMessage));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", 999))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(bodyEsperado)
+                .andExpect(expectedBody)
                 .andDo(print());
     }
 }
