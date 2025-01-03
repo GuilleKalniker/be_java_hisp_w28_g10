@@ -113,6 +113,18 @@ public class DatosMock {
             new Post(10, 20, LocalDate.now().minusWeeks(3),
                     109, 199.99, new Product(120, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15));
 
+    public static final List<Post> POST_LIST1 = Arrays.asList(
+            new Post(1, 21, LocalDate.now().minusDays(12),
+                    100, 800.00, new Product(121, "Camara DSLR", "Camera", "Nikon", "Black", "Cámara con alta calidad de imagen."), true, 0.10),
+
+            new Post(1, 31, LocalDate.now().minusDays(11),
+                    109, 199.99, new Product(130, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15),
+
+            new Post(1, 32, LocalDate.now().minusDays(10),
+                    109, 199.99, new Product(130, "Tocadiscos", "Audio", "Crosley", "Red", "Reproduce tus discos de vinilo."), true, 0.15),
+            new Post(1, 35, LocalDate.now().minusDays(9),
+                    110, 299.99, new Product(130, "Tetera", "Porcelana", "Corona", "Blue", "Porcelana de calidad"), true, 0.25));
+
     public static final Post POST_1  = new Post(5, 1, LocalDate.now().minusDays(12),
             100, 1500.50, new Product(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"), false, 0.00);
 
