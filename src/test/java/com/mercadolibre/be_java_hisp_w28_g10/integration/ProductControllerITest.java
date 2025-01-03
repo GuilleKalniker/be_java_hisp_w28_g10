@@ -61,7 +61,7 @@ class ProductControllerITest {
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/count")
-                        .param("user_id","1"))
+                        .param("user_id", String.valueOf(userId)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(expectedBody))
