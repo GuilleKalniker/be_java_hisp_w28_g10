@@ -108,7 +108,7 @@ public class BackOfficeControllerITest {
         String reportName = "USERS_BY_POSTS";
         String order = "count_asc";
         int top = 2;
-        String csvContent = "\"ID\",\"Name\",\"Posts Count\"\n2,Ron,3\n3,Pepe,3\n";
+        String csvContent = "\"ID\",\"Name\",\"Posts Count\"\n3,Pepe,2\n4,Diana,2\n";
 
         // ACT AND ASSERT
         mockMvc.perform(get("/reports/getReport/{reportName}", reportName)
@@ -181,9 +181,9 @@ public class BackOfficeControllerITest {
         String order = "date_desc";
         int top = 3;
         String csvContent = "\nCATEGORY,DATE,DISCOUNT,ID,PRICE,PRODUCT_BRAND,PRODUCT_NAME,PRODUCT_TYPE,PROMO\n" +
-                "101,2024-12-17,0.1,2,120.75,Cooler Master,Teclado Mecanico RGB,Gaming,false\n" +
-                "109,2024-12-17,0.15,1,199.99,Crosley,Tocadiscos,Audio,true\n" +
-                "105,2024-12-16,0.0,6,99.99,Blue,Microfono USB,Audio,false\n";
+                "103,2025-01-01,0.1,5,45.0,Philips,LÃ¡mpara LED Regulable,Lighting,true\n" +
+                "102,2024-12-30,0.05,5,80.0,Cuisinart,Juego de Cuchillos,Kitchen,true\n" +
+                "101,2024-12-17,0.1,2,120.75,Cooler Master,Teclado Mecanico RGB,Gaming,false\n";
 
         // ACT AND ASSERT
         mockMvc.perform(get("/reports/getReport/{reportName}", reportName)
