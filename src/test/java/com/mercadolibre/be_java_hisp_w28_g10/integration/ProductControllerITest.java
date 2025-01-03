@@ -77,7 +77,7 @@ class ProductControllerITest {
                 .andExpectAll(
                         status().isBadRequest(),
                         jsonPath("$.date").value("La fecha debe estar en el formato dd-MM-yyyy."),
-                        jsonPath("$.price").value("El precio no puede ser 0."),
+                        jsonPath("$.price").value("El precio debe ser mayor a 0."),
                         jsonPath("$.id").value("El id debe ser mayor a cero."),
                         jsonPath("$.['product.id']").value("El id debe ser mayor a cero.")
                 );
@@ -92,7 +92,7 @@ class ProductControllerITest {
                         "Electrónica",
                         "Samsung",
                         "Gris Fantasma",
-                        "Smartphone2024"),
+                        "Smartphone 2024"),
                 true,
                 0.25);
         mockMvc.perform(post("/products/promo-post")
@@ -125,7 +125,7 @@ class ProductControllerITest {
                 .andExpectAll(
                         status().isBadRequest(),
                         jsonPath("$.date").value("La fecha debe estar en el formato dd-MM-yyyy."),
-                        jsonPath("$.price").value("El precio no puede ser 0."),
+                        jsonPath("$.price").value("El precio debe ser mayor a 0."),
                         jsonPath("$.id").value("El id debe ser mayor a cero."),
                         jsonPath("$.['product.id']").value("El id debe ser mayor a cero.")
                 );

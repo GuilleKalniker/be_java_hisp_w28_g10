@@ -17,23 +17,26 @@ public class ProductDTO {
 
     @NotBlank(message = "El campo no puede estar vacío.")
     @Size(max = 40, message = "La longitud no puede superar los 40 caracteres.")
-    @Pattern(regexp = "^[^%&$#@!]*$", message = "El campo no puede poseer caracteres especiales.")
+    @Pattern(regexp = "^[^%&$#@!¡¿?()={},.<>]*$", message = "El campo no puede poseer caracteres especiales.")
     @JsonProperty("product_name")
     private String name;
 
     @NotBlank(message = "El campo no puede estar vacío.")
     @Size(max = 15, message = "La longitud no puede superar los 15 caracteres.")
-    @Pattern(regexp = "^[^%&$#@!]*$", message = "El campo no puede poseer caracteres especiales.")
+    @Pattern(regexp = "^[^%$#@!¡¿?()={},.<>]*$", message = "El campo no puede poseer caracteres especiales.")
     private String type;
+
     @NotBlank(message = "El campo no puede estar vacío.")
     @Size(max = 25, message = "La longitud no puede superar los 25 caracteres.")
-    @Pattern(regexp = "^[^%&$#@!]*$", message = "El campo no puede poseer caracteres especiales.")
+    @Pattern(regexp = "^[^%$#@!¡¿?()={},.<>]*$", message = "El campo no puede poseer caracteres especiales.")
     private String brand;
 
     @NotBlank(message = "El campo no puede estar vacío.")
+    @Size(max = 15, message = "La longitud no puede superar los 15 caracteres.")
+    @Pattern(regexp = "^[^%$#@!¡¿?()={},.<>]*$", message = "El campo no puede poseer caracteres especiales.")
     private String color;
 
-    @Size(max = 15, message = "La longitud no puede superar los 15 caracteres.")
-    @Pattern(regexp = "^[^%&$#@!]*$", message = "El campo no puede poseer caracteres especiales.")
+    @Size(max = 80, message = "La longitud no puede superar los 80 caracteres.")
+    @Pattern(regexp = "^[^%$#@!¡¿?()={},.<>]*$", message = "El campo no puede poseer caracteres especiales.")
     private String notes;
 }

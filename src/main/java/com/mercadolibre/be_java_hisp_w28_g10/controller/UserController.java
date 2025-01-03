@@ -7,6 +7,8 @@ import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowersDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.user.UserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.service.IUserService;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +65,8 @@ public class UserController {
      * @return ResponseEntity containing the {@link FollowRelationDTO} of the newly created follow relationship and an HTTP status code.
      */
     @PostMapping("{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<FollowRelationDTO> addNewFollow(@PathVariable int userId, @PathVariable int userIdToFollow) {
+    public ResponseEntity<FollowRelationDTO> addNewFollow(@PathVariable @Positive(message = "El id debe ser mayor a cero.") int userId,
+                                                          @PathVariable @Positive(message = "El id debe ser mayor a cero.") int userIdToFollow) {
         return new ResponseEntity<>(userService.follow(userId, userIdToFollow), HttpStatus.OK);
     }
 
@@ -75,7 +78,7 @@ public class UserController {
      * @return ResponseEntity containing {@link FollowersDTO} with the count of followers and an HTTP status code.
      */
     @GetMapping("{userId}/followers/count")
-    public ResponseEntity<FollowersDTO> getAmountFollowersById(@PathVariable int userId) {
+    public ResponseEntity<FollowersDTO> getAmountFollowersById(@PathVariable @Positive(message = "El id debe ser mayor a cero.") int userId) {
         return new ResponseEntity<>(userService.getFollowersAmountById(userId), HttpStatus.OK);
     }
 
@@ -88,7 +91,8 @@ public class UserController {
      * @return ResponseEntity containing a {@link ResponseMessageDTO} indicating the result of the unfollow operation and an HTTP status code.
      */
     @PostMapping("{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<ResponseMessageDTO> unfollowUserById(@PathVariable int userId, @PathVariable int userIdToUnfollow) {
+    public ResponseEntity<ResponseMessageDTO> unfollowUserById(@PathVariable @Positive(message = "El id debe ser mayor a cero.") int userId,
+                                                               @PathVariable @Positive(message = "El id debe ser mayor a cero.") int userIdToUnfollow) {
         return new ResponseEntity<>(userService.unfollowUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
 
@@ -101,7 +105,8 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followers and an HTTP status code.
      */
     @GetMapping("{userId}/followers/list")
-    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable int userId, @RequestParam(defaultValue = "") String order) {
+    public ResponseEntity<UserFollowersDTO> getUserFollowersById(@PathVariable @Positive(message = "El id debe ser mayor a cero.") int userId,
+                                                                 @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(userService.getUserFollowersById(userId, order), HttpStatus.OK);
     }
 
@@ -114,7 +119,9 @@ public class UserController {
      * @return ResponseEntity containing a {@link UserFollowersDTO} with the list of followed users and an HTTP status code.
      */
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<UserFollowedDTO> getUserFollowedById(@PathVariable Integer userId, @RequestParam(defaultValue = "") String order) {
+    public ResponseEntity<UserFollowedDTO> getUserFollowedById(@PathVariable
+                                                                   @Positive(message = "El id debe ser mayor a cero.") Integer userId,
+                                                               @RequestParam(defaultValue = "") String order) {
         return new ResponseEntity<>(userService.getUserFollowedById(userId, order), HttpStatus.OK);
     }
 }
