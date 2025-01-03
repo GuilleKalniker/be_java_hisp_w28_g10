@@ -1,6 +1,5 @@
 package com.mercadolibre.be_java_hisp_w28_g10.integration;
 
-
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ProductsWithPromoDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
@@ -8,8 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +37,6 @@ class ProductControllerITest {
     private MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @BeforeEach
-    void setUp() {
-
-    }
-
-    @Test
-    void getAllProducts() {
-    }
 
     @Test
     @DisplayName("Should create a new post successfully and return it")

@@ -1,7 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.ResponseFollowedPostsDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
@@ -52,26 +51,6 @@ class ProductServiceImplTest {
     void setUp() {
         nowDate = LocalDate.now();
         dateBeforeTwoWeeks = LocalDate.now().minusWeeks(2);
-    }
-
-    @Test
-    void getAllProducts() {
-    }
-
-    @Test
-    void getAllPost() {
-    }
-
-    @Test
-    void addPromoPost() {
-    }
-
-    @Test
-    void addPost() {
-    }
-
-    @Test
-    void productsWithPromoDTO() {
     }
 
     @Test
