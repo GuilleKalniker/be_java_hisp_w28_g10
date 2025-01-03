@@ -170,9 +170,23 @@ class ProductControllerITest {
     @Test
     void getLastFollowedPosts_ascHappyPath() throws Exception{
         //ARRANGE
-        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_DESC.reversed());
+        //Cargo 2 productos validos de las utlimas 2 semanas
+        PostDTO postDTO1 = DatosMock.FIRST_TEST_POST;
+        PostDTO postDTO2 = DatosMock.SECOND_TEST_POST;
+
+        //Preparo el mensaje de respuesta esperado
+        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_ASC);
         String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
+
         //ACT AND ASSERT
+        //Load the publications from at least 2 weeks ago
+        mockMvc.perform(post("/products/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(postDTO1)));
+        mockMvc.perform(post("/products/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(postDTO2)));
+
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_asc"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseMessageJSON))
@@ -182,9 +196,24 @@ class ProductControllerITest {
     @Test
     void getLastFollowedPosts_descHappyPath() throws Exception {
         //ARRANGE
+        //Cargo 2 productos validos de las utlimas 2 semanas
+        PostDTO postDTO1 = DatosMock.FIRST_TEST_POST;
+        PostDTO postDTO2 = DatosMock.SECOND_TEST_POST;
+
+        //Preparo el mensaje de respuesta esperado
         ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_DESC);
         String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
+
         //ACT AND ASSERT
+        //Load the publications from at least 2 weeks ago
+        mockMvc.perform(post("/products/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(postDTO1)));
+        mockMvc.perform(post("/products/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(postDTO2)));
+
+        //Call the method to test
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseMessageJSON))

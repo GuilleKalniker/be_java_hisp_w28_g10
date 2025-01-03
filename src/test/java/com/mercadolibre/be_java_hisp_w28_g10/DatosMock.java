@@ -1,5 +1,6 @@
 package com.mercadolibre.be_java_hisp_w28_g10;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.PostDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.post.ProductDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.UserFollowedDTO;
@@ -148,14 +149,31 @@ public class DatosMock {
             100, 1500.50, new ProductDTO(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"), false, 0.00);
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     public static final ResponsePostNoPromoDTO RESPONSE_POST_NO_PROMO_DTO = new ResponsePostNoPromoDTO(5, 1, LocalDate.now().minusDays(12).format(DATE_FORMATTER).toString(),
             100, 1500.50, new ProductDTO(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"));
 
+    public static final PostDTO FIRST_TEST_POST =
+            new PostDTO(5, 51, LocalDate.now().minusDays(7).format(DATE_FORMATTER),
+                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos."), false, 0.0);
+
+    public static final PostDTO SECOND_TEST_POST =
+            new PostDTO(5, 52, LocalDate.now().minusDays(5).format(DATE_FORMATTER),
+                            103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."), false, 0.0);
+
     public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_DESC = Arrays.asList(
-            new ResponsePostNoPromoDTO(5, 23, "2024-12-30",
-                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Juego de cuchillos de acero inoxidable.")),
-            new ResponsePostNoPromoDTO(5, 24, "2025-01-01",
-                    103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable y de bajo consumo.")));
+            new ResponsePostNoPromoDTO(5, 55, LocalDate.now().minusDays(7).toString(),
+                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos.")),
+            new ResponsePostNoPromoDTO(5, 56, LocalDate.now().minusDays(5).toString(),
+                    103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."))
+    );
+
+    public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_ASC = Arrays.asList(
+            new ResponsePostNoPromoDTO(5, 51, LocalDate.now().minusDays(7).toString(),
+                    102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Cuchillos.")),
+            new ResponsePostNoPromoDTO(5, 52, LocalDate.now().minusDays(5).toString(),
+                    103, 45.0, new ProductDTO(124, "Lámpara LED Regulable", "Lighting", "Philips", "White", "Regulable."))
+    );
 
     public static FollowRelation FOLLOW_RELATION = new FollowRelation(1, 2);
 
