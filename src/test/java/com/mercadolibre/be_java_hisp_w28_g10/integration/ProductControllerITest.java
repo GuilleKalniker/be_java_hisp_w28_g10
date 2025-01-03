@@ -54,14 +54,13 @@ class ProductControllerITest {
     @Test
     void getPromoProductCountByUserId_happyPathCorrectAmount() throws Exception {
         //Arrange
-        int userId = 1;
-        User user = new User(userId, "Alice");
+        User user = new User(DatosMock.USER_1.getId(), DatosMock.USER_1.getName());
         ProductsWithPromoDTO expectedDto = new ProductsWithPromoDTO(user.getId(), user.getName(), DatosMock.POST_LIST1.size());
         String expectedBody = objectMapper.writeValueAsString(expectedDto);
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/count")
-                        .param("user_id", String.valueOf(userId)))
+                        .param("user_id", String.valueOf(user.getId())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(expectedBody))
@@ -78,6 +77,7 @@ class ProductControllerITest {
         mockMvc.perform(get("/products/promo-post/count")
                         .param("user_id","20"))
                 .andExpect(status().isNotFound())
+                .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(responseMessageJSON))
                 .andDo(print());
     }

@@ -138,6 +138,7 @@ class UserControllerITest {
         mockMvc.perform(get("/users/{userId}/followers/count", 200))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(responseMessageJSON))
+                .andExpect(content().contentType("application/json"))
                 .andDo(print());
     }
 
