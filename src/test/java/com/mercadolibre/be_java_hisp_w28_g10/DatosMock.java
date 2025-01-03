@@ -151,7 +151,7 @@ public class DatosMock {
     public static final ResponsePostNoPromoDTO RESPONSE_POST_NO_PROMO_DTO = new ResponsePostNoPromoDTO(5, 1, LocalDate.now().minusDays(12).format(DATE_FORMATTER).toString(),
             100, 1500.50, new ProductDTO(101, "Silla Gamer", "Gamer", "Racer", "Red & Black", "edición especial"));
 
-    public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_ASC = Arrays.asList(
+    public static final List<ResponsePostNoPromoDTO> TEST_POST_LIST_DESC = Arrays.asList(
             new ResponsePostNoPromoDTO(5, 23, "2024-12-30",
                     102, 80.0, new ProductDTO(123, "Juego de Cuchillos","Kitchen", "Cuisinart", "Silver", "Juego de cuchillos de acero inoxidable.")),
             new ResponsePostNoPromoDTO(5, 24, "2025-01-01",

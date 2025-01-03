@@ -170,7 +170,7 @@ class ProductControllerITest {
     @Test
     void getLastFollowedPosts_ascHappyPath() throws Exception{
         //ARRANGE
-        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_ASC.reversed());
+        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_DESC.reversed());
         String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
         //ACT AND ASSERT
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_asc"))
@@ -182,7 +182,7 @@ class ProductControllerITest {
     @Test
     void getLastFollowedPosts_descHappyPath() throws Exception {
         //ARRANGE
-        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_ASC);
+        ResponseFollowedPostsDTO expectedResponseMessage = new ResponseFollowedPostsDTO(2, DatosMock.TEST_POST_LIST_DESC);
         String responseMessageJSON = objectMapper.writeValueAsString(expectedResponseMessage);
         //ACT AND ASSERT
         mockMvc.perform(get("/products/followed/{userId}/list", 2).param("order", "date_desc"))
