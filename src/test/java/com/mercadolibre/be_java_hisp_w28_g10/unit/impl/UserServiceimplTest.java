@@ -2,13 +2,12 @@ package com.mercadolibre.be_java_hisp_w28_g10.unit.impl;
 
 import com.mercadolibre.be_java_hisp_w28_g10.DatosMock;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.*;
+import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseUserDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.BadRequestException;
 import com.mercadolibre.be_java_hisp_w28_g10.exception.NotFoundException;
 import com.mercadolibre.be_java_hisp_w28_g10.model.FollowRelation;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.response.ResponseMessageDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.model.User;
-import com.mercadolibre.be_java_hisp_w28_g10.dto.follow.FollowRelationDTO;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IProductRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.repository.IUserRepository;
 import com.mercadolibre.be_java_hisp_w28_g10.service.impl.UserServiceimpl;
